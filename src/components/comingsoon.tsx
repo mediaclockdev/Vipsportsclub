@@ -1,19 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import logo from "../../public/VIP-Black-background.png";
+import logo from "../../public/VIP.png";
 
 export default function ComingSoon() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const email = formData.get("email");
-    window.location.href = `mailto:VIP@VIPsportsclub.com.au?subject=VIP Sports Club - Early Access&body=Email: ${email}`;
+    window.location.href = `mailto:mediaclockdev@gmail.com?subject=VIP Sports Club - Early Access&body=Email: ${email}`;
     e.currentTarget.reset();
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center px-4 pt-2 pb-6">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-black to-gray-900 flex items-center justify-center px-4 pt-2 pb-6">
       <div className="max-w-2xl w-full flex flex-col items-center gap-4">
         {/* Logo */}
         <div className="relative w-64 h-64 animate-pulse">
@@ -28,7 +28,7 @@ export default function ComingSoon() {
 
         {/* Main Content */}
         <div className="flex flex-col items-center gap-6 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-white font-serif">
+          <h1 className="text-4xl md:text-5xl font-bold text-white font-serif">
             Coming Soon
           </h1>
 
