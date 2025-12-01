@@ -62,7 +62,7 @@ export default function ComingSoon() {
 
         {/* Email Signup */}
         <div className="w-full flex flex-col gap-4 items-center">
-          <p className="text-lg text-gray-300">
+          <p className="text-[15px] md:text-base lg:text-lg text-gray-300 whitespace-nowrap">
             Subscribe to be the first to know when we go live.
           </p>
           <form
@@ -74,11 +74,11 @@ export default function ComingSoon() {
               name="email"
               placeholder="Enter your email"
               required
-              className="flex-1 px-4 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 transition-colors"
+              className="flex-1 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-white/40 transition-colors text-sm sm:text-base"
             />
             <button
               type="submit"
-              className="px-6 py-2 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors cursor-pointer"
+              className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors whitespace-nowrap text-sm sm:text-base"
             >
               Subscribe
             </button>
