@@ -2,14 +2,43 @@
 
 import Image from "next/image";
 import logo from "../../public/VIP.png";
+import { useState } from "react";
+import { toast } from "sonner";
 
 export default function ComingSoon() {
+  const [loading, setLoading] = useState(false);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const email = formData.get("email");
-    window.location.href = `mailto:mediaclockdev@gmail.com?subject=VIP Sports Club - Early Access&body=Email: ${email}`;
-    e.currentTarget.reset();
+    if (loading) return;
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const email = String(formData.get("email"));
+
+    // Email validation
+    if (!emailRegex.test(email)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    setLoading(true);
+
+    const res = await fetch("/api/subscribe", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+
+    if (res.ok) {
+      toast.success("🎉 Subscribed successfully!");
+      form.reset();
+    } else {
+      toast.error("Something went wrong. Please try again.");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -78,9 +107,15 @@ export default function ComingSoon() {
             />
             <button
               type="submit"
-              className="px-6 py-3 bg-white text-black font-semibold rounded-lg hover:bg-gray-200 transition-colors whitespace-nowrap text-sm sm:text-base"
+              disabled={loading}
+              className={`px-6 py-3 bg-white text-black font-semibold rounded-lg cursor-pointer transition-colors whitespace-nowrap text-sm sm:text-base flex items-center justify-center 
+    ${loading ? "opacity-70 cursor-not-allowed" : "hover:bg-gray-200"}`}
             >
-              Subscribe
+              {loading ? (
+                <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+              ) : (
+                "Subscribe"
+              )}
             </button>
           </form>
         </div>
