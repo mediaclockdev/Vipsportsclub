@@ -35,9 +35,9 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem={true}
         >
-          <Header />
+          {/* <Header /> */}
           {children}
-          <Footer />
+          {/* <Footer /> */}
         </ThemeProvider>
       </body>
     </html>
