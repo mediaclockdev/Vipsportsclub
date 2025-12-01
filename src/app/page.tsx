@@ -8,12 +8,12 @@ import HowItWorks from "@/components/HowItWorks";
 export default function Home() {
   return (
     <div>
-      {/* <ComingSoon /> */}
-      <Hero />
+      <ComingSoon />
+      {/* <Hero />
       <About />
       <OurPatnersAndDiscount />
       <WhyAussLoveUs />
-      <HowItWorks />
+      <HowItWorks /> */}
     </div>
   );
 }
