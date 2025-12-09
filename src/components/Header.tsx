@@ -1,67 +1,3 @@
-// "use client";
-
-// import Image from "next/image";
-// import React from "react";
-// import logo from "../../public/darklogo.svg";
-// import { useTheme } from "next-themes";
-// import { useState, useEffect } from "react";
-// import Link from "next/link";
-
-// const Header = () => {
-//   const heading = ["Home", "About", "Membership", "Winners", "FAQs", "Contact"];
-//   const { theme, setTheme } = useTheme();
-
-//   const [mounted, setMounted] = useState(false);
-//   // eslint-disable-next-line react-hooks/set-state-in-effect
-//   useEffect(() => setMounted(true), []);
-//   if (!mounted) return null;
-
-//   return (
-//     <div className="bg-[#1B242C] dark:bg-[#212E36] fixed top-0 left-0 w-full z-50 text-[#FFFFFF]">
-//       <header className="max-w-screen-2xl mx-auto px-8 py-5">
-//         <nav className="flex items-center justify-between">
-//           <div>
-//             <Image
-//               src={logo}
-//               alt="VIP Sports Club Logo"
-//               width={100}
-//               height={50}
-//             />
-//           </div>
-
-//           <div className="hidden lg:flex gap-10 ">
-//             {heading.map((item) => (
-//               <Link
-//                 key={item}
-//                 href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
-//                 className="hover:text-[#4A9B7A] transition"
-//               >
-//                 {item}
-//               </Link>
-//             ))}
-//           </div>
-
-//           <div className="flex justify-between items-center gap-10">
-//             <button
-//               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-//               className="p-2 border rounded"
-//             >
-//               {theme === "dark" ? "🌙" : "☀️"}
-//             </button>
-
-//             <button className="border border-[#4A9B7A] rounded-xl py-2 px-6">
-//               Login
-//             </button>
-//           </div>
-//         </nav>
-//       </header>
-//     </div>
-//   );
-// };
-
-// export default Header;
-
-
 "use client";
 
 import Image from "next/image";
@@ -85,7 +21,7 @@ const Header = () => {
   return (
     <div className="bg-[#1B242C] dark:bg-[#212E36] fixed top-0 left-0 w-full z-50 text-white">
       <header className="max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-        <nav className="flex items-center justify-between gap-4">
+        <nav className="flex items-center justify-between gap-3 sm:gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <Image
@@ -93,52 +29,52 @@ const Header = () => {
               alt="VIP Sports Club Logo"
               width={100}
               height={50}
-              className="h-15 sm:h-17 w-auto"
+              className="h-8 sm:h-10 md:h-12 w-auto"
             />
           </Link>
 
           {/* Desktop nav links */}
-          <div className="hidden lg:flex items-center gap-8 text-sm">
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8 text-sm">
             {heading.map((item) => {
               const slug =
                 item === "Home"
                   ? "/"
                   : `/${item.toLowerCase().replace(/\s+/g, "-")}`;
 
-            return (
-              <Link
-                key={item}
-                href={slug}
-                className="hover:text-[#F4D35E] transition text-[20px]"
-              >
-                {item}
-              </Link>
-            );
+              return (
+                <Link
+                  key={item}
+                  href={slug}
+                  className="hover:text-[#F4D35E] transition text-sm xl:text-[20px]"
+                >
+                  {item}
+                </Link>
+              );
             })}
           </div>
 
           {/* Right side (theme + login) desktop */}
-          <div className="hidden lg:flex items-center gap-4">
+          <div className="hidden lg:flex items-center gap-3 xl:gap-4">
             {/* theme pill */}
             <button
               onClick={toggleTheme}
-              className="flex items-center justify-center w-[90px] h-[51px] rounded-full bg-[#4A9B7A] border border-[#2a6a57]"
+              className="flex items-center justify-center w-[70px] h-[40px] xl:w-[90px] xl:h-[51px] rounded-full bg-[#4A9B7A] border border-[#2a6a57]"
             >
-              <span className="text-sm">⚡</span>
+              <span className="text-xs xl:text-sm">⚡</span>
             </button>
 
-            <button className="border border-[#4A9B7A] rounded-xl py-2 px-8 text-[20px] hover:bg-[#4A9B7A] hover:text-[#0f172a] transition">
+            <button className="border border-[#4A9B7A] rounded-xl py-2 px-5 xl:px-8 text-sm xl:text-[20px] hover:bg-[#4A9B7A] hover:text-[#0f172a] transition">
               Login
             </button>
           </div>
 
           {/* Mobile: theme + hamburger */}
-          <div className="flex items-center gap-3 lg:hidden">
+          <div className="flex items-center gap-2 sm:gap-3 lg:hidden">
             <button
               onClick={toggleTheme}
-              className="flex items-center justify-center w-10 h-7 rounded-full bg-[#4A9B7A] border border-[#2a6a57]"
+              className="flex items-center justify-center w-9 h-7 sm:w-10 sm:h-8 rounded-full bg-[#4A9B7A] border border-[#2a6a57]"
             >
-              <span className="text-xs">⚡</span>
+              <span className="text-[10px] sm:text-xs">⚡</span>
             </button>
 
             <button
@@ -147,9 +83,9 @@ const Header = () => {
             >
               <span className="sr-only">Open main menu</span>
               <div className="space-y-1">
-                <span className="block h-0.5 w-5 bg-white" />
-                <span className="block h-0.5 w-5 bg-white" />
-                <span className="block h-0.5 w-5 bg-white" />
+                <span className="block h-0.5 w-5 sm:w-6 bg-white" />
+                <span className="block h-0.5 w-5 sm:w-6 bg-white" />
+                <span className="block h-0.5 w-5 sm:w-6 bg-white" />
               </div>
             </button>
           </div>
@@ -158,7 +94,7 @@ const Header = () => {
         {/* Mobile menu panel */}
         {isOpen && (
           <div className="mt-3 lg:hidden border-t border-white/10 pt-3">
-            <div className="flex flex-col gap-3 text-sm">
+            <div className="flex flex-col gap-2 sm:gap-3 text-sm sm:text-base">
               {heading.map((item) => {
                 const slug =
                   item === "Home"
@@ -177,8 +113,8 @@ const Header = () => {
                 );
               })}
 
-            {/* mobile login button */}
-              <button className="mt-2 w-full border border-[#4A9B7A] rounded-xl py-2 text-sm hover:bg-[#4A9B7A] hover:text-[#0f172a] transition">
+              {/* mobile login button */}
+              <button className="mt-2 w-full border border-[#4A9B7A] rounded-xl py-2 text-sm sm:text-base hover:bg-[#4A9B7A] hover:text-[#0f172a] transition">
                 Login
               </button>
             </div>
