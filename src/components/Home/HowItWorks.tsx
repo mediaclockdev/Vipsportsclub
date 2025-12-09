@@ -50,7 +50,7 @@ export default function HowItWorks () {
           {work.map((item, index) => (
             <div
               key={index}
-              className="relative  rounded-2xl px-6 py-4 bg-gradient-to-r from-[#4A9A7D]  to-[#2C3E49] to-95% overflow-hidden"
+              className="relative  rounded-2xl px-6 py-4 bg-linear-to-r from-[#4A9A7D]  to-[#2C3E49] to-95% overflow-hidden"
             >
               {/* BACKGROUND TEXTURE */}
               <Image

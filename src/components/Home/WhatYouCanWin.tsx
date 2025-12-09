@@ -129,7 +129,7 @@ export default function WhatYouCanWin() {
               />
 
               {/* Dark overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20" />
+              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20" />
 
               {/* Text */}
               <div className="relative h-full flex flex-col justify-center items-center px-4 sm:px-6 text-[#ffffff] gap-3 sm:gap-4 text-center">

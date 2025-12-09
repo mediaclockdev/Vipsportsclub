@@ -19,7 +19,7 @@ const MembershipCards = () => {
         {/* Cards wrapper */}
         <div className="grid gap-6 sm:gap-8 md:grid-cols-2">
           {/* SILVER CARD */}
-          <div className="rounded-2xl bg-gradient-to-b from-[#C6C9CA] to-[#777F83] shadow-xl p-6 sm:p-8 lg:p-10 flex flex-col justify-between border-[10px] border-[#D0D0D0] min-h-[360px]">
+          <div className="rounded-2xl bg-linear-to-b from-[#C6C9CA] to-[#777F83] shadow-xl p-6 sm:p-8 lg:p-10 flex flex-col justify-between border-10 border-[#D0D0D0] min-h-[360px]">
             <div>
               <h2 className="text-center text-2xl sm:text-3xl font-bold">
                 SILVER
@@ -41,7 +41,7 @@ const MembershipCards = () => {
           </div>
 
           {/* GOLD CARD */}
-          <div className="rounded-2xl bg-gradient-to-b from-[#B6983D] to-[#BDA885] shadow-xl p-6 sm:p-8 lg:p-10 flex flex-col justify-between border-[10px] border-[#A97B2E] min-h-[360px]">
+          <div className="rounded-2xl bg-linear-to-b from-[#B6983D] to-[#BDA885] shadow-xl p-6 sm:p-8 lg:p-10 flex flex-col justify-between border-10 border-[#A97B2E] min-h-[360px]">
             <div>
               <h2 className="text-center text-2xl sm:text-3xl font-bold">
                 GOLD
