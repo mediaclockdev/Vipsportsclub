@@ -12,8 +12,8 @@ import FAQs from "@/components/Home/FAQs";
 export default function Home() {
   return (
     <div>
-      {/* <ComingSoon /> */}
-      <Hero />
+      <ComingSoon />
+      {/* <Hero />
       <AboutIntro />
       <Partners />
       <WhyLoveUs />
@@ -21,7 +21,7 @@ export default function Home() {
       <MembershipCards />
       <WhatYouCanWin />
       <Testimonials />
-      <FAQs />
+      <FAQs /> */}
     </div>
   );
 }
