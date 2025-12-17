@@ -33,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning  className={roboto.className}>
+    <html lang="en" suppressHydrationWarning className={roboto.className}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -42,11 +42,11 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem={true}
         >
-          <Header /> 
+          {/* <Header />  */}
           <Toaster position="top-right" />
 
           {children}
-          <Footer /> 
+          {/* <Footer />  */}
         </ThemeProvider>
       </body>
     </html>
