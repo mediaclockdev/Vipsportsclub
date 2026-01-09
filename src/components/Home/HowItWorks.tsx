@@ -3,91 +3,90 @@ import Image from "next/image";
 
 import backgroundgradient from "../../../public/backgroundgradient.svg";
 
-export default function HowItWorks () {
+export default function HowItWorks() {
   const work = [
     {
-      title1: "CHOOSE YOUR",
-      title2: "MEMBERSHIP",
+      title: "CHOOSE YOUR MEMBERSHIP",
       description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor..",
+        "Select the membership that suits your lifestyle, gold or silver, and get instant access to exclusive offers, partner benefits, and weekly prize draws.",
       image: "/ticket.svg",
     },
     {
-      title1: "ACCESS MEMBER",
-      title2: "DISCOUNTS",
+      title: "ACCESS MEMBER DISCOUNTS",
       description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor..",
+        "Log into the members-only portal to browse exclusive offers and discounts from our partner brands, all ready for you to use instantly.",
       image: "/create_bat.svg",
     },
     {
-      title1: "AUTOMATIC PRIZE",
-      title2: "ENTRIES",
+      title: "AUTOMATIC PRIZE ENTRIES",
       description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor..",
+        "Once you’re a member, you’re automatically entered into every weekly prize draw — no forms, no effort, just the chance to win unforgettable sporting experiences.",
       image: "/footbal.svg",
-    },
-    {
-      title1: "WATCH THE WINNERS",
-      title2: "ROLL IN",
-      description:
-        "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor..",
-      image:"/cup.svg",
     },
   ];
 
   return (
-    <div   style={{
-    background: "linear-gradient(180deg, #0f1b20 0%, #14262a 35%, #1e3336 100%)"
-  }}>
-      <div className="max-w-screen-2xl mx-auto px-8 py-5 space-y-10">
-        {/* HEADING */}
-        <h2 className="text-center text-[36px] font-bold tracking-wide text-[#FFFFFF]">
+    <div className="py-12 bg-[#212E36]">
+      <div className="max-w-6xl mx-auto px-6">
+        {/* Heading */}
+        <h2 className="text-center text-3xl md:text-4xl font-bold text-white mb-14">
           HOW IT WORKS
         </h2>
 
-        {/* GRID */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4  justify-items-center">
-          {work.map((item, index) => (
-            <div
-              key={index}
-              className="relative  rounded-2xl px-6 py-4 bg-linear-to-r from-[#4A9A7D]  to-[#2C3E49] to-95% overflow-hidden"
-            >
-              {/* BACKGROUND TEXTURE */}
-              <Image
-                src={backgroundgradient}
-                alt="texture"
-                className="absolute inset-0 w-full h-full object-cover opacity-40"
-              />
+        {/* TOP ROW */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+          <HowCard {...work[0]} />
+          <HowCard {...work[1]} />
+        </div>
 
-              {/* CONTENT */}
-              <div className="relative flex gap-5">
-                <div className="space-y-2 flex flex-col ">
-                  <div className="text-white font-extrabold text-xl leading-tight flex gap-2 w-full">
-                    <p className="text-white">{item.title1}</p>
-                    <p className="text-[#B1D9C9]">{item.title2}</p>
-                  </div>
-                  <div className="flex">
-                    <p className="text-white/90 max-w-[370px] leading-relaxed">
-                      {item.description}
-                    </p>
-                    <div className="">
-                      <Image
-                        src={item.image}
-                        alt="illustration"
-                        width={100}
-                        height={100}
-                        className="relative z-10 transition-transform duration-300 hover:-translate-y-2"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ))}
+        {/* BOTTOM CENTER CARD */}
+        <div className="flex justify-center ">
+          <HowCard {...work[2]} />
         </div>
       </div>
     </div>
   );
-};
+}
 
+function HowCard({
+  title,
+  description,
+  image,
+}: {
+  title: string;
+  description: string;
+  image: string;
+}) {
+  return (
+    <div className="relative h-[220px] rounded-2xl overflow-hidden bg-gradient-to-r from-[#4A9A7D] to-[#2C3E49] p-4">
+      {/* Texture */}
+      <Image
+        src={backgroundgradient}
+        alt=""
+        fill
+        className="object-cover opacity-30"
+      />
 
+      {/* Content */}
+      <div className="relative z-10 h-full  flex flex-col justify-between">
+        <div>
+          <h3 className="text-white text-xl md:text-2xl font-extrabold mb-3">
+            {title}
+          </h3>
+          <p className="text-white/90 text-sm leading-relaxed max-w-[420px]">
+            {description}
+          </p>
+        </div>
+
+        {/* Illustration */}
+        <Image
+          src={image}
+          alt=""
+          width={120}
+          height={120}
+          className="absolute top-24 right-[-20]"
+        />
+      </div>
+    </div>
+  );
+}

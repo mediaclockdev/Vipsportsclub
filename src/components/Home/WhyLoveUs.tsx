@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 
 const features = [
@@ -22,14 +21,14 @@ const features = [
 
 export default function WhyLoveUs() {
   return (
-    <section
-      className="py-20"
-      style={{
-        background:
-          "linear-gradient(180deg, #0f1b20 0%, #14262a 35%, #1e3336 100%)",
-      }}
+    <div
+      className="py-20 bg-[#212E36]"
+      // style={{
+      //   background:
+      //     "linear-gradient(180deg, #0f1b20 0%, #14262a 35%, #1e3336 100%)",
+      // }}
     >
-      <div className="max-w-7xl mx-auto px-6">
+      <div className="max-w-screen-2xl mx-auto px-6">
         <h2 className="text-center text-[#ffffff] text-[36px] font-semibold mb-16 ml-5">
           WHY AUSSIES LOVE US
         </h2>
@@ -39,7 +38,7 @@ export default function WhyLoveUs() {
             <div key={f.title} className="flex flex-col items-center gap-6">
               {/* Icon circle */}
               <div className="w-[124px] h-[124px] rounded-full bg-[#2A6A57] flex items-center justify-center">
-                <Image src={f.icon} alt={ " "} width={64} height={64} />
+                <Image src={f.icon} alt={" "} width={64} height={64} />
               </div>
 
               <p className="text-center text-white text-[22px] leading-[22px]">
@@ -49,6 +48,6 @@ export default function WhyLoveUs() {
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }

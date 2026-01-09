@@ -42,11 +42,11 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem={true}
         >
-          {/* <Header />  */}
+          <Header />
           <Toaster position="top-right" />
 
           {children}
-          {/* <Footer />  */}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

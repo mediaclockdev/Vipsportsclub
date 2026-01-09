@@ -12,16 +12,16 @@ import FAQs from "@/components/Home/FAQs";
 export default function Home() {
   return (
     <div>
-      <ComingSoon />
-      {/* <Hero />
-      <AboutIntro />
+      {/* <ComingSoon /> */}
+      <Hero />
+      <WhatYouCanWin />
       <Partners />
-      <WhyLoveUs />
       <HowItWorks />
       <MembershipCards />
-      <WhatYouCanWin />
-      <Testimonials />
-      <FAQs /> */}
+      <WhyLoveUs />
+      <AboutIntro />
+
+      <FAQs />
     </div>
   );
 }

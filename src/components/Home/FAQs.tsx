@@ -1,14 +1,41 @@
-
 // FAQs.tsx
 "use client";
 
 import { useState } from "react";
 
 const faqs = [
-  { q: "How often are draws held?", a: "We run draws on a regular schedule. Once you’re a member, you’ll be notified before every draw." },
-  { q: "Are your draws legal?", a: "Yes — all draws are conducted under approved Australian promotion permits." },
-  { q: "How will I know if I win?", a: "Winners are contacted via email and instructions will be provided." },
-  { q: "Can I cancel anytime?", a: "Yes — memberships can be cancelled from your account settings." },
+  {
+    q: "What is VIP Sports Club?",
+    a: "VIP Sports Club is an Australian membership platform that gives members access to exclusive discounts from leading sports, fitness, wellness and lifestyle brands — plus weekly entries into members-only giveaways.",
+  },
+  {
+    q: "What do members receive?",
+    a: "Access to exclusive partner discounts ,Weekly automatic entries into sports experience draws,A members-only portal to manage all benefits in one place",
+  },
+  {
+    q: "How do the weekly prize draws work?",
+    a: "Every active member is automatically entered into our weekly draws — no need to register each time. Winners are contacted directly by phone or email and announced on our site.",
+  },
+  {
+    q: "What kinds of prizes can I win?",
+    a: "Prizes include VIP sporting experiences, premium event tickets, sports merchandise packs, and other bucket-list moments curated for sports fans and active Australians.",
+  },
+  {
+    q: "What is the difference between Silver and Gold membership?",
+    a: "Silver offers great value with full access to all standard partner discounts and weekly draw entries. Gold includes everything in Silver, plus additional benefits:Premium, higher-value discounts, Extra weekly draw entries",
+  },
+  {
+    q: "What is the difference between Silver and Gold membership?",
+    a: "Silver offers great value with full access to all standard partner discounts and weekly draw entries. Gold includes everything in Silver, plus additional benefits:Premium, higher-value discounts, Extra weekly draw entries",
+  },
+  {
+    q: "What is the difference between Silver and Gold membership?",
+    a: "Silver offers great value with full access to all standard partner discounts and weekly draw entries. Gold includes everything in Silver, plus additional benefits:Premium, higher-value discounts, Extra weekly draw entries",
+  },
+  {
+    q: "What is the difference between Silver and Gold membership?",
+    a: "Silver offers great value with full access to all standard partner discounts and weekly draw entries. Gold includes everything in Silver, plus additional benefits:Premium, higher-value discounts, Extra weekly draw entries",
+  },
 ];
 
 export default function FAQs() {
@@ -16,11 +43,11 @@ export default function FAQs() {
 
   return (
     <section
-      className="py-16"
-      style={{
-        background:
-          "linear-gradient(180deg, #0f1b20 0%, #14262a 35%, #1e3336 100%)",
-      }}
+      className="py-16 overflow-hidden bg-[#212E36]"
+      // style={{
+      //   background:
+      //     "linear-gradient(180deg, #0f1b20 0%, #14262a 35%, #1e3336 100%)",
+      // }}
     >
       <div className="max-w-2xl mx-auto px-4">
         {/* Heading */}
@@ -30,12 +57,12 @@ export default function FAQs() {
 
         {/* Items */}
         <div className="space-y-4">
-          {faqs.map((f, idx) => {
+          {faqs.map((items, idx) => {
             const open = openIndex === idx;
 
             return (
               <div
-                key={f.q}
+                key={idx}
                 className="rounded-lg border  border-[#4A9B7A] bg-[#2C3E4A] backdrop-blur-sm"
               >
                 <button
@@ -43,7 +70,7 @@ export default function FAQs() {
                   className="w-full flex items-center justify-between px-5 py-3 text-left text-[22px] text-[#ffffff]"
                   aria-expanded={open}
                 >
-                  <span>{f.q}</span>
+                  <span>{items.q}</span>
 
                   {/* chevron icon */}
                   <span
@@ -70,7 +97,7 @@ export default function FAQs() {
 
                 {open && (
                   <div className="px-5 pb-4 pt-1 text-sm text-slate-200 border-t border-[#1f6b76]/60">
-                    {f.a}
+                    {items.a}
                   </div>
                 )}
               </div>

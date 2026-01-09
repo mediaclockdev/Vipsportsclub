@@ -7,7 +7,14 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 
 const Header = () => {
-  const heading = ["Home", "About Us", "Membership", "Winners", "FAQs", "Contact"];
+  const heading = [
+    "Home",
+    "About Us",
+    "Membership",
+    "Winners",
+    "FAQs",
+    "Contact",
+  ];
   const { theme, setTheme } = useTheme();
 
   const [mounted, setMounted] = useState(false);
@@ -58,7 +65,7 @@ const Header = () => {
             {/* theme pill */}
             <button
               onClick={toggleTheme}
-              className="flex items-center justify-center w-[70px] h-[40px] xl:w-[90px] xl:h-[51px] rounded-full bg-[#4A9B7A] border border-[#2a6a57]"
+              className="flex items-center justify-center w-[70px] h-10 xl:w-[90px] xl:h-[51px] rounded-full bg-[#4A9B7A] border border-[#2a6a57]"
             >
               <span className="text-xs xl:text-sm">⚡</span>
             </button>
