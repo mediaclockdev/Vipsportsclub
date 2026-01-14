@@ -22,7 +22,7 @@ const Header = () => {
     <header className="fixed top-0 left-0 w-full z-50 bg-[#1B242C] dark:bg-[#212E36] ">
       <nav className="max-w-screen-2xl mx-auto px-6 h-[72px] flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2">
+        <Link href="/homepage" className="flex items-center gap-2">
           <Image
             src={logo}
             alt="VIP Sports Club"
@@ -37,7 +37,7 @@ const Header = () => {
           {menu.map((item) => {
             const href =
               item === "Home"
-                ? "/"
+                ? "/homepage"
                 : `/${item.toLowerCase().replace(/\s+/g, "-")}`;
 
             return (
@@ -70,9 +70,7 @@ const Header = () => {
               className={`absolute top-1 left-1 w-8 h-8 rounded-full 
           flex items-center justify-center transition-all duration-300
           ${
-            isDark
-              ? "translate-x-8 bg-[#1B242C]"
-              : "translate-x-0 bg-[#6AA98A]"
+            isDark ? "translate-x-8 bg-[#1B242C]" : "translate-x-0 bg-[#6AA98A]"
           }
         `}
             >
