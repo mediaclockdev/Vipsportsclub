@@ -9,8 +9,7 @@ import youtube from "../../public/youtube.svg";
 const Footer = () => {
   return (
     <div className="bg-[#1B242C] dark:bg-[#212E36]  top-0 left-0 w-full z-50 text-[#FFFFFF]">
-      
-      <div className="max-w-screen-2xl mx-auto px-8 py-10">
+      <div className="max-w-screen-2xl mx-auto px-8 ">
         {/* Top Divider */}
         <div className="border-t-2 border-b-2 border-[#D0B55A] py-8">
           {/* 3 Column Layout */}

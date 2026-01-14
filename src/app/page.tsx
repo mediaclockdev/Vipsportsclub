@@ -13,15 +13,7 @@ export default function Home() {
   return (
     <div>
       <ComingSoon />
-      {/* <Hero />
-      <AboutIntro />
-      <Partners />
-      <WhyLoveUs />
-      <HowItWorks />
-      <MembershipCards />
-      <WhatYouCanWin />
-      <Testimonials />
-      <FAQs /> */}
+      
     </div>
   );
 }

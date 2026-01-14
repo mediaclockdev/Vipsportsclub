@@ -21,10 +21,13 @@ const testimonials = [
 
 export default function Testimonials() {
   return (
-    <section className="py-16" style={{
+    <section
+      className="py-16 overflow-hidden"
+      style={{
         background:
           "linear-gradient(180deg, #0f1b20 0%, #14262a 35%, #1e3336 100%)",
-      }}>
+      }}
+    >
       <div className="max-w-5xl mx-auto px-4">
         {/* Heading */}
         <h2 className="text-center text- text-[36px] md:text-3xl font-bold tracking-[0.25em] text-[#ffffff]">
@@ -50,7 +53,9 @@ export default function Testimonials() {
               </div>
 
               {/* Name + city */}
-              <p className="text-[#ffffff] text-[34px] font-semibold">{t.name}</p>
+              <p className="text-[#ffffff] text-[34px] font-semibold">
+                {t.name}
+              </p>
               <p className="text-gray-300 text-[24px] mt-1">{t.city}</p>
             </div>
           ))}

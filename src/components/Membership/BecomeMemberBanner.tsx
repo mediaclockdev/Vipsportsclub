@@ -5,33 +5,27 @@ import Image from "next/image";
 
 export default function BecomeMemberBanner() {
   return (
-    <section className="relative w-full h-[140px] sm:h-[180px] lg:h-[220px] overflow-hidden">
-      {/* Background image */}
-      <Image
-        src="/member-football-bg.svg" 
-        alt="Sports background"
-        fill
-        priority
-        className="object-cover"
-      />
+    <div className="relative h-auto lg:h-[85vh] w-full bg-[url('/memberbackground.jpg')] bg-cover bg-center  py-5 ">
+      {/* Dark gradient overlay */}
+      <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/50 to-black/70" />
 
-      {/* Dark overlay so text readable */}
-      <div className="absolute inset-0 bg-black/40" />
+      {/* Content */}
+      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center text-center text-white px-4 space-y-5">
+        {/* Top text */}
+        <p className="text-3xl md:text-5xl font-semibold">BECOME A MEMBER</p>
 
-      {/* Centered text */}
-      <div className="relative z-10 flex h-full items-center justify-center px-4">
-        <div className="text-center text-[#ffffff] max-w-3xl">
-          <p className="text-sm sm:text-base lg:text-lg font-semibold italic tracking-wide">
-            BECOME A MEMBER
-          </p>
-          <p className="mt-1 text-base sm:text-2xl lg:text-3xl font-bold italic tracking-wide">
-            UNLOCK SPORTS REWARDS EVERYDAY
-          </p>
-          <p className="mt-3 text-xs sm:text-sm lg:text-base opacity-90">
-            The Club Built for People Who Live and Breathe Sports
-          </p>
-        </div>
+        {/* Badge */}
+
+        {/* Main heading */}
+        <p className="text-3xl md:text-5xl lg:text-6xl font-extrabold uppercase leading-tight ">
+          UNLOCK SPORTS REWARDS EVERYDAY
+        </p>
+
+        {/* Subtitle */}
+        <p className="max-w-2xl text-sm md:text-lg text-white/80 ">
+          The Club Built for People Who Live and Breathe Sports
+        </p>
       </div>
-    </section>
+    </div>
   );
 }

@@ -1,149 +1,99 @@
-// // components/WhatYouCanWin.tsx
-// import Image from "next/image";
-
-// const prizes = [
-//   {
-//     title: "TOP SPORTS REWARDS",
-//     sub: "Win all expenses paid trips to watch the world's biggest sporting events live",
-//     image: "/images/reward-tennis.jpg", // 👈 change to your image
-//   },
-//   {
-//     title: "TRAVEL TO BIG SPOTTING EVENTS",
-//     sub: "Win all expenses paid trips to watch the world's biggest sporting events live",
-//     image: "/images/reward-stadium.jpg", // 👈 change to your image
-//   },
-// ];
-
-// export default function WhatYouCanWin() {
-//   return (
-//     <section className=" py-16" style={{
-//         background:
-//           "linear-gradient(180deg, #0f1b20 0%, #14262a 35%, #1e3336 100%)",
-//       }}>
-//       <div className="max-w-6xl mx-auto px-4">
-//         {/* Heading + button */}
-//         <div className="relative mb-10">
-//           <h2 className="text-center text-[#FFFFFF] text-[36px] md:text-3xl font-bold tracking-[0.25em]">
-//             WHAT YOU CAN WIN
-//           </h2>
-
-//           <button
-//             className="absolute right-0 top-1/2 -translate-y-1/2 border border-[#5DF0C0] text-[#FFFFFF]    text-sm px-6 py-2 rounded-xl
-//                        hover:bg-[#5DF0C0] hover:text-[#111827] transition"
-//           >
-//             View all
-//           </button>
-//         </div>
-
-//         {/* Cards */}
-//         <div className="grid md:grid-cols-2 gap-6">
-//           {prizes.map((item) => (
-//             <div
-//               key={item.title}
-//               className="relative h-[220px] rounded-xl overflow-hidden"
-//             >
-//               {/* Background image */}
-//               <Image
-//                 src={item.image}
-//                 alt={item.title}
-//                 fill
-//                 className="object-cover"
-//                 priority
-//               />
-
-//               {/* Dark overlay */}
-//               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20" />
-
-//               {/* Text */}
-//               <div className="relative h-full flex flex-col justify-center items-center p-6 text-white gap-10 text-center ">
-//                 <h3 className="text-[34px] md:text-xl font-bold tracking-[0.15em] uppercase">
-//                   {item.title}
-//                 </h3>
-//                 <p className="text-[22px] md:text-base max-w-xs ">
-//                   {item.sub}
-//                 </p>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-//       </div>
-//     </section>
-//   );
-// }
-
-
 // components/WhatYouCanWin.tsx
 import Image from "next/image";
+import stedium from "../../../public/stedium.svg";
+import kayo from "../../../public/kayosports.svg";
+import kingdom from "../../../public/kingdom.svg";
+import gift from "../../../public/giftcard.svg";
+import card8 from "../../../public/card8.svg";
 
 const prizes = [
   {
-    title: "TOP SPORTS REWARDS",
-    sub: "Win all expenses paid trips to watch the world's biggest sporting events live",
-    image: "/images/reward-tennis.jpg",
+    date: "MARCH 4",
+    color: "bg-[#4FA07D]",
+    image: kayo,
+    points: ["12 Months Subscription"],
   },
   {
-    title: "TRAVEL TO BIG SPOTTING EVENTS",
-    sub: "Win all expenses paid trips to watch the world's biggest sporting events live",
-    image: "/images/reward-stadium.jpg",
+    date: "MARCH 11",
+    color: "bg-[#E2C86B]",
+    image: kingdom,
+    points: [
+      "Trip for 2 to Adelaide for the AFL Gather Round",
+      "Flights, Accommodation and Tickets to 3 Games",
+    ],
+  },
+  {
+    date: "MARCH 18",
+    color: "bg-[#4FA07D]",
+    image: gift,
+    points: ["$500 LSKD Gift Card"],
+  },
+  {
+    date: "MARCH 25",
+    color: "bg-[#E2C86B]",
+    image: card8,
+    points: [
+      "VIP tickets to EVERY 2026 NRL State of Origin game for 2 people",
+      "Flights to Brisbane, Sydney and Melbourne",
+      "Accommodation in each city",
+    ],
   },
 ];
 
 export default function WhatYouCanWin() {
   return (
-    <section
-      className="py-12 sm:py-16 lg:py-20"
-      style={{
-        background:
-          "linear-gradient(180deg, #0f1b20 0%, #14262a 35%, #1e3336 100%)",
-      }}
+    <div
+      className="py-8 bg-[#212E36]"
+      // style={{
+      //   background:
+      //     "linear-gradient(180deg, #0f1b20 0%, #14262a 40%, #1e3336 100%)",
+      // }}
     >
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Heading + button */}
-        <div className="mb-8 sm:mb-10 flex flex-col items-center gap-4 md:flex-row md:justify-center">
-          <h2 className="text-center md:text-left text-[#FFFFFF] text-xl sm:text-2xl lg:text-3xl font-bold tracking-[0.25em]">
-            WHAT YOU CAN WIN
+      <div className="max-w-screen-2xl mx-auto px-6 space-y-5 ">
+        {/* Header */}
+        <div className="flex items-center">
+          {/* Left spacer */}
+          <div className="lg:flex-1 " />
+
+          {/* Center heading */}
+          <h2 className="flex-none text-white text-xl md:text-3xl font-bold text-center">
+            WHAT YOU CAN WIN?
           </h2>
 
-          <button
-            className="border border-[#5DF0C0] text-[#FFFFFF] text-xs sm:text-sm px-5 sm:px-6 py-2 rounded-xl
-                       hover:bg-[#5DF0C0] hover:text-[#111827] transition ml-10"
-          >
-            View all
-          </button> 
+          {/* Right button */}
+          <div className="flex-1 flex justify-end">
+            <button className="border border-[#5DF0C0] text-white px-3 lg:px-5 py-1 lg:py-2 rounded-xl text-xs lg:text-sm hover:bg-[#5DF0C0] hover:text-black transition">
+              View all
+            </button>
+          </div>
         </div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-          {prizes.map((item) => (
-            <div
-              key={item.title}
-              className="relative h-[230px] sm:h-[260px] lg:h-[280px] rounded-xl overflow-hidden"
-            >
-              {/* Background image */}
-              <Image
-                src={item.image}
-                alt={""}
-                fill
-                className="object-cover"
-                priority
-              />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {prizes.map((item, index) => (
+            <div key={index} className="rounded-2xl overflow-hidden shadow-lg">
+              {/* Image */}
+              <div className="relative h-32 lg:h-44">
+                <Image src={item.image} alt="" fill className="object-cover" />
+              </div>
 
-              {/* Dark overlay */}
-              <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20" />
+              {/* Content */}
+              <div className={`${item.color} p-6  lg:min-h-[220px]`}>
+                <p className="text-white font-bold text-lg">{item.date}</p>
 
-              {/* Text */}
-              <div className="relative h-full flex flex-col justify-center items-center px-4 sm:px-6 text-[#ffffff] gap-3 sm:gap-4 text-center">
-                <h3 className="text-xl sm:text-2xl text-[34px] font-bold tracking-[0.15em] uppercase">
-                  {item.title}
-                </h3>
-                <p className="text-sm sm:text-base lg:text-[18px] max-w-xs">
-                  {item.sub}
-                </p>
+                <ul className="space-y-2 text-white text-sm leading-relaxed">
+                  {item.points.map((point, i) => (
+                    <li key={i} className="flex gap-2">
+                      <span>•</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           ))}
         </div>
       </div>
-    </section>
+    </div>
   );
 }
