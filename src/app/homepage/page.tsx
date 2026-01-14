@@ -1,4 +1,3 @@
-import ComingSoon from "@/components/comingsoon";
 import Hero from "@/components/Home/Hero";
 import AboutIntro from "@/components/Home/AboutIntro";
 import Partners from "@/components/Home/Partners";
@@ -9,11 +8,21 @@ import WhatYouCanWin from "@/components/Home/WhatYouCanWin";
 import Testimonials from "@/components/Home/Testimonials";
 import FAQs from "@/components/Home/FAQs";
 
-export default function Home() {
+import React from "react";
+
+const page = () => {
   return (
     <div>
-      <ComingSoon />
-      
+      <Hero />
+      <WhatYouCanWin />
+      <Partners />
+      <HowItWorks />
+      <MembershipCards />
+      <WhyLoveUs />
+      <AboutIntro />
+      <FAQs />
     </div>
   );
-}
+};
+
+export default page;
