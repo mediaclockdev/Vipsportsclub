@@ -1,3 +1,5 @@
+//homepage
+
 import Hero from "@/components/Home/Hero";
 import AboutIntro from "@/components/Home/AboutIntro";
 import Partners from "@/components/Home/Partners";
