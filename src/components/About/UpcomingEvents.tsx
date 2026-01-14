@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import stedium from "../../../public/stedium.svg";
+
 import kayo from "../../../public/kayosports.svg";
 import kingdom from "../../../public/kingdom.svg";
 import gift from "../../../public/giftcard.svg";
 import card from "../../../public/card2.svg";
 import card3 from "../../../public/card3.svg";
 import card4 from "../../../public/card4.svg";
-import card5 from "../../../public/card5.svg";
+
 import card6 from "../../../public/card6.svg";
 import card7 from "../../../public/card7.svg";
 import card8 from "../../../public/card8.svg";
@@ -119,19 +119,19 @@ const prizes = [
 export default function UpcomingEvents() {
   return (
     <div className="py-12 bg-[#212E36]">
-      <div className="max-w-screen-2xl mx-auto px-6">
+      <div className="max-w-screen-2xl  mx-auto px-3 lg:px-6">
         <h2 className="text-[36px] font-bold mb-10 text-white text-center">
           Upcoming Events
         </h2>
 
-        <div className="flex items-start overflow-visible overflow-x-scroll">
+        <div className="flex items-start overflow-visible  overflow-x-scroll">
           {prizes.map((item, index) => (
             <motion.div
               key={index}
               initial={{ scale: 1 }}
               whileHover={{ scale: 1.08, y: -20, zIndex: 50 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="relative w-[260px] h-[420px] rounded-t-2xl  shadow-lg -ml-16 first:ml-0 "
+              className="relative w-[260px] h-[350px] lg:h-[520px] rounded-t-2xl  shadow-lg -ml-16 first:ml-0 "
               style={{ zIndex: index }}
             >
               <div className="relative h-40 ">
@@ -142,11 +142,15 @@ export default function UpcomingEvents() {
                   className="object-cover rounded-t-2xl"
                 />
               </div>
-              <div className={`${item.color} p-4 h-[260px] overflow-y-hidden`}>
-                <p className="text-white font-bold text-lg mb-3">{item.date}</p>
-                <ul className="space-y-2 text-white text-sm ">
+              <div
+                className={`${item.color} p-4 h-60 lg:h-80 overflow-y-hidden`}
+              >
+                <p className="text-white font-bold text-sm lg:text-base mb-1 lg:mb-3">
+                  {item.date}
+                </p>
+                <ul className="space-y-2 text-white text-xs lg:text-sm ">
                   {item.points.map((p, i) => (
-                    <li key={i} className="flex gap-2">
+                    <li key={i} className="flex gap-1 lg:gap-2">
                       • {p}
                     </li>
                   ))}

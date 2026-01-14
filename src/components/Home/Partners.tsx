@@ -21,37 +21,16 @@ export default function PartnersMarquee() {
           OUR PARTNERS AND DISCOUNTS
         </h3>
 
-        <div className="border-t border-white/10 ">
-          {/* Row 1 → LEFT */}
+        <div className="border-t border-white/10">
+          {/* Row 1 */}
           <MarqueeRow direction="left" />
 
           <div className="h-px bg-white/10" />
 
-          {/* Row 2 → RIGHT */}
+          {/* Row 2 */}
           <MarqueeRow direction="right" />
         </div>
       </div>
-
-      {/* LOCAL KEYFRAMES ONLY (NOT GLOBAL) */}
-      <style jsx>{`
-        @keyframes marquee-left {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-50%);
-          }
-        }
-
-        @keyframes marquee-right {
-          from {
-            transform: translateX(-50%);
-          }
-          to {
-            transform: translateX(0);
-          }
-        }
-      `}</style>
     </div>
   );
 }
@@ -60,27 +39,23 @@ function MarqueeRow({ direction }: { direction: "left" | "right" }) {
   return (
     <div className="group overflow-hidden">
       <div
-        className={`
-          flex w-max
-          ${
-            direction === "left"
-              ? "animate-[marquee-left_15s_linear_infinite]"
-              : "animate-[marquee-right_15s_linear_infinite]"
-          }
-          group-hover:paused
-        `}
+        className={`flex w-max marquee ${
+          direction === "left"
+            ? "animate-[marquee-left_15s_linear_infinite]"
+            : "animate-[marquee-right_15s_linear_infinite]"
+        }`}
       >
         {[...partners, ...partners].map((item, i) => (
           <div
             key={i}
-            className={`flex items-center justify-center  h-28 md:h-32 lg:h-36 w-40 md:w-56 lg:w-64 ${item.bg}`}
+            className={`flex items-center justify-center h-28 md:h-32 lg:h-36 w-40 md:w-56 lg:w-64 ${item.bg}`}
           >
             <Image
               src={item.src}
               alt="partner"
               width={160}
               height={80}
-              className="object-cover"
+              className="object-contain"
             />
           </div>
         ))}

@@ -69,20 +69,12 @@ const MembershipCards = () => {
                     {/* GIFT BOX WITH EMERGING CARDS */}
                     <div className="relative flex justify-center items-center grow group overflow-visible">
                       {/* GOLD CARD */}
-                      <div
-                        className="
-                          absolute bottom-16 left-1/2 -translate-x-[70%] w-20 h-28 rounded-xl bg-linear-to-b from-[#E0D19B] to-[#B6983D] shadow-2xl flex items-center justify-center text-[#1f2a30] font-bold transition-all duration-500 ease-out opacity-0 translate-y-8 rotate-[-20deg] group-hover:opacity-100 group-hover:translate-y-[-70px] group-hover:scale-105 z-20
-"
-                      >
+                      <div className="absolute bottom-16 left-1/2 -translate-x-[70%] w-20 h-28 rounded-xl bg-gradient-to-b from-[#E0D19B] to-[#B6983D] shadow-2xl flex items-center justify-center text-[#1f2a30] font-bold transition-all duration-500 ease-out opacity-0 translate-y-8 rotate-[-20deg] group-hover:opacity-100 group-hover:translate-y-[-70px] group-hover:scale-105 z-20">
                         GOLD
                       </div>
 
                       {/* SILVER CARD */}
-                      <div
-                        className="
-                          absolute bottom-16 left-1/2 -translate-x-[20%] w-20 h-28 rounded-xl bg-linear-to-b from-[#F3F3F3] to-[#B5BCC0] shadow-2xl flex items-center justify-center text-[#1f2a30] font-bold transition-all duration-500 ease-out delay-75 opacity-0 translate-y-8 rotate-20 group-hover:opacity-100 group-hover:translate-y-[-60px] group-hover:scale-105 z-10
-                        "
-                      >
+                      <div className="absolute bottom-16 left-1/2 -translate-x-[20%] w-20 h-28 rounded-xl bg-gradient-to-b from-[#F3F3F3] to-[#B5BCC0] shadow-2xl flex items-center justify-center text-[#1f2a30] font-bold transition-all duration-500 ease-out delay-75 opacity-0 translate-y-8 rotate-20 group-hover:opacity-100 group-hover:translate-y-[-60px] group-hover:scale-105 z-10">
                         SILVER
                       </div>
 
@@ -113,7 +105,7 @@ const MembershipCards = () => {
                     <div className="space-y-3 grow">
                       {item.content?.map((feature, index) => (
                         <div key={index} className="flex items-start gap-3">
-                          <div className="w-5 h-5 rounded-full bg-[#1f2a30] flex items-center justify-center flex-shrink-0 mt-0.5">
+                          <div className="w-5 h-5 rounded-full bg-[#1f2a30] flex items-center justify-center shrink-0 mt-0.5">
                             <svg
                               className="w-3 h-3 text-white"
                               fill="none"
