@@ -43,20 +43,20 @@ const prizes = [
 
 export default function WhatYouCanWin() {
   return (
-    <div className="py-12 bg-[#212E36]">
+    <div className="py-8 bg-[#212E36]">
       <div className="max-w-screen-2xl mx-auto px-6 space-y-5 ">
         {/* Header */}
-        <div className="flex items-center">
+        <div className="flex items-center ">
           {/* Left spacer */}
           <div className="lg:flex-1 " />
 
           {/* Center heading */}
-          <h2 className="flex-none text-white text-2xl md:text-3xl lg:text-4xl font-bold text-center">
+          <h2 className="flex-none text-white text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-2">
             WHAT YOU CAN WIN?
           </h2>
 
           {/* Right button */}
-          <div className="flex-1 flex justify-end">
+          <div className="flex-1 flex justify-end mb-2">
             <Link href="/membership">
               <button className="border border-[#5DF0C0] text-white px-3 lg:px-5 py-1 lg:py-2 rounded-xl text-xs lg:text-sm hover:bg-[#5DF0C0] hover:text-black transition">
                 View all
