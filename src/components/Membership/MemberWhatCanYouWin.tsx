@@ -115,7 +115,7 @@ const MemberWhatCanYouWin = () => {
   ];
 
   return (
-    <div className="bg-[#212E36] min-h-screen py-16 px-4">
+    <div className="bg-[#212E36] min-h-screen py-8 lg:py-16 px-4">
       <div className="max-w-7xl mx-auto">
         {/* Heading */}
         <h2 className="text-center text-white text-4xl font-bold mb-12">

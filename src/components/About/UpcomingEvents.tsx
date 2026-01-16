@@ -138,10 +138,10 @@ export default function UpcomingEvents() {
   }, []);
 
   return (
-    <div className="py-12 bg-[#212E36]">
+    <div className="py-8 lg:py-12 bg-[#212E36]">
       <div className="w-full px-3 lg:px-6">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold  text-white text-center">
-          Upcoming Events
+          UPCOMING EVENTS
         </h2>
         <div className="coverflow-wrapper w-screen relative left-1/2 -translate-x-1/2">
           <div className="coverflow-scroll">

@@ -6,12 +6,14 @@ import React, { useEffect, useState } from "react";
 import logo from "../../public/3dlogo.svg";
 import { useTheme } from "next-themes";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const menu = ["Home", "About Us", "Membership", "Winners", "FAQs", "Contact"];
 
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
@@ -19,7 +21,7 @@ const Header = () => {
   const isDark = theme === "dark";
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-[#1B242C] dark:bg-[#212E36] ">
+    <header className="fixed top-0 left-0 w-full z-50 bg-[#1B242C] dark:bg-[#212E36]">
       <nav className="max-w-screen-2xl mx-auto px-6 h-[72px] flex items-center justify-between">
         {/* Logo */}
         <Link href="/homepage" className="flex items-center gap-2">
@@ -40,15 +42,27 @@ const Header = () => {
                 ? "/homepage"
                 : `/${item.toLowerCase().replace(/\s+/g, "-")}`;
 
+            const isActive =
+              pathname === href || pathname.startsWith(`${href}/`);
+
             return (
               <Link
                 key={item}
                 href={href}
-                className={`transition ${
-                  item === "Home" ? "text-[#F4D35E]" : "hover:text-[#F4D35E]"
-                }`}
+                className={`relative transition
+                  ${
+                    isActive
+                      ? "text-[#F4D35E] font-semibold"
+                      : "hover:text-[#F4D35E]"
+                  }
+                `}
               >
                 {item}
+
+                {/* Active underline */}
+                {isActive && (
+                  <span className="absolute -bottom-2 left-0 w-full h-[2px] bg-[#F4D35E] rounded-full" />
+                )}
               </Link>
             );
           })}
@@ -60,22 +74,23 @@ const Header = () => {
           <button
             onClick={() => setTheme(isDark ? "light" : "dark")}
             className={`relative w-[72px] h-10 rounded-full transition-colors duration-300
-        ${isDark ? "bg-[#6AA98A]" : "bg-white"}
-        border border-[#6AA98A]
-      `}
+              ${isDark ? "bg-[#6AA98A]" : "bg-white"}
+              border border-[#6AA98A]
+            `}
             aria-label="Toggle theme"
           >
-            {/* Sliding knob */}
             <span
               className={`absolute top-1 left-1 w-8 h-8 rounded-full 
-          flex items-center justify-center transition-all duration-300
-          ${
-            isDark ? "translate-x-8 bg-[#1B242C]" : "translate-x-0 bg-[#6AA98A]"
-          }
-        `}
+                flex items-center justify-center transition-all duration-300
+                ${
+                  isDark
+                    ? "translate-x-8 bg-[#1B242C]"
+                    : "translate-x-0 bg-[#6AA98A]"
+                }
+              `}
             >
               <span
-                className={`text-lg transition-colors ${
+                className={`text-lg ${
                   isDark ? "text-[#F4D35E]" : "text-[#1B242C]"
                 }`}
               >

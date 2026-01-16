@@ -42,17 +42,11 @@ export default function FAQs() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div
-      className="py-16 overflow-hidden bg-[#212E36]"
-      // style={{
-      //   background:
-      //     "linear-gradient(180deg, #0f1b20 0%, #14262a 35%, #1e3336 100%)",
-      // }}
-    >
+    <div className="py-8 overflow-hidden bg-[#212E36]">
       <div className="max-w-6xl mx-auto px-4">
         {/* Heading */}
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-[#ffffff] mb-10">
-          FAQs
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-[#ffffff] mb-6 lg:mb-10 capitalize">
+          FREQUENTLY ASKED QUESTION
         </h2>
 
         {/* Items */}
@@ -97,7 +91,9 @@ export default function FAQs() {
 
                 {open && (
                   <div className="px-5 pb-4 pt-1  border-t border-[#1f6b76]/60">
-                    <p className="text-base text-slate-200">{items.a}</p>
+                    <p className="text-base lg:text-lg text-slate-200">
+                      {items.a}
+                    </p>
                   </div>
                 )}
               </div>
