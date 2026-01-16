@@ -12,7 +12,7 @@ const Footer = () => {
     <footer className="bg-[#1B242C] dark:bg-[#212E36] text-white">
       <div className="max-w-screen-2xl mx-auto px-6 sm:px-8">
         {/* Top Section */}
-        <div className="border-t-2 border-b-2 border-[#D0B55A] py-12">
+        <div className="border-t-2 border-b-2 border-[#D0B55A] py-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* LEFT */}
             <div className="space-y-6">
@@ -103,7 +103,7 @@ const Footer = () => {
         </div>
 
         {/* Bottom */}
-        <div className="py-8 text-center space-y-2 text-sm text-gray-300">
+        <div className="py-5 text-center space-y-2 text-sm text-gray-300">
           <p>© 2026 VIP Sports Club. All Rights Reserved.</p>
           <p>
             Australian Business Number (ABN): [ABN]. Proudly Australian-owned

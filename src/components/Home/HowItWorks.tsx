@@ -26,7 +26,7 @@ export default function HowItWorks() {
   ];
 
   return (
-    <div className="py-3 lg:py-12 bg-[#212E36]">
+    <div className="mt-0 lg:-mt-2.5 py-3 lg:py-12 bg-[#212E36]">
       <div className="max-w-6xl mx-auto px-6">
         {/* Heading */}
         <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-10">
