@@ -56,7 +56,7 @@ export default function WhatYouCanWin() {
           <div className="lg:flex-1 " />
 
           {/* Center heading */}
-          <h2 className="flex-none text-white text-xl md:text-3xl font-bold text-center">
+          <h2 className="flex-none text-white text-2xl md:text-3xl lg:text-4xl font-bold text-center">
             WHAT YOU CAN WIN?
           </h2>
 
