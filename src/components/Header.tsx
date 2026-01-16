@@ -3,7 +3,7 @@
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import logo from "../../public/darklogo.svg";
+import logo from "../../public/3dlogo.svg";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 
@@ -28,7 +28,7 @@ const Header = () => {
             alt="VIP Sports Club"
             width={120}
             height={48}
-            className="h-10 w-auto"
+            className="h-28 w-auto"
           />
         </Link>
 
@@ -55,7 +55,7 @@ const Header = () => {
         </div>
 
         {/* Right side */}
-        <div className="hidden lg:flex items-center gap-4">
+        <div className="flex items-center gap-4">
           {/* Theme Toggle */}
           <button
             onClick={() => setTheme(isDark ? "light" : "dark")}
@@ -85,7 +85,7 @@ const Header = () => {
           </button>
 
           {/* Login */}
-          <button className="px-7 py-2 border border-[#6AA98A] rounded-xl text-white text-[18px] hover:bg-[#6AA98A] hover:text-[#0f172a] transition">
+          <button className="px-4 lg:px-7 py-2 border border-[#6AA98A] rounded-xl text-white text-sm lg:text-base hover:bg-[#6AA98A] hover:text-[#0f172a] transition">
             Login
           </button>
         </div>

@@ -1,6 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import React, { useRef, useState, useEffect } from "react";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+import styled from "styled-components";
 
 import kayo from "../../../public/kayosports.svg";
 import kingdom from "../../../public/kingdom.svg";
@@ -117,49 +121,56 @@ const prizes = [
 ];
 
 export default function UpcomingEvents() {
+  const [active, setActive] = useState(0);
+  useEffect(() => {
+    const cards = document.querySelectorAll(".coverflow-card");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("is-active", entry.isIntersecting);
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+  }, []);
+
   return (
     <div className="py-12 bg-[#212E36]">
-      <div className="max-w-screen-2xl  mx-auto px-3 lg:px-6">
-        <h2 className="text-[36px] font-bold mb-10 text-white text-center">
+      <div className="w-full px-3 lg:px-6">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold  text-white text-center">
           Upcoming Events
         </h2>
+        <div className="coverflow-wrapper w-screen relative left-1/2 -translate-x-1/2">
+          <div className="coverflow-scroll">
+            {prizes.map((item, index) => (
+              <div key={index} className="coverflow-card">
+                <div className="relative h-40">
+                  <Image
+                    src={item.image}
+                    alt=""
+                    fill
+                    className="object-cover rounded-t-2xl"
+                  />
+                </div>
 
-        <div className="flex items-start overflow-visible  overflow-x-scroll">
-          {prizes.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ scale: 1 }}
-              whileHover={{ scale: 1.08, y: -20, zIndex: 50 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="relative w-[260px] h-[350px] lg:h-[520px] rounded-t-2xl  shadow-lg -ml-16 first:ml-0 "
-              style={{ zIndex: index }}
-            >
-              <div className="relative h-40 ">
-                <Image
-                  src={item.image}
-                  alt=""
-                  fill
-                  className="object-cover rounded-t-2xl"
-                />
+                <div className={`${item.color} p-4 h-68 lg:h-80`}>
+                  <p className="text-white font-bold mb-2">{item.date}</p>
+
+                  <ul className="space-y-2 text-white text-sm">
+                    {item.points.map((p, i) => (
+                      <li key={i}>• {p}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-              <div
-                className={`${item.color} p-4 h-60 lg:h-80 overflow-y-hidden`}
-              >
-                <p className="text-white font-bold text-sm lg:text-base mb-1 lg:mb-3">
-                  {item.date}
-                </p>
-                <ul className="space-y-2 text-white text-xs lg:text-sm ">
-                  {item.points.map((p, i) => (
-                    <li key={i} className="flex gap-1 lg:gap-2">
-                      • {p}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </motion.div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>
+    // </div>
   );
 }

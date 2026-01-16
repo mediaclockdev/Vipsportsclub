@@ -33,7 +33,7 @@ const MembershipCards = () => {
   return (
     <div className="w-full flex justify-center py-16 bg-[#212E36]">
       <div className="w-full max-w-6xl px-4">
-        <h2 className="text-center text-white text-3xl font-bold mb-12">
+        <h2 className="text-center text-white text-2xl md:text-3xl lg:text-4xl font-bold mb-12">
           MEMBERSHIP OPTIONS
         </h2>
 
