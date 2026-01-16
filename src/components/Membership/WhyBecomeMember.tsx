@@ -4,14 +4,13 @@
 import Image from "next/image";
 import tick from "../../../public/tick.svg";
 
-
 const items = [
   {
     title: "Automatic Entry Into Weekly Sports Prize Draws",
     sub: "Every member is entered into our weekly draws for bucket-list sporting experiences — no forms, no fuss.",
   },
   {
-    title: "Exclusive Discounts From Leading Sports & Fitness Brands",
+    title: "Exclusive Discounts From Leading Sports & Fitness",
     sub: "Enjoy member-only pricing on apparel, equipment, coaching, nutrition, wellness and more, with premium partners curated to elevate your active lifestyle.",
   },
   {
@@ -26,11 +25,11 @@ const items = [
 
 export default function WhyBecomeMember() {
   return (
-    <div className="py-12 bg-[#212E36]">
+    <div className="py-8 lg:py-12 bg-[#212E36]">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
         {/* Heading */}
         <div className="pb-10">
-          <h2 className="text-white text-xl sm:text-2xl lg:text-3xl font-bold">
+          <h2 className="text-white text-2xl lg:text-3xl font-bold">
             Why Become a Member?
           </h2>
         </div>

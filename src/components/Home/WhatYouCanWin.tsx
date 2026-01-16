@@ -1,10 +1,11 @@
 // components/WhatYouCanWin.tsx
 import Image from "next/image";
-import stedium from "../../../public/stedium.svg";
 import kayo from "../../../public/kayosports.svg";
 import kingdom from "../../../public/kingdom.svg";
 import gift from "../../../public/giftcard.svg";
 import card8 from "../../../public/card8.svg";
+import Link from "next/link";
+import Membership from "../../app/membership/page";
 
 const prizes = [
   {
@@ -42,13 +43,7 @@ const prizes = [
 
 export default function WhatYouCanWin() {
   return (
-    <div
-      className="py-8 bg-[#212E36]"
-      // style={{
-      //   background:
-      //     "linear-gradient(180deg, #0f1b20 0%, #14262a 40%, #1e3336 100%)",
-      // }}
-    >
+    <div className="py-12 bg-[#212E36]">
       <div className="max-w-screen-2xl mx-auto px-6 space-y-5 ">
         {/* Header */}
         <div className="flex items-center">
@@ -62,9 +57,11 @@ export default function WhatYouCanWin() {
 
           {/* Right button */}
           <div className="flex-1 flex justify-end">
-            <button className="border border-[#5DF0C0] text-white px-3 lg:px-5 py-1 lg:py-2 rounded-xl text-xs lg:text-sm hover:bg-[#5DF0C0] hover:text-black transition">
-              View all
-            </button>
+            <Link href="/membership">
+              <button className="border border-[#5DF0C0] text-white px-3 lg:px-5 py-1 lg:py-2 rounded-xl text-xs lg:text-sm hover:bg-[#5DF0C0] hover:text-black transition">
+                View all
+              </button>
+            </Link>
           </div>
         </div>
 

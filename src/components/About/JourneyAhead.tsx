@@ -13,7 +13,7 @@ const JourneyAhead = () => {
         {/* Reverse on desktop only */}
         <div className="flex flex-col-reverse lg:flex-row items-center gap-10 lg:gap-16">
           {/* LEFT (Desktop): Image */}
-          <div className="w-full lg:w-1/2 flex justify-center lg:justify-start">
+          <div className="w-full lg:w-1/2 flex justify-center lg:justify-start ml-0 lg:ml-20">
             <div className="relative w-full max-w-md lg:max-w-lg">
               <Image
                 src={bg}
@@ -25,17 +25,18 @@ const JourneyAhead = () => {
           </div>
 
           {/* RIGHT (Desktop): Text */}
-          <div className="w-full lg:w-1/2 space-y-6">
+          <div className="w-full lg:w-1/2 space-y-6 ">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">
-              The Journey Ahead
+              <span className="text-[#B6983D]">The Journey </span>
+              Ahead
             </h2>
 
-            <div className="space-y-2">
+            <div className="space-y-2 text-xl">
               <p>We’re just getting started.</p>
               <p>Our team is continuously working to:</p>
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-3 text-lg">
               <div className="flex items-center gap-4">
                 <div className="bg-[#4A9B7A57] p-2 rounded-full">
                   <Image src={handshake} alt="" className="size-5" />
@@ -65,7 +66,7 @@ const JourneyAhead = () => {
               </div>
             </div>
 
-            <p className="font-medium">
+            <p className="font-normal text-lg">
               And we’d love for you to be part of it.
             </p>
           </div>

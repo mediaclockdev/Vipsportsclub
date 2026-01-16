@@ -16,7 +16,7 @@ export default function AboutIntro() {
       ></div>
 
       {/* Centered content */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-8 lg:py-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-6 lg:py-8 relative z-10">
         <div className="flex flex-col items-center">
           {/* Header */}
           <div className="text-center mb-8 lg:mb-10">
@@ -30,7 +30,7 @@ export default function AboutIntro() {
           <div className="w-full">
             <div className="flex flex-col lg:flex-row justify-between items-center gap-8 lg:gap-12 xl:gap-16">
               {/* Text content */}
-              <div className="w-full lg:w-1/2 space-y-6">
+              <div className="w-full lg:w-1/2 space-y-6 text-center lg:text-left">
                 <p className="text-gray-100 text-base sm:text-lg leading-relaxed">
                   VIP Sports Club is a new Australian membership platform
                   designed for people who love sport, fitness, and living an

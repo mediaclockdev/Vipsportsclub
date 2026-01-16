@@ -23,7 +23,7 @@ const AboutHero = () => {
       {/* Content Section Under Image */}
       <div className="w-full  pb-8 pt-6 bg-[#212E36]">
         <div className="max-w-3xl mx-auto px-6 text-center text-[#ffffff] text-[20px]">
-          <p className="leading-7 mb-4">
+          <p className="leading-7 mb-4 mt-0 lg:mt-2">
             At{" "}
             <span className="text-[#4A987A] font-semibold">
               VIP Sports Club

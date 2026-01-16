@@ -21,15 +21,9 @@ const features = [
 
 export default function WhyLoveUs() {
   return (
-    <div
-      className="py-20 bg-[#212E36]"
-      // style={{
-      //   background:
-      //     "linear-gradient(180deg, #0f1b20 0%, #14262a 35%, #1e3336 100%)",
-      // }}
-    >
+    <div className="py-6 lg:py-12 bg-[#212E36]">
       <div className="max-w-screen-2xl mx-auto px-6">
-        <h2 className="text-center text-[#ffffff] text-[36px] font-semibold mb-16 ml-5">
+        <h2 className="text-center text-[#ffffff] text-3xl lg:text-[36px] font-semibold mb-10">
           WHY AUSSIES LOVE US
         </h2>
 
@@ -37,11 +31,11 @@ export default function WhyLoveUs() {
           {features.map((f) => (
             <div key={f.title} className="flex flex-col items-center gap-6">
               {/* Icon circle */}
-              <div className="w-[124px] h-[124px] rounded-full bg-[#2A6A57] flex items-center justify-center">
+              <div className="w-[100px] lg:w-[124px] h-[100px] lg:h-[124px] rounded-full bg-[#2A6A57] flex items-center justify-center">
                 <Image src={f.icon} alt={" "} width={64} height={64} />
               </div>
 
-              <p className="text-center text-white text-[22px] leading-[22px]">
+              <p className="text-center text-white text-xl lg:text-[22px] leading-[22px]">
                 {f.title}
               </p>
             </div>

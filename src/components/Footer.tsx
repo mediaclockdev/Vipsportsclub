@@ -5,74 +5,113 @@ import instagram from "../../public/instagram.svg";
 import tiktok from "../../public/tiktok.svg";
 import facebook from "../../public/facebook.svg";
 import youtube from "../../public/youtube.svg";
+import Link from "next/link";
 
 const Footer = () => {
   return (
-    <div className="bg-[#1B242C] dark:bg-[#212E36]  top-0 left-0 w-full z-50 text-[#FFFFFF]">
-      <div className="max-w-screen-2xl mx-auto px-8 ">
-        {/* Top Divider */}
-        <div className="border-t-2 border-b-2 border-[#D0B55A] py-8">
-          {/* 3 Column Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-            {/* LEFT COLUMN */}
-            <div className="space-y-5">
-              <Image src={logo} alt="logo" />
+    <footer className="bg-[#1B242C] dark:bg-[#212E36] text-white">
+      <div className="max-w-screen-2xl mx-auto px-6 sm:px-8">
+        {/* Top Section */}
+        <div className="border-t-2 border-b-2 border-[#D0B55A] py-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+            {/* LEFT */}
+            <div className="space-y-6">
+              <div>
+                <Link href="/homepage">
+                  <Image src={logo} alt="logo" className="w-40" />
+                </Link>
+              </div>
 
-              <p className="text-[#4A9B7A] font-semibold">
+              <p className="text-[#4A9B7A] font-semibold tracking-wide">
                 TRANSPARENCY & TRUST
               </p>
 
-              <p className="text-lg leading-relaxed max-w-[374px]">
+              <p className="text-sm leading-relaxed max-w-sm text-gray-200">
                 We believe in fair play, honest rewards, and supporting the
                 local community. All draws are conducted under
                 government-approved permits, and winners are publicly verified.
               </p>
             </div>
 
-            {/* MIDDLE COLUMN */}
-            <div className="space-y-3">
-              <p className="text-[#4A9B7A] font-semibold">CONTACT US</p>
-
-              <p className="font-semibold text-lg">
-                Have questions? We’re here to help.
+            {/* MIDDLE */}
+            <div className="space-y-4">
+              <p className="text-[#4A9B7A] font-semibold tracking-wide">
+                QUICK LINK
               </p>
 
-              <p>[Business Address], Australia</p>
-              <p>[Email Address]</p>
-              <p>[Phone Number]</p>
-
-              <div className="flex items-center gap-5 pt-2">
-                <Image src={instagram} alt="Instagram" />
-                <Image src={tiktok} alt="TikTok" />
-                <Image src={facebook} alt="Facebook" />
-                <Image src={youtube} alt="YouTube" />
-              </div>
+              <ul className="space-y-2 text-gray-200">
+                <li className="hover:text-white cursor-pointer">
+                  <Link href="/homepage">
+                    <p>Home</p>
+                  </Link>
+                </li>
+                <li className="hover:text-white cursor-pointer">
+                  <Link href="/about-us">
+                    <p>About Us</p>
+                  </Link>
+                </li>
+                <li className="hover:text-white cursor-pointer">
+                  <Link href="/membership">
+                    <p>Membership</p>
+                  </Link>
+                </li>
+                <li className="hover:text-white cursor-pointer">
+                  Privacy Policy
+                </li>
+                <li className="hover:text-white cursor-pointer">
+                  Refund & Cancellation Policy
+                </li>
+              </ul>
             </div>
 
-            {/* RIGHT COLUMN */}
-            <div className="space-y-3">
-              <p className="text-[#4A9B7A] font-semibold">
-                LEGAL & COMPLIANCES
+            {/* RIGHT */}
+            <div className="space-y-4">
+              <p className="text-[#4A9B7A] font-semibold tracking-wide">
+                CONTACT US
               </p>
 
-              <p>Trade Promotion T&amp;C</p>
-              <p>Membership Agreement</p>
-              <p>Privacy Policy</p>
-              <p>Refund & Cancellation Policy</p>
+              <div className="space-y-1 text-gray-200">
+                <p>[Business Address], Australia</p>
+                <p>VIP@VIPsportsclub.com.au</p>
+                <p>[Phone Number]</p>
+              </div>
+
+              <div className="flex items-center gap-6 pt-4">
+                <Image
+                  src={instagram}
+                  alt="Instagram"
+                  className="w-5 h-5 cursor-pointer hover:opacity-80"
+                />
+                <Image
+                  src={tiktok}
+                  alt="TikTok"
+                  className="w-5 h-5 cursor-pointer hover:opacity-80"
+                />
+                <Image
+                  src={facebook}
+                  alt="Facebook"
+                  className="w-5 h-5 cursor-pointer hover:opacity-80"
+                />
+                <Image
+                  src={youtube}
+                  alt="YouTube"
+                  className="w-5 h-5 cursor-pointer hover:opacity-80"
+                />
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Bottom Text */}
-        <div className="flex flex-col items-center space-y-2 py-6">
-          <p>© 2025 [Your Brand Name]. All Rights Reserved.</p>
+        {/* Bottom */}
+        <div className="py-8 text-center space-y-2 text-sm text-gray-300">
+          <p>© 2026 VIP Sports Club. All Rights Reserved.</p>
           <p>
             Australian Business Number (ABN): [ABN]. Proudly Australian-owned
             and operated.
           </p>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 
