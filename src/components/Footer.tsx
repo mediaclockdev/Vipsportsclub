@@ -56,10 +56,14 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li className="hover:text-white cursor-pointer">
-                  Privacy Policy
+                  <Link href="/terms-and-conditions">
+                    <p>Terms and Condtions</p>
+                  </Link>
                 </li>
                 <li className="hover:text-white cursor-pointer">
-                  Refund & Cancellation Policy
+                  <Link href="/private-policy">
+                    <p>Private Policy</p>
+                  </Link>
                 </li>
               </ul>
             </div>

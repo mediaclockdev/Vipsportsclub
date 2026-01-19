@@ -9,7 +9,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const Header = () => {
-  const menu = ["Home", "About Us", "Membership", "Winners", "FAQs", "Contact"];
+  const menu = ["Home", "About Us", "Membership", "Winners", "Contact"];
 
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
