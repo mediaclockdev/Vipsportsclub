@@ -16,7 +16,9 @@ const Contact = () => {
     setFormData({ fullName: "", email: "", message: "" });
   };
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -89,7 +91,7 @@ const Contact = () => {
                 value={formData.message}
                 onChange={handleChange}
                 placeholder="Your message here..."
-                rows="6"
+                rows={6}
                 className="w-full px-4 py-3 bg-transparent border-2 border-yellow-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-yellow-500 resize-none"
               ></textarea>
               <button
