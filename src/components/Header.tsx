@@ -61,7 +61,7 @@ const Header = () => {
 
                 {/* Active underline */}
                 {isActive && (
-                  <span className="absolute -bottom-2 left-0 w-full h-[2px] bg-[#F4D35E] rounded-full" />
+                  <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-[#F4D35E] rounded-full" />
                 )}
               </Link>
             );
