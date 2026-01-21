@@ -29,7 +29,7 @@ const ReadyToLive = () => {
 
           {/* CTA */}
           <Link
-            href="/membership"
+            href="/contact"
             className="inline-flex items-center justify-center bg-[#6fae8f] hover:bg-[#5e9c7f] transition text-white font-semibold px-14 py-4 rounded-full text-lg shadow-lg"
           >
             Join Now

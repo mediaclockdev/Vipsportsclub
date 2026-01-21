@@ -3,13 +3,16 @@ import React from "react";
 import office from "../../../public/office.jpg";
 
 const Results = () => {
-  const items = Array(8).fill(null);
+  const items = Array(8).fill({
+    name: "STEPHEN, WA",
+    title: "AFL GATHER ROUND Experience",
+  });
 
   return (
-    <div className="bg-[#212E36] py-16 lg:py-24">
+    <div className="bg-[#212E36] py-10">
       <div className="max-w-7xl mx-auto px-4">
         {/* Heading */}
-        <h2 className="text-center text-4xl lg:text-5xl font-bold text-white uppercase tracking-wider mb-16">
+        <h2 className="text-center text-3xl lg:text-4xl font-bold text-white uppercase tracking-wider mb-16">
           Recent Results
         </h2>
 
@@ -32,8 +35,10 @@ const Results = () => {
 
               {/* Footer */}
               <div className="bg-[#CFCFCF] text-center py-4 px-3">
-                <p className="text-sm font-semibold text-gray-700">name</p>
-                <p className="text-xs text-gray-600">title</p>
+                <p className="text-sm font-semibold text-gray-700">
+                  {item.name}
+                </p>
+                <p className="text-xs text-gray-600">{item.title}</p>
               </div>
             </div>
           ))}

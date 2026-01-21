@@ -4,6 +4,7 @@
 import React from "react";
 import Image from "next/image";
 import reward from "../../../public/rewardImage.svg";
+import Link from "next/link";
 
 export default function Hero() {
   return (
@@ -34,7 +35,9 @@ export default function Hero() {
 
         {/* CTA */}
         <button className="bg-emerald-600 hover:bg-emerald-700 transition px-10 py-4 rounded-xl text-lg font-semibold shadow-lg">
-          Join Now
+          <Link href="/contact">
+            <p>Join Now</p>
+          </Link>
         </button>
       </div>
     </div>
