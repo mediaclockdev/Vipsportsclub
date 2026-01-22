@@ -10,17 +10,17 @@ const OurWinners = () => {
   });
 
   return (
-    <div className="bg-[#212E36] pt-18 lg:pt-20">
+    <div className="bg-[#E4E4E4] dark:bg-[#212E36] pt-18 lg:pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center mb-5 lg:mb-10">
           <div className="inline-block">
-            <h2 className="text-4xl lg:text-5xl tracking-wide font-bold text-white uppercase mb-2 relative">
+            <h2 className="text-4xl lg:text-5xl tracking-wide font-bold text-black dark:text-white uppercase mb-2 relative">
               Our Winners
               <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-400 to-transparent"></div>
             </h2>
           </div>
-          <p className="mt-4 text-lg text-gray-300 tracking-wide font-light">
+          <p className="mt-4 text-lg text-black dark:text-gray-300 tracking-wide font-light">
             Celebrating Our Lucky Prize Recipients
           </p>
         </div>

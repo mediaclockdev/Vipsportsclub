@@ -26,14 +26,14 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#212E36] pb-10 pt-20 mt-5 px-4">
+    <div className="min-h-screen bg-[#E4E4E4] dark:bg-[#212E36] pb-10 pt-20 mt-5 px-4">
       <div className="container mx-auto max-w-7xl">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-black dark:text-white mb-4">
             CONTACT US
           </h1>
-          <p className="text-slate-300 text-lg">
+          <p className="text-black dark:text-slate-300 text-lg">
             We are here to help, contact us anytime.
           </p>
         </div>
@@ -65,7 +65,7 @@ const Contact = () => {
         {/* Contact Form and Map */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Contact Form */}
-          <div className="bg-slate-700/80 rounded-2xl p-8">
+          <div className="bg-[#212E36] dark:bg-slate-700/80 rounded-2xl p-8">
             <h2 className="text-white text-2xl font-bold mb-6">Contact Us</h2>
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -104,7 +104,7 @@ const Contact = () => {
           </div>
 
           {/* Map Section */}
-          <div className="bg-slate-700/80 rounded-2xl p-8">
+          <div className="bg-[#212E36] dark:bg-slate-700/80 rounded-2xl p-8">
             <h2 className="text-white text-2xl font-bold mb-4">WE ARE HERE</h2>
             <h3 className="text-slate-300 text-lg mb-4">Location</h3>
             <div className="w-full max-w-6xl mx-auto p-4">

@@ -15,9 +15,9 @@ const partners = [
 
 export default function PartnersMarquee() {
   return (
-    <div className="py-8 overflow-hidden bg-[#212E36]">
+    <div className="py-8 overflow-hidden bg-[#E4E4E4] dark:bg-[#212E36]">
       <div className="max-w-screen-2xl mx-auto px-2 lg:px-6">
-        <h3 className="text-center text-white text-2xl md:text-3xl lg:text-4xl font-semibold mb-10 tracking-wide">
+        <h3 className="text-center text-black dark:text-white text-2xl md:text-3xl lg:text-4xl font-semibold mb-10 tracking-wide">
           OUR PARTNERS AND DISCOUNTS
         </h3>
 

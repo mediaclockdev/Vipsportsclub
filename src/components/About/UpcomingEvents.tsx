@@ -131,16 +131,16 @@ export default function UpcomingEvents() {
           entry.target.classList.toggle("is-active", entry.isIntersecting);
         });
       },
-      { threshold: 0.6 }
+      { threshold: 0.6 },
     );
 
     cards.forEach((card) => observer.observe(card));
   }, []);
 
   return (
-    <div className="py-8 lg:py-12 bg-[#212E36]">
+    <div className="py-8 lg:py-12 bg-[#E4E4E4] dark:bg-[#212E36]">
       <div className="w-full px-3 lg:px-6">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold  text-white text-center">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold  text-black dark:text-white text-center">
           UPCOMING EVENTS
         </h2>
         <div className="coverflow-wrapper w-screen relative left-1/2 -translate-x-1/2">
@@ -157,9 +157,9 @@ export default function UpcomingEvents() {
                 </div>
 
                 <div className={`${item.color} p-4 h-68 lg:h-80`}>
-                  <p className="text-white font-bold mb-2">{item.date}</p>
+                  <p className="text-black font-bold mb-2">{item.date}</p>
 
-                  <ul className="space-y-2 text-white text-sm">
+                  <ul className="space-y-2 text-black text-sm">
                     {item.points.map((p, i) => (
                       <li key={i}>• {p}</li>
                     ))}

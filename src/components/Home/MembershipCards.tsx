@@ -31,9 +31,9 @@ const MembershipCards = () => {
   ];
 
   return (
-    <div className="w-full flex justify-center py-5 bg-[#212E36]">
+    <div className="w-full flex justify-center py-5 bg-[#E4E4E4] dark:bg-[#212E36]">
       <div className="w-full max-w-6xl px-4">
-        <h2 className="text-center text-white text-2xl md:text-3xl lg:text-4xl font-bold mb-8 lg:mb-14">
+        <h2 className="text-center text-black dark:text-white text-2xl md:text-3xl lg:text-4xl font-bold mb-8 lg:mb-14">
           MEMBERSHIP OPTIONS
         </h2>
 

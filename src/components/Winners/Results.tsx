@@ -9,10 +9,10 @@ const Results = () => {
   });
 
   return (
-    <div className="bg-[#212E36] py-10">
+    <div className="bg-[#E4E4E4] dark:bg-[#212E36] py-10">
       <div className="max-w-7xl mx-auto px-4">
         {/* Heading */}
-        <h2 className="text-center text-3xl lg:text-4xl font-bold text-white uppercase tracking-wider mb-16">
+        <h2 className="text-center text-3xl lg:text-4xl font-bold text-black dark:text-white uppercase tracking-wider mb-16">
           Recent Results
         </h2>
 
@@ -34,11 +34,13 @@ const Results = () => {
               </div>
 
               {/* Footer */}
-              <div className="bg-[#CFCFCF] text-center py-4 px-3">
-                <p className="text-sm font-semibold text-gray-700">
+              <div className="bg-black dark:bg-[#CFCFCF] text-center py-4 px-3">
+                <p className="text-sm font-semibold text-white dark:text-gray-700">
                   {item.name}
                 </p>
-                <p className="text-xs text-gray-600">{item.title}</p>
+                <p className="text-xs text-white dark:text-gray-600">
+                  {item.title}
+                </p>
               </div>
             </div>
           ))}
