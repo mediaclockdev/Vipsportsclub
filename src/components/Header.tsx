@@ -28,14 +28,14 @@ const Header = () => {
           <Image
             src={logo}
             alt="VIP Sports Club"
-            width={120}
-            height={48}
-            className="h-28 w-auto"
+            width={250}
+            height={220}
+            className="h-32 lg:h-40 w-auto"
           />
         </Link>
 
         {/* Nav Links */}
-        <div className="hidden lg:flex items-center gap-10 text-white text-[18px]">
+        <div className="hidden lg:flex items-center gap-10 text-white text-xl">
           {menu.map((item) => {
             const href =
               item === "Home"

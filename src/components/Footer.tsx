@@ -1,6 +1,6 @@
 import Image from "next/image";
 import React from "react";
-import logo from "../../public/darklogo.svg";
+import logo from "../../public/3dlogo.png";
 import instagram from "../../public/instagram.svg";
 import tiktok from "../../public/tiktok.svg";
 import facebook from "../../public/facebook.svg";
@@ -18,7 +18,7 @@ const Footer = () => {
             <div className="space-y-6">
               <div>
                 <Link href="/homepage">
-                  <Image src={logo} alt="logo" className="w-40" />
+                  <Image src={logo} alt="logo" className="w-36" />
                 </Link>
               </div>
 
@@ -76,8 +76,8 @@ const Footer = () => {
 
               <div className="space-y-1 text-gray-200">
                 <p>[Business Address], Australia</p>
-                <p>VIP@VIPsportsclub.com.au</p>
-                <p>[Phone Number]</p>
+                <p>partnerships@vipsportsclub.com.au</p>
+                <p>0403 844 590</p>
               </div>
 
               <div className="flex items-center gap-6 pt-4">
