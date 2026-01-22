@@ -8,7 +8,7 @@ import bg from "../../../public/aboutbg.svg";
 
 const JourneyAhead = () => {
   return (
-    <div className="bg-[#212E36] text-white">
+    <div className="bg-[#E4E4E4] dark:bg-[#212E36] text-black dark:text-white">
       <div className="max-w-screen-2xl mx-auto px-6 py-10">
         {/* Reverse on desktop only */}
         <div className="flex flex-col-reverse lg:flex-row items-center gap-10 lg:gap-16">

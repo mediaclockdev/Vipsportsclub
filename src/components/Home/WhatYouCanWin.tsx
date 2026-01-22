@@ -5,7 +5,6 @@ import kingdom from "../../../public/kingdom.svg";
 import gift from "../../../public/giftcard.svg";
 import card8 from "../../../public/card8.svg";
 import Link from "next/link";
-import Membership from "../../app/membership/page";
 
 const prizes = [
   {
@@ -19,8 +18,8 @@ const prizes = [
     color: "bg-[#E2C86B]",
     image: kingdom,
     points: [
-      "Trip for 2 to Adelaide for the AFL Gather Round",
-      "Flights, Accommodation and Tickets to 3 Games",
+      "Trip for 2 to Adelaide for the AFL Gather Round Flights",
+      "Accommodation and Tickets to 3 Games",
     ],
   },
   {
@@ -43,7 +42,7 @@ const prizes = [
 
 export default function WhatYouCanWin() {
   return (
-    <div className="py-8 bg-[#212E36]">
+    <div className="py-8 bg-[#E4E4E4] dark:bg-[#212E36]">
       <div className="max-w-screen-2xl mx-auto px-6 space-y-5 ">
         {/* Header */}
         <div className="flex items-center ">
@@ -51,14 +50,14 @@ export default function WhatYouCanWin() {
           <div className="lg:flex-1 " />
 
           {/* Center heading */}
-          <h2 className="flex-none text-white text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-2">
+          <h2 className="flex-none text-black dark:text-white text-2xl md:text-3xl lg:text-4xl font-bold text-center mb-2">
             WHAT YOU CAN WIN?
           </h2>
 
           {/* Right button */}
           <div className="flex-1 flex justify-end mb-2">
             <Link href="/membership">
-              <button className="border border-[#5DF0C0] text-white px-3 lg:px-5 py-1 lg:py-2 rounded-xl text-xs lg:text-sm hover:bg-[#5DF0C0] hover:text-black transition">
+              <button className="border border-[#4A9B7A] dark:border-[#5DF0C0] text-black dark:text-white px-3 lg:px-5 py-1 lg:py-2 rounded-xl text-xs lg:text-sm hover:bg-[#5DF0C0] hover:text-black transition">
                 View all
               </button>
             </Link>
@@ -84,9 +83,9 @@ export default function WhatYouCanWin() {
                 }}
                 className={`${item.color} p-6  lg:min-h-[220px]`}
               >
-                <p className="text-white font-bold text-lg">{item.date}</p>
+                <p className="text-black  font-bold text-lg">{item.date}</p>
 
-                <ul className="space-y-2 text-white text-sm leading-relaxed">
+                <ul className="space-y-2 text-black text-sm leading-relaxed">
                   {item.points.map((point, i) => (
                     <li key={i} className="flex gap-2">
                       <span>•</span>

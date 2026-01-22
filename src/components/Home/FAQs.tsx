@@ -25,16 +25,28 @@ const faqs = [
     a: "Silver offers great value with full access to all standard partner discounts and weekly draw entries. Gold includes everything in Silver, plus additional benefits:Premium, higher-value discounts, Extra weekly draw entries",
   },
   {
-    q: "What is the difference between Silver and Gold membership?",
-    a: "Silver offers great value with full access to all standard partner discounts and weekly draw entries. Gold includes everything in Silver, plus additional benefits:Premium, higher-value discounts, Extra weekly draw entries",
+    q: "When does my membership start?",
+    a: "Your membership activates immediately upon sign-up, giving you instant access to all discounts and automatic entry into the next weekly prize draw.",
   },
   {
-    q: "What is the difference between Silver and Gold membership?",
-    a: "Silver offers great value with full access to all standard partner discounts and weekly draw entries. Gold includes everything in Silver, plus additional benefits:Premium, higher-value discounts, Extra weekly draw entries",
+    q: "Can I cancel my membership?",
+    a: "Yes — you can cancel at any time through your account settings. Your membership will remain active until the end of your current billing cycle.",
   },
   {
-    q: "What is the difference between Silver and Gold membership?",
-    a: "Silver offers great value with full access to all standard partner discounts and weekly draw entries. Gold includes everything in Silver, plus additional benefits:Premium, higher-value discounts, Extra weekly draw entries",
+    q: "Are there any extra costs or hidden fees?",
+    a: "No. The membership fee covers all your access, discounts and weekly draw entries.",
+  },
+  {
+    q: "Will new partners get added for member discounts?",
+    a: "We’re continually expanding our network across sport, fitness, wellness, apparel, nutrition, and lifestyle brands.",
+  },
+  {
+    q: "Can I change my membership between Silver and Gold?",
+    a: "Absolutely — you can change your membership via your member dashboard. The change will come into effect at your next billing period.",
+  },
+  {
+    q: "Who can join VIP Sports Club?",
+    a: "Anyone aged 18+ who loves sport, fitness, or great deals is welcome. Membership is available Australia-wide.",
   },
 ];
 
@@ -42,10 +54,10 @@ export default function FAQs() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   return (
-    <div className="py-8 overflow-hidden bg-[#212E36]">
+    <div className="py-8 overflow-hidden bg-[#E4E4E4] dark:bg-[#212E36]">
       <div className="max-w-6xl mx-auto px-4">
         {/* Heading */}
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-[#ffffff] mb-6 lg:mb-10 capitalize">
+        <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-center text-black dark:text-[#ffffff] mb-6 lg:mb-10 capitalize">
           FREQUENTLY ASKED QUESTION
         </h2>
 

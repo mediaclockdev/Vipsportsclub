@@ -26,10 +26,10 @@ export default function HowItWorks() {
   ];
 
   return (
-    <div className="mt-0 lg:-mt-2.5 py-3 lg:py-12 bg-[#212E36]">
+    <div className="mt-0 lg:-mt-2.5 py-3 lg:py-12 bg-[#E4E4E4] dark:bg-[#212E36]">
       <div className="max-w-6xl mx-auto px-6">
         {/* Heading */}
-        <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-10">
+        <h2 className="text-center text-2xl md:text-3xl lg:text-4xl font-bold text-black dark:text-white mb-10">
           HOW IT WORKS
         </h2>
 

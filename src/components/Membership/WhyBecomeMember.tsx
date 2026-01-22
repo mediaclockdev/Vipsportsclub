@@ -1,8 +1,22 @@
-// components/WhyBecomeMember.tsx
-"use client";
+import React from "react";
 
-import Image from "next/image";
-import tick from "../../../public/tick.svg";
+const CheckIcon = () => (
+  <svg
+    width="32"
+    height="32"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 const items = [
   {
@@ -25,36 +39,59 @@ const items = [
 
 export default function WhyBecomeMember() {
   return (
-    <div className="py-8 lg:py-12 bg-[#212E36]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-3">
-        {/* Heading */}
-        <div className="pb-10">
-          <h2 className="text-white text-2xl lg:text-3xl font-bold">
+    <div className="py-10 lg:py-12 bg-[#E4E4E4] dark:bg-[#212E36]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Heading Section */}
+        <div className="text-center mb-16 space-y-4">
+          <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 dark:text-white tracking-tight">
             Why Become a Member?
           </h2>
+          <p className="text-lg text-slate-600 dark:text-white max-w-2xl mx-auto">
+            Unlock exclusive benefits designed to enhance your sporting journey
+          </p>
         </div>
 
-        {/* Grid of icons */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {items.map((items, idx) => (
-            <div key={idx} className="flex flex-col items-center space-y-5">
-              {/* Icon circle */}
-              <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#E3C15D] flex items-center justify-center">
-                <Image src={tick} alt="" width={40} height={40} />
+        {/* Benefits Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {items.map((item, idx) => (
+            <div
+              key={idx}
+              className="group relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-amber-400"
+            >
+              {/* Gradient overlay on hover */}
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+              <div className="relative flex gap-6">
+                {/* Icon */}
+                <div className="flex-shrink-0">
+                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-400 to-amber-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                    <CheckIcon />
+                  </div>
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 space-y-3">
+                  <h3 className="text-xl font-semibold text-slate-900 leading-tight">
+                    {item.title}
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed">{item.sub}</p>
+                </div>
               </div>
 
-              {/* Text */}
-              <div className="max-w-[427px]">
-                <p className="text-white  text-sm sm:text-base leading-relaxed max-w-[350px]">
-                  {items.title}
-                </p>
-                <p className="text-white  text-sm sm:text-base leading-relaxed max-w-[350px]">
-                  {items.sub}
-                </p>
+              {/* Number badge */}
+              <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-sm font-bold text-slate-400 group-hover:bg-amber-100 group-hover:text-amber-600 transition-colors duration-300">
+                {idx + 1}
               </div>
             </div>
           ))}
         </div>
+
+        {/* Call to Action */}
+        {/* <div className="text-center mt-12">
+          <button className="px-8 py-4 bg-gradient-to-r from-amber-400 to-amber-500 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300">
+            Join Now
+          </button>
+        </div> */}
       </div>
     </div>
   );
