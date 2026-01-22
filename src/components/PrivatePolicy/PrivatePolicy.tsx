@@ -1,299 +1,429 @@
-import React from "react";
+"use client";
 
-export default function PrivatePolicy() {
+import React, { useState } from "react";
+import {
+  ChevronDown,
+  Shield,
+  Lock,
+  Users,
+  Globe,
+  Mail,
+  Phone,
+  FileText,
+  AlertCircle,
+} from "lucide-react";
+
+export default function PrivacyPolicy() {
+  const [openSection, setOpenSection] = useState<number | null>(null);
+
+  const toggleSection = (index: number) => {
+    setOpenSection(openSection === index ? null : index);
+  };
+
+  const sections = [
+    {
+      icon: <FileText className="w-5 h-5" />,
+      title: "Types of Personal Information We Collect",
+      content: (
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              1.1 Membership & Identity Information
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              Full name, date of birth, residential address, email address,
+              phone number, account login details (encrypted), and payment
+              information (processed via secure third-party providers; we do not
+              store card numbers).
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              1.2 Information Required for Prize Fulfilment
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              Where a prize involves travel, accommodation, event tickets, or
+              experiences, we may collect passport details, visa information,
+              travel dates and preferences, companion information, emergency
+              contact details, and dietary or accessibility requirements.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              1.3 Sensitive Information
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              We only collect sensitive information with your consent and where
+              reasonably required (e.g., medical or accessibility information
+              needed for prize fulfilment).
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              1.4 Technical & Behavioural Information
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              When you use our website or portal, we automatically collect IP
+              address, device type, browser type, pages visited, access times,
+              and cookies, pixels, tags, and analytics data.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              1.5 Communication & Interaction Data
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              Enquiries, complaints, service requests, emails, phone call logs,
+              support messages, survey responses, or competition entries.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              1.6 Marketing Preference Information
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              Opt-in/opt-out choices and engagement with emails or promotions.
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      icon: <Users className="w-5 h-5" />,
+      title: "How We Collect Your Personal Information",
+      content: (
+        <div className="space-y-3">
+          <p className="text-gray-700 dark:text-gray-400">
+            We may collect personal information when you:
+          </p>
+          <ul className="space-y-2 text-gray-700 dark:text-gray-400">
+            <li className="flex items-start">
+              <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>{" "}
+              Sign up for a membership
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>{" "}
+              Enter or are automatically entered into promotions
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>{" "}
+              Contact us via email or phone
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>{" "}
+              Visit or use our website or member portal
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>{" "}
+              Claim, accept, or participate in a prize experience
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>{" "}
+              Use partner offers or services
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 dark:text-blue-400 mr-2">•</span>{" "}
+              Complete surveys, forms, or feedback requests
+            </li>
+          </ul>
+          <p className="text-gray-700 dark:text-gray-400 mt-4">
+            We collect information directly from you wherever possible. We may
+            also collect some information automatically through analytics
+            technologies.
+          </p>
+        </div>
+      ),
+    },
+    {
+      icon: <Shield className="w-5 h-5" />,
+      title: "Why We Collect & How We Use Personal Information",
+      content: (
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              3.1 Membership Administration
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              Creating and maintaining your account, processing payments and
+              renewals, providing access to member-only benefits and discounts,
+              and verifying your identity and eligibility.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              3.2 Trade Promotion Management
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              Automatic entry into weekly member draws, conducting draws in
+              accordance with regulations, verifying winners and fulfilling
+              prizes, and publishing winner details as required by law.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              3.3 Prize Fulfilment
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              Booking flights, accommodation, transfers, and event tickets;
+              providing information to airlines, hotels, venues, and event
+              organisers; ensuring safety, accessibility, and compliance with
+              travel requirements.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              3.4 Communication
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              Responding to enquiries, sending important membership updates,
+              providing prize notifications, and administering service surveys
+              or feedback forms.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              3.5 Marketing & Personalisation
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              Sending promotional offers (with your consent), suggesting deals
+              or services relevant to your interests, and analysing usage to
+              improve our offerings.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              3.6 Legal, Compliance & Security
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              Meeting trade promotion permit requirements, preventing fraud or
+              misuse, complying with Australian Consumer Law, and maintaining IT
+              security and platform integrity.
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      icon: <Globe className="w-5 h-5" />,
+      title: "Disclosure of Personal Information",
+      content: (
+        <div className="space-y-4">
+          <p className="text-gray-700 dark:text-gray-400">
+            We may disclose your personal information to:
+          </p>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              4.1 Service Providers
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              IT and hosting providers, payment processors, marketing and
+              analytics platforms, identity verification services, and customer
+              support services.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              4.2 Prize Fulfilment Partners
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              If you win a prize, we may disclose necessary information to
+              airlines, hotels, travel booking agents, event venues, experience
+              providers, and transportation suppliers.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              4.3 Partners & Third-Party Discount Providers
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              To deliver partner offers, we may share limited information as
+              required.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              4.4 Regulators & Government Authorities
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              We may disclose information to state or territory regulators, law
+              enforcement agencies (if required), and courts or tribunals as
+              compelled by legal process.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              4.5 Public Disclosure of Winner Information
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              As required by trade promotion laws, we publish winner's first
+              name, surname initial, suburb and state, and prize won. Entry into
+              any Promotion constitutes consent to this disclosure.
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      icon: <Lock className="w-5 h-5" />,
+      title: "Data Security & Retention",
+      content: (
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              Security Measures
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              We take reasonable steps to safeguard personal information from
+              unauthorised access, misuse, interference, loss, unauthorised
+              modification, or disclosure. Our measures include secure cloud
+              hosting, encryption, access controls and authentication,
+              monitoring and auditing of systems, and secure destruction or
+              de-identification of data when no longer required.
+            </p>
+            <p className="text-gray-700 dark:text-gray-400 mt-2">
+              However, no online service can ever be completely secure. You
+              acknowledge that the transmission of information online is at your
+              own risk.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              Retention Period
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              We retain information for as long as you remain a Member, for as
+              long as necessary to fulfil promotion, travel, or regulatory
+              obligations, and for any period required by law (e.g., tax, audit,
+              or regulatory records). When information is no longer required, it
+              is securely destroyed or permanently de-identified.
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
+      icon: <AlertCircle className="w-5 h-5" />,
+      title: "Your Rights & Choices",
+      content: (
+        <div className="space-y-4">
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              Access, Correction & Deletion
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              You may request access to personal information we hold about you,
+              correction of inaccurate information, or deletion of information
+              where legally permitted.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              Marketing Communications
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              You may opt out of marketing emails at any time. Opting out does
+              not affect service-related communications (membership, billing,
+              prize notifications). We do not sell or rent personal information
+              to third parties for marketing.
+            </p>
+          </div>
+          <div>
+            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+              Cookies & Website Tracking
+            </h4>
+            <p className="text-gray-700 dark:text-gray-400">
+              We use cookies, pixels, and analytics tools to improve website
+              performance, understand user behaviour, and deliver and optimise
+              advertisements. You may disable cookies in your browser settings,
+              noting some features may not function properly.
+            </p>
+          </div>
+        </div>
+      ),
+    },
+  ];
+
   return (
-    <div className="bg-[#E4E4E4] dark:bg-[#212E36] text-black dark:text-gray-200 min-h-screen pt-16">
-      {/* Page Heading */}
-      <div className="py-8 lg:py-10 text-center">
-        <h1 className="text-3xl lg:text-4xl font-semibold tracking-wide uppercase">
-          Private Policy
-        </h1>
-        <div className="mt-3 h-1 w-16 bg-yellow-500 mx-auto rounded" />
+    <div className="min-h-screen bg-[#E4E4E4] dark:bg-[#212E36]">
+      {/* Header */}
+      <div className="bg-[#E4E4E4] dark:bg-[#212E36] pt-20 px-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center justify-center mb-4">
+            {/* <Shield className="w-12 h-12 text-gray-800 dark:text-blue-200" /> */}
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold text-center mb-4 text-gray-900 dark:text-white">
+            Privacy Policy
+          </h1>
+          <p className="text-gray-700 dark:text-blue-100 text-center text-lg max-w-2xl mx-auto">
+            VIP Sports Club Pty Ltd ACN 692 176 668 is committed to protecting
+            your privacy and handling your personal information in accordance
+            with the Privacy Act 1988 (Cth) and the Australian Privacy
+            Principles (APPs).
+          </p>
+          <p className="text-gray-600 dark:text-blue-200 text-center text-sm mt-4">
+            Last Updated: January 2026
+          </p>
+        </div>
       </div>
 
-      {/* Content */}
-      <div className="max-w-5xl mx-auto px-4 lg:px-0 pb-10 space-y-8">
+      {/* Main Content */}
+      <div className="max-w-4xl mx-auto px-4 py-12">
         {/* Introduction */}
-        <div className="leading-7 text-black dark:text-gray-300 bg-gray-700/10 dark:bg-gray-800/20 p-6 rounded-lg">
-          <p>
-            VIP Sports Club Pty Ltd ACN 692 176 668 ("VIP Sports Club", "we",
-            "us", "our") is committed to protecting your privacy and handling
-            your personal information in accordance with the Privacy Act 1988
-            (Cth) and the Australian Privacy Principles (APPs). By using our
-            website, purchasing a membership, or participating in our trade
-            promotions, you consent to your personal information being
+        <div className="bg-gray-200 dark:bg-gray-800/50 rounded-lg p-6 mb-8 border border-gray-300 dark:border-gray-700">
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+            By using our website, purchasing a membership, or participating in
+            our trade promotions, you consent to your personal information being
             collected, held, used, and disclosed as described in this Privacy
             Policy.
           </p>
         </div>
 
-        {/* Section 1 */}
+        {/* Accordion Sections */}
         <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            1. TYPES OF PERSONAL INFORMATION WE COLLECT
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 space-y-3 pl-4">
-            <p>
-              We collect personal information that is reasonably necessary for
-              our operations, including:
-            </p>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                1.1 Membership & Identity Information
-              </p>
-              <p>
-                Full name, Date of birth, Residential address, Email address,
-                Phone number, Account login details (encrypted), Payment
-                information (processed via secure third-party providers; we do
-                not store card numbers)
-              </p>
+          {sections.map((section, index) => (
+            <div
+              key={index}
+              className="bg-white dark:bg-gray-800/50 rounded-lg border border-gray-300 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:border-blue-500"
+            >
+              <button
+                onClick={() => toggleSection(index)}
+                className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-gray-100 dark:hover:bg-gray-700/30 transition-colors"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="text-blue-600 dark:text-blue-400">
+                    {section.icon}
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                    {section.title}
+                  </h3>
+                </div>
+                <ChevronDown
+                  className={`w-5 h-5 text-gray-600 dark:text-gray-400 transition-transform duration-300 ${
+                    openSection === index ? "rotate-180" : ""
+                  }`}
+                />
+              </button>
+              <div
+                className={`transition-all duration-300 ease-in-out ${
+                  openSection === index
+                    ? "max-h-[2000px] opacity-100"
+                    : "max-h-0 opacity-0"
+                }`}
+              >
+                <div className="px-6 pb-6 pt-2">{section.content}</div>
+              </div>
             </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                1.2 Information Required for Prize Fulfilment
-              </p>
-              <p>
-                Where a prize involves travel, accommodation, event tickets, or
-                experiences, we may collect: Passport details, Visa information,
-                Travel dates and preferences, Companion information, Emergency
-                contact details, Dietary or accessibility requirements
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                1.3 Sensitive Information (if necessary)
-              </p>
-              <p>
-                We only collect sensitive information with your consent and
-                where reasonably required (e.g., medical or accessibility
-                information needed for prize fulfilment).
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                1.4 Technical & Behavioural Information
-              </p>
-              <p>
-                When you use our website or portal, we automatically collect: IP
-                address, Device type, Browser type, Pages visited, Access times,
-                Cookies, pixels, tags, and analytics data
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                1.5 Communication & Interaction Data
-              </p>
-              <p>
-                Enquiries, complaints, and service requests, Emails, phone call
-                logs, or support messages, Survey responses or competition
-                entries
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                1.6 Marketing Preference Information
-              </p>
-              <p>
-                Opt-in / opt-out choices, Engagement with emails or promotions
-              </p>
-            </div>
-
-            <p className="italic">
-              If you do not provide certain information, we may be unable to:
-              Create or maintain your membership, Enter you into trade
-              promotions, Provide prizes or booking services, Respond to certain
-              enquiries
-            </p>
-          </div>
+          ))}
         </div>
 
-        {/* Section 2 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            2. HOW WE COLLECT YOUR PERSONAL INFORMATION
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 pl-4">
-            <p>
-              We may collect personal information when you: Sign up for a
-              membership, Enter or are automatically entered into promotions,
-              Contact us via email or phone, Visit or use our website or member
-              portal, Claim, accept, or participate in a prize experience, Use
-              partner offers or services, Complete surveys, forms, or feedback
-              requests
-            </p>
-            <p className="mt-3">
-              We collect information directly from you wherever possible. We may
-              also collect some information automatically through analytics
-              technologies.
-            </p>
-          </div>
-        </div>
-
-        {/* Section 3 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            3. WHY WE COLLECT & HOW WE USE PERSONAL INFORMATION
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 space-y-3 pl-4">
-            <p>
-              We collect and use your personal information for the following
-              purposes:
-            </p>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                3.1 Membership Administration
-              </p>
-              <p>
-                Creating and maintaining your account, Processing payments and
-                renewals, Providing access to member-only benefits and
-                discounts, Verifying your identity and eligibility
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                3.2 Trade Promotion Management
-              </p>
-              <p>
-                Automatic entry into weekly member draws, Conducting draws in
-                accordance with regulations, Verifying winners and fulfilling
-                prizes, Publishing winner details as required by law
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                3.3 Prize Fulfilment (including Travel & Events)
-              </p>
-              <p>
-                Booking flights, accommodation, transfers, and event tickets,
-                Providing information to airlines, hotels, venues, and event
-                organisers, Ensuring safety, accessibility, and compliance with
-                travel requirements
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                3.4 Communication
-              </p>
-              <p>
-                Responding to enquiries, Sending important membership updates,
-                Providing prize notifications, Administering service surveys or
-                feedback forms
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                3.5 Marketing & Personalisation
-              </p>
-              <p>
-                Sending promotional offers (with your consent), Suggesting deals
-                or services relevant to your interests, Analysing usage to
-                improve our offerings
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                3.6 Legal, Compliance & Security
-              </p>
-              <p>
-                Meeting trade promotion permit requirements, Preventing fraud or
-                misuse, Complying with Australian Consumer Law, Maintaining IT
-                security and platform integrity
-              </p>
-            </div>
-
-            <p>
-              We will not use your personal information for other purposes
-              unless required by law or with your consent.
-            </p>
-          </div>
-        </div>
-
-        {/* Section 4 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            4. DISCLOSURE OF PERSONAL INFORMATION
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 space-y-3 pl-4">
-            <p>We may disclose your personal information to:</p>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                4.1 Service Providers
-              </p>
-              <p>
-                IT and hosting providers, Payment processors, Marketing and
-                analytics platforms, Identity verification services, Customer
-                support services
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                4.2 Prize Fulfilment Partners
-              </p>
-              <p>
-                If you win a prize, we may disclose necessary information to:
-                Airlines, Hotels and accommodation providers, Travel booking
-                agents, Event venues, Experience providers, Transportation
-                suppliers
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                4.3 Partners & Third-Party Discount Providers
-              </p>
-              <p>
-                To deliver partner offers, we may share limited information as
-                required.
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                4.4 Regulators & Government Authorities
-              </p>
-              <p>
-                We may disclose information to: State or Territory regulators
-                overseeing trade promotions, Law enforcement agencies (if
-                required), Courts or tribunals as compelled by legal process
-              </p>
-            </div>
-
-            <div>
-              <p className="font-semibold text-black dark:text-gray-200">
-                4.5 Public Disclosure of Winner Information
-              </p>
-              <p>
-                As required by trade promotion laws, we publish: Winner's first
-                name, Surname initial, Suburb and State, Prize won
-              </p>
-              <p className="italic">
-                Entry into any Promotion constitutes consent to this disclosure.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Section 5 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            5. OVERSEAS DATA TRANSFERS
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 pl-4">
-            <p>
+        {/* Additional Sections */}
+        <div className="mt-8 space-y-6">
+          <div className="bg-white dark:bg-gray-800/50 rounded-lg p-6 border border-gray-300 dark:border-gray-700">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+              <Globe className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" />
+              Overseas Data Transfers
+            </h3>
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
               Some prize-related service providers (e.g., airlines,
               international hotels, ticketing agencies) may be located overseas.
               By accepting a prize involving international travel, you
@@ -302,175 +432,105 @@ export default function PrivatePolicy() {
               privacy protections.
             </p>
           </div>
-        </div>
 
-        {/* Section 6 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            6. DATA SECURITY
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 space-y-3 pl-4">
-            <p>
-              We take reasonable steps to safeguard personal information from:
-              Unauthorised access, Misuse or interference, Loss, Unauthorised
-              modification or disclosure
+          <div className="bg-white dark:bg-gray-800/50 rounded-lg p-6 border border-gray-300 dark:border-gray-700">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
+              <AlertCircle className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" />
+              Acceptable Use
+            </h3>
+            <p className="text-gray-700 dark:text-gray-300 mb-3">
+              To protect members and system integrity, you must not:
             </p>
-            <p>
-              Measures include: Secure cloud hosting, Encryption, Access
-              controls and authentication, Monitoring and auditing of systems,
-              Secure destruction or de-identification of data when no longer
-              required
-            </p>
-            <p className="italic">
-              However, no online service can ever be completely secure. You
-              acknowledge that the transmission of information online is at your
-              own risk.
-            </p>
-          </div>
-        </div>
-
-        {/* Section 7 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            7. RETENTION OF PERSONAL INFORMATION
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 pl-4">
-            <p>
-              We retain information: For as long as you remain a Member, For as
-              long as necessary to fulfil promotion, travel, or regulatory
-              obligations, For any period required by law (e.g., tax, audit, or
-              regulatory records)
-            </p>
-            <p className="mt-3">
-              When information is no longer required, it is securely destroyed
-              or permanently de-identified.
-            </p>
-          </div>
-        </div>
-
-        {/* Section 8 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            8. ACCESS, CORRECTION & DELETION
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 pl-4">
-            <p>
-              You may request: Access to personal information we hold about you,
-              Correction of inaccurate information, Deletion of information
-              where legally permitted
-            </p>
-            <p className="mt-3">
-              Submit requests to: 📧 partnerships@vipsportsclub.com.au 📞 0403
-              844 590
-            </p>
-            <p className="mt-3">
-              We will respond within a reasonable timeframe in accordance with
-              the Privacy Act.
-            </p>
-          </div>
-        </div>
-
-        {/* Section 9 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            9. MARKETING COMMUNICATIONS
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 pl-4">
-            <p>
-              You may opt out of marketing emails at any time. Opting out does
-              not affect service-related communications (membership, billing,
-              prize notifications).
-            </p>
-            <p className="mt-3">
-              We do not sell or rent personal information to third parties for
-              marketing.
-            </p>
-          </div>
-        </div>
-
-        {/* Section 10 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            10. COOKIES & WEBSITE TRACKING
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 pl-4">
-            <p>
-              We use cookies, pixels, and analytics tools to: Improve website
-              performance, Understand user behaviour, Deliver and optimise
-              advertisements
-            </p>
-            <p className="mt-3">
-              You may disable cookies in your browser settings, noting some
-              features may not function properly.
-            </p>
-          </div>
-        </div>
-
-        {/* Section 11 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            11. ACCEPTABLE USE OF OUR WEBSITE & PORTAL
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 pl-4">
-            <p>
-              To protect members and system integrity, you must not: Attempt to
-              hack, disrupt, or overload systems, Use automated scripts/bots,
-              Misuse personal information belonging to others, Attempt to
-              circumvent eligibility or promotion rules
-            </p>
-            <p className="mt-3">
+            <ul className="space-y-2 text-gray-700 dark:text-gray-400">
+              <li className="flex items-start">
+                <span className="text-red-600 dark:text-red-400 mr-2">✕</span>{" "}
+                Attempt to hack, disrupt, or overload systems
+              </li>
+              <li className="flex items-start">
+                <span className="text-red-600 dark:text-red-400 mr-2">✕</span>{" "}
+                Use automated scripts/bots
+              </li>
+              <li className="flex items-start">
+                <span className="text-red-600 dark:text-red-400 mr-2">✕</span>{" "}
+                Misuse personal information belonging to others
+              </li>
+              <li className="flex items-start">
+                <span className="text-red-600 dark:text-red-400 mr-2">✕</span>{" "}
+                Attempt to circumvent eligibility or promotion rules
+              </li>
+            </ul>
+            <p className="text-gray-700 dark:text-gray-400 mt-3">
               Breaches may result in termination of membership, reporting to
               authorities, and legal action.
             </p>
           </div>
-        </div>
 
-        {/* Section 12 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            12. COMPLAINTS
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 pl-4">
-            <p>
+          <div className="bg-white dark:bg-gray-800/50 rounded-lg p-6 border border-gray-300 dark:border-gray-700">
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">
+              Complaints
+            </h3>
+            <p className="text-gray-700 dark:text-gray-300 mb-4">
               If you believe we have breached your privacy rights, you may lodge
-              a complaint with us: 📧 partnerships@vipsportsclub.com.au 📞 0403
-              844 590
-            </p>
-            <p className="mt-3">
-              We will investigate and respond. If unresolved, you may contact:
-              Office of the Australian Information Commissioner (OAIC)
-              www.oaic.gov.au
-            </p>
-          </div>
-        </div>
-
-        {/* Section 13 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            13. CHANGES TO THIS POLICY
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 pl-4">
-            <p>
-              We may amend this Privacy Policy from time to time. The updated
-              version will be published on our Website with a revised "Last
-              Updated" date. Continued use of our services constitutes
-              acceptance of any updates.
+              a complaint with us. We will investigate and respond. If
+              unresolved, you may contact the Office of the Australian
+              Information Commissioner (OAIC) at{" "}
+              <a
+                href="https://www.oaic.gov.au"
+                className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 underline"
+              >
+                www.oaic.gov.au
+              </a>
             </p>
           </div>
         </div>
 
-        {/* Section 14 */}
-        <div className="space-y-4">
-          <h2 className="text-xl font-bold text-black dark:text-white border-l-4 border-yellow-500 pl-4">
-            14. CONTACT US
-          </h2>
-          <div className="leading-7 text-black dark:text-gray-300 pl-4">
-            <p>
-              For questions about this Privacy Policy or your personal
-              information, contact: 📧 partnerships@vipsportsclub.com.au 📞 0403
-              844 590
-            </p>
+        {/* Contact Section */}
+        <div className="mt-8 bg-white dark:bg-transparent rounded-lg p-4 lg:p-8 border border-gray-300 dark:border-gray-700">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+            Contact
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex items-center gap-3 bg-gray-100 dark:bg-white/10 rounded-lg p-4">
+              <Mail className="w-6 h-6 text-blue-600 dark:text-blue-200" />
+              <div>
+                <p className="text-gray-600 dark:text-blue-200 text-sm">
+                  Email
+                </p>
+                <a
+                  href="mailto:partnerships@vipsportsclub.com.au"
+                  className="text-gray-900 dark:text-white font-semibold hover:text-blue-600 dark:hover:text-blue-200 text-sm lg:text-base"
+                >
+                  partnerships@vipsportsclub.com.au
+                </a>
+              </div>
+            </div>
+            <div className="flex items-center space-x-3 bg-gray-100 dark:bg-white/10 rounded-lg p-4">
+              <Phone className="w-6 h-6 text-blue-600 dark:text-blue-200" />
+              <div>
+                <p className="text-gray-600 dark:text-blue-200 text-sm">
+                  Phone
+                </p>
+                <a
+                  href="tel:0403844590"
+                  className="text-gray-900 dark:text-white font-semibold hover:text-blue-600 dark:hover:text-blue-200 text-sm lg:text-base"
+                >
+                  0403 844 590
+                </a>
+              </div>
+            </div>
           </div>
+        </div>
+
+        {/* Footer Note */}
+        <div className="mt-8 text-center text-gray-600 dark:text-gray-400 text-sm">
+          <p>
+            We may amend this Privacy Policy from time to time. The updated
+            version will be published on our website with a revised "Last
+            Updated" date.
+          </p>
+          <p className="mt-2">
+            Continued use of our services constitutes acceptance of any updates.
+          </p>
         </div>
       </div>
     </div>
