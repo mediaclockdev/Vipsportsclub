@@ -85,7 +85,7 @@ const MembershipCards = () => {
                 {/* <button className="mt-8 w-full bg-[#1f2a30] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition">
                       SIGN UP NOW
                     </button> */}
-                {/* </> */}(
+                {/* </> */}
                 <>
                   {/* NORMAL MEMBERSHIP CARD */}
                   <div className="text-center mb-6">
