@@ -29,6 +29,7 @@ const Contact = () => {
       [e.target.name]: e.target.value,
     });
   };
+
   const handleSubmit = async () => {
     setIsSubmitting(true);
     // Simulate API call
@@ -85,154 +86,144 @@ const Contact = () => {
         {/* Contact Form and Map */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Contact Form */}
-          <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
-            <div className="w-full max-w-2xl">
-              <div className="bg-white dark:bg-[#212E36] rounded-3xl shadow-2xl overflow-hidden">
-                {/* Header */}
-                <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 p-8 text-center">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-gray-800 rounded-full mb-4">
-                    <Mail className="w-8 h-8 text-yellow-600 dark:text-yellow-500" />
-                  </div>
-                  <h2 className="text-white text-3xl font-bold mb-2">
-                    Contact Us
-                  </h2>
-                  <p className="text-yellow-100">
-                    We'd love to hear from you. Send us a message!
-                  </p>
+          <div className="w-full">
+            <div className="bg-white dark:bg-[#212E36] rounded-3xl shadow-2xl overflow-hidden h-full">
+              {/* Header */}
+              <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 p-8 text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-gray-800 rounded-full mb-4">
+                  <Mail className="w-8 h-8 text-yellow-600 dark:text-yellow-500" />
                 </div>
+                <h2 className="text-white text-3xl font-bold mb-2">
+                  Contact Us
+                </h2>
+                <p className="text-yellow-100">
+                  We'd love to hear from you. Send us a message!
+                </p>
+              </div>
 
-                {/* Form */}
-                <div className="p-8">
-                  {isSubmitted ? (
-                    <div className="text-center py-12">
-                      <CheckCircle className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
-                      <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-                        Message Sent!
-                      </h3>
-                      <p className="text-gray-600 dark:text-gray-400">
-                        Thank you for reaching out. We'll get back to you soon.
+              {/* Form */}
+              <div className="p-8">
+                {isSubmitted ? (
+                  <div className="text-center py-12">
+                    <CheckCircle className="w-16 h-16 text-emerald-500 mx-auto mb-4" />
+                    <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                      Message Sent!
+                    </h3>
+                    <p className="text-gray-600 dark:text-gray-400">
+                      Thank you for reaching out. We'll get back to you soon.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {/* Full Name */}
+                    <div className="relative">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Full Name
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <User className="h-5 w-5 text-gray-400" />
+                        </div>
+                        <input
+                          type="text"
+                          name="fullName"
+                          value={formData.fullName}
+                          onChange={handleChange}
+                          placeholder="John Doe"
+                          className="w-full pl-12 pr-4 py-3.5 bg-gray-50 dark:bg-gray-800/50 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 dark:focus:border-yellow-500 transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Email */}
+                    <div className="relative">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Email Address
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                          <Mail className="h-5 w-5 text-gray-400" />
+                        </div>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          placeholder="john@example.com"
+                          className="w-full pl-12 pr-4 py-3.5 bg-gray-50 dark:bg-gray-800/50 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 dark:focus:border-yellow-500 transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Message */}
+                    <div className="relative">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                        Your Message
+                      </label>
+                      <div className="relative">
+                        <div className="absolute top-4 left-0 pl-4 pointer-events-none">
+                          <MessageSquare className="h-5 w-5 text-gray-400" />
+                        </div>
+                        <textarea
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          placeholder="Tell us what's on your mind..."
+                          rows={6}
+                          className="w-full pl-12 pr-4 py-3.5 bg-gray-50 dark:bg-gray-800/50 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 dark:focus:border-yellow-500 resize-none transition-colors"
+                        ></textarea>
+                      </div>
+                    </div>
+
+                    {/* Submit Button */}
+                    <button
+                      onClick={handleSubmit}
+                      disabled={isSubmitting}
+                      className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold py-4 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? (
+                        <>
+                          <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-5 h-5" />
+                          <span>Send Message</span>
+                        </>
+                      )}
+                    </button>
+
+                    {/* Additional Info */}
+                    <div className="text-center pt-4">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        By submitting this form, you agree to our{" "}
+                        <a
+                          href="#"
+                          className="text-yellow-600 dark:text-yellow-500 hover:underline"
+                        >
+                          Privacy Policy
+                        </a>
                       </p>
                     </div>
-                  ) : (
-                    <div className="space-y-6">
-                      {/* Full Name */}
-                      <div className="relative">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Full Name
-                        </label>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <User className="h-5 w-5 text-gray-400" />
-                          </div>
-                          <input
-                            type="text"
-                            name="fullName"
-                            value={formData.fullName}
-                            onChange={handleChange}
-                            placeholder="John Doe"
-                            className="w-full pl-12 pr-4 py-3.5 bg-gray-50 dark:bg-gray-800/50 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 dark:focus:border-yellow-500 transition-colors"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Email */}
-                      <div className="relative">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Email Address
-                        </label>
-                        <div className="relative">
-                          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <Mail className="h-5 w-5 text-gray-400" />
-                          </div>
-                          <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            placeholder="john@example.com"
-                            className="w-full pl-12 pr-4 py-3.5 bg-gray-50 dark:bg-gray-800/50 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 dark:focus:border-yellow-500 transition-colors"
-                          />
-                        </div>
-                      </div>
-
-                      {/* Message */}
-                      <div className="relative">
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Your Message
-                        </label>
-                        <div className="relative">
-                          <div className="absolute top-4 left-0 pl-4 pointer-events-none">
-                            <MessageSquare className="h-5 w-5 text-gray-400" />
-                          </div>
-                          <textarea
-                            name="message"
-                            value={formData.message}
-                            onChange={handleChange}
-                            placeholder="Tell us what's on your mind..."
-                            rows={6}
-                            className="w-full pl-12 pr-4 py-3.5 bg-gray-50 dark:bg-gray-800/50 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 dark:focus:border-yellow-500 resize-none transition-colors"
-                          ></textarea>
-                        </div>
-                      </div>
-
-                      {/* Submit Button */}
-                      <button
-                        onClick={handleSubmit}
-                        disabled={isSubmitting}
-                        className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white font-semibold py-4 rounded-xl transition-all duration-200 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                      >
-                        {isSubmitting ? (
-                          <>
-                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                            <span>Sending...</span>
-                          </>
-                        ) : (
-                          <>
-                            <Send className="w-5 h-5" />
-                            <span>Send Message</span>
-                          </>
-                        )}
-                      </button>
-
-                      {/* Additional Info */}
-                      <div className="text-center pt-4">
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
-                          By submitting this form, you agree to our{" "}
-                          <a
-                            href="#"
-                            className="text-yellow-600 dark:text-yellow-500 hover:underline"
-                          >
-                            Privacy Policy
-                          </a>
-                        </p>
-                      </div>
-                    </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
+          </div>
 
-            {/* Map Section */}
-            <div className="bg-[#212E36] dark:bg-slate-700/80 rounded-2xl p-8">
+          {/* Map Section */}
+          <div className="w-full">
+            <div className="bg-[#212E36] dark:bg-slate-700/80 rounded-2xl p-8 h-full">
               <h2 className="text-white text-2xl font-bold mb-4">
                 WE ARE HERE
               </h2>
               <h3 className="text-slate-300 text-lg mb-4">Location</h3>
-              <div className="w-full max-w-6xl mx-auto p-4">
+              <div className="w-full">
                 {/* Map Card */}
-                <div className="relative w-full h-[280px] sm:h-[380px] lg:h-[460px] rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800">
+                <div className="relative w-full h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800">
                   {/* Dark overlay */}
                   <div className="pointer-events-none absolute inset-0 bg-black/20 z-10" />
-
-                  {/* Address Overlay */}
-                  {/* <div className="absolute bottom-4 left-4 right-4 z-20 rounded-xl bg-white/90 dark:bg-black/80 backdrop-blur-md px-4 py-3 shadow-lg">
-                  <p className="text-sm font-semibold text-gray-900 dark:text-white">
-                    📍 120 Collins St
-                  </p>
-                  <p className="text-xs text-gray-600 dark:text-gray-300">
-                    Melbourne VIC 3000, Australia
-                  </p>
-                </div> */}
 
                   {/* Google Map */}
                   <iframe
