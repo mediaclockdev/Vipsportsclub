@@ -1,14 +1,46 @@
 import React from "react";
 import curry from "../../../public/stephancurry.webp";
+import ricky from "../../../public/rickypointing.jpg";
+import player from "../../../public/player1.webp";
+import player2 from "../../../public/player2.avif";
+import player3 from "../../../public/player3.webp";
+import player4 from "../../../public/player4.avif";
+
 import Image from "next/image";
 
 const OurWinners = () => {
-  const winners = Array(6).fill({
-    name: "STEPHEN, WA",
-    title: "AFL GATHER ROUND Experience",
-    image: curry,
-  });
-
+  const winners = [
+    {
+      name: "STEPHEN, WA",
+      title: "AFL GATHER ROUND Experience",
+      image: curry,
+    },
+    {
+      name: "RICKY POINTING",
+      title: "AFL GATHER ROUND Experience",
+      image: ricky,
+    },
+    {
+      name: "PLAYER 1",
+      title: "AFL GATHER ROUND Experience",
+      image: player,
+    },
+    {
+      name: "PLAYER 2",
+      title: "AFL GATHER ROUND Experience",
+      image: player2,
+    },
+    {
+      name: "PLAYER 1",
+      title: "AFL GATHER ROUND Experience",
+      image: player3,
+    },
+    {
+      name: "PLAYER 2",
+      title: "AFL GATHER ROUND Experience",
+      image: player4,
+    },
+  ];
   return (
     <div className="bg-[#E4E4E4] dark:bg-[#212E36] pt-18 lg:pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,7 +72,7 @@ const OurWinners = () => {
               {/* Image Container */}
               <div className="relative w-full h-64 overflow-hidden bg-gray-600">
                 <Image
-                  src={curry}
+                  src={item.image}
                   alt={item.name}
                   className="w-full h-full object-cover  object-top transition-transform duration-700 group-hover:scale-110"
                 />

@@ -255,7 +255,7 @@ export default function PrivacyPolicy() {
               4.5 Public Disclosure of Winner Information
             </h4>
             <p className="text-gray-700 dark:text-gray-400">
-              As required by trade promotion laws, we publish winner's first
+              As required by trade promotion laws, we publish winner&apos;s first
               name, surname initial, suburb and state, and prize won. Entry into
               any Promotion constitutes consent to this disclosure.
             </p>
@@ -525,8 +525,8 @@ export default function PrivacyPolicy() {
         <div className="mt-8 text-center text-gray-600 dark:text-gray-400 text-sm">
           <p>
             We may amend this Privacy Policy from time to time. The updated
-            version will be published on our website with a revised "Last
-            Updated" date.
+            version will be published on our website with a revised &quot;Last
+            Updated&quot; date.
           </p>
           <p className="mt-2">
             Continued use of our services constitutes acceptance of any updates.
