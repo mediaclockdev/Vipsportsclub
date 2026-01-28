@@ -293,7 +293,7 @@ export default function AuthForm() {
               </h1>
               <p className="text-gray-600 text-sm mb-6">Welcome back!</p>
 
-              <div className="flex gap-3 mb-6">
+              {/* <div className="flex gap-3 mb-6">
                 <a
                   href="#"
                   className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-11 h-11 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300"
@@ -322,15 +322,15 @@ export default function AuthForm() {
                 >
                   <Linkedin className="w-4 h-4 text-gray-600" />
                 </a>
-              </div>
+              </div> */}
 
-              <div className="flex items-center gap-3 mb-6 w-full">
+              {/* <div className="flex items-center gap-3 mb-6 w-full">
                 <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
                 <span className="text-xs text-gray-500 font-medium whitespace-nowrap">
                   or use your email
                 </span>
                 <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-              </div>
+              </div> */}
 
               <input
                 type="email"
@@ -428,7 +428,7 @@ export default function AuthForm() {
               />
               <button
                 type="submit"
-                className="bg-[linear-gradient(180deg,#E0D19B_0%,#B6983D_50%)] text-white text-sm px-12 py-3 border-none rounded-xl font-semibold tracking-wide uppercase mt-4 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg w-full"
+                className="bg-[linear-gradient(180deg,#E0D19B_0%,#B6983D_50%)] text-black text-sm px-12 py-3 border-none rounded-xl font-semibold tracking-wide uppercase mt-4 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg w-full"
               >
                 Sign Up
               </button>

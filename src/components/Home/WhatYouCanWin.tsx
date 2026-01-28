@@ -79,7 +79,7 @@ export default function WhatYouCanWin() {
                   background:
                     item.color === "bg-[#E2C86B]"
                       ? "linear-gradient(180deg, #E0D19B 0%, #B6983D 50%)"
-                      : "",
+                      : "linear-gradient(180deg, #8FE07D 0%, #4FA07D 50%)",
                 }}
                 className={`${item.color} p-6  lg:min-h-[220px]`}
               >

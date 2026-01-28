@@ -131,23 +131,102 @@
   }
 }
 
-@keyframes marquee-left {
-  0% {
-    transform: translateX(0);
+.partners {
+  padding: 1rem 0;
+  background: #212e36;
+  overflow: hidden;
+}
+
+.title {
+  text-align: center;
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 3rem;
+  color: white;
+}
+
+.marquee {
+  overflow: hidden;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 12%,
+    black 88%,
+    transparent
+  );
+}
+
+.marquee__track {
+  display: flex;
+  width: 200%;
+  animation: scroll 22s linear infinite;
+  will-change: transform; /* GPU acceleration */
+}
+
+.marquee__group {
+  display: flex;
+  min-width: 100%;
+}
+.marquee::before,
+.marquee::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 80px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+.marquee__track {
+  will-change: transform;
+}
+
+.marquee::before {
+  left: 0;
+  background: linear-gradient(to right, #212e36, transparent);
+}
+
+.marquee::after {
+  right: 0;
+  background: linear-gradient(to left, #212e36, transparent);
+}
+
+.partner {
+  min-width: 220px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e4e4e4;
+
+  flex-shrink: 0; /* IMPORTANT: prevents collapse */
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0%);
   }
-  100% {
+  to {
     transform: translateX(-50%);
   }
 }
 
-@keyframes marquee-right {
-  0% {
-    transform: translateX(-50%);
+/* Pause on hover */
+.marquee:hover .marquee__track {
+  animation-play-state: paused;
+}
+
+@media (max-width: 768px) {
+  .marquee__track {
+    animation-duration: 16s;
   }
-  100% {
-    transform: translateX(0);
+
+  .partner {
+    min-width: 160px;
+    height: 90px;
   }
 }
+
 .animate-marquee-left {
   animation: marquee-left 15s linear infinite;
 }
