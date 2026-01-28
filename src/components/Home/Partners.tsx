@@ -1,65 +1,49 @@
 "use client";
-import React from "react";
 import Image from "next/image";
+
 import acer from "../../../public/partner-acer.svg";
 import everlast from "../../../public/partner-everlast.svg";
 import boohoo from "../../../public/partner-booho.svg";
 import tarocash from "../../../public/partner-tarocash.svg";
 
 const partners = [
-  { src: acer, bg: "bg-[#D9D9D9]" },
-  { src: everlast, bg: "bg-black" },
-  { src: boohoo, bg: "bg-[#D9D9D9]" },
-  { src: tarocash, bg: "bg-black" },
+  { src: acer, bg: "#D9D9D9" },
+  { src: everlast, bg: "#000" },
+  { src: boohoo, bg: "#D9D9D9" },
+  { src: tarocash, bg: "#000" },
+  { src: acer, bg: "#D9D9D9" },
+  { src: everlast, bg: "#000" },
+  { src: boohoo, bg: "#D9D9D9" },
+  { src: tarocash, bg: "#000" },
+  { src: acer, bg: "#D9D9D9" },
+  { src: everlast, bg: "#000" },
+  { src: boohoo, bg: "#D9D9D9" },
+  { src: tarocash, bg: "#000" },
 ];
 
-export default function PartnersMarquee() {
+export default function Partners() {
   return (
-    <div className="py-8 overflow-hidden bg-[#E4E4E4] dark:bg-[#212E36]">
-      <div className="max-w-screen-2xl mx-auto px-2 lg:px-6">
-        <h3 className="text-center text-black dark:text-white text-2xl md:text-3xl lg:text-4xl font-semibold mb-10 tracking-wide">
-          OUR PARTNERS AND DISCOUNTS
-        </h3>
+    <section className="partners">
+      <h2 className="title">OUR PARTNERS & DISCOUNTS</h2>
 
-        <div className="border-t border-white/10">
-          {/* Row 1 */}
-          <MarqueeRow direction="left" />
-
-          <div className="h-px bg-white/10" />
-
-          {/* Row 2 */}
-          {/* <MarqueeRow direction="right" /> */}
+      <div className="marquee">
+        <div className="marquee__track">
+          <MarqueeGroup />
+          <MarqueeGroup ariaHidden />
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 
-function MarqueeRow({ direction }: { direction: "left" | "right" }) {
+function MarqueeGroup({ ariaHidden = false }: { ariaHidden?: boolean }) {
   return (
-    <div className="group overflow-hidden">
-      <div
-        className={`flex w-max marquee ${
-          direction === "left"
-            ? "animate-[marquee-left_15s_linear_infinite]"
-            : "animate-[marquee-right_15s_linear_infinite]"
-        }`}
-      >
-        {[...partners, ...partners].map((item, i) => (
-          <div
-            key={i}
-            className={`flex items-center justify-center h-28 md:h-32 lg:h-36 w-40 md:w-56 lg:w-64 ${item.bg}`}
-          >
-            <Image
-              src={item.src}
-              alt="partner"
-              width={160}
-              height={80}
-              className="object-contain"
-            />
-          </div>
-        ))}
-      </div>
+    <div className="marquee__group" aria-hidden={ariaHidden}>
+      {partners.map((item, i) => (
+        <div key={i} className="partner" style={{ background: item.bg }}>
+          <Image src={item.src} alt="partner logo" width={140} height={60} />
+        </div>
+      ))}
     </div>
   );
 }

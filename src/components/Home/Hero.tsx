@@ -35,7 +35,7 @@ export default function Hero() {
 
         {/* CTA */}
         <button className="bg-emerald-600 hover:bg-emerald-700 transition px-10 py-4 rounded-xl text-lg font-semibold shadow-lg">
-          <Link href="/contact">
+          <Link href="/contact-us">
             <p>Join Now</p>
           </Link>
         </button>

@@ -79,9 +79,9 @@ export default function WhyBecomeMember() {
               </div>
 
               {/* Number badge */}
-              <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-sm font-bold text-slate-400 group-hover:bg-amber-100 group-hover:text-amber-600 transition-colors duration-300">
+              {/* <div className="absolute top-4 right-4 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-sm font-bold text-slate-400 group-hover:bg-amber-100 group-hover:text-amber-600 transition-colors duration-300">
                 {idx + 1}
-              </div>
+              </div> */}
             </div>
           ))}
         </div>

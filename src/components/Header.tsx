@@ -206,15 +206,17 @@ const Header = () => {
           </div>
 
           {/* Mobile Login Button */}
-          <button
-            className="mt-8 cursor-pointer px-6 py-3 w-full
-              border-2 border-[#6AA98A] rounded-xl 
-              text-white text-lg font-medium
-              transition-all duration-300 ease-in-out
-              hover:bg-[#6AA98A] hover:text-[#0f172a] hover:shadow-lg active:scale-95 "
-          >
-            Login
-          </button>
+          <Link href="/login">
+            <button
+              className="mt-8 cursor-pointer px-6 py-3 w-full
+            border-2 border-[#6AA98A] rounded-xl 
+            text-white text-lg font-medium
+            transition-all duration-300 ease-in-out
+            hover:bg-[#6AA98A] hover:text-[#0f172a] hover:shadow-lg active:scale-95 "
+            >
+              Login
+            </button>
+          </Link>
         </div>
       </div>
     </header>

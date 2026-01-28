@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import gift from "../../../public/gift.svg";
+import Link from "next/link";
 
 const MembershipCards = () => {
   const Membership = [
@@ -122,9 +123,11 @@ const MembershipCards = () => {
                     ))}
                   </div>
 
-                  <button className="mt-8 w-full bg-[#1f2a30] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition">
-                    SIGN UP NOW
-                  </button>
+                  <Link href="/login">
+                    <button className="mt-8 w-full bg-[#1f2a30] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition cursor-pointer">
+                      SIGN UP NOW
+                    </button>
+                  </Link>
                 </>
               </div>
             </div>

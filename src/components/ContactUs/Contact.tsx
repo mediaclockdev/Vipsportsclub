@@ -10,6 +10,7 @@ import {
   Send,
   CheckCircle,
 } from "lucide-react";
+import Link from "next/link";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -89,11 +90,11 @@ const Contact = () => {
           <div className="w-full">
             <div className="bg-white dark:bg-[#212E36] rounded-3xl shadow-2xl overflow-hidden h-full">
               {/* Header */}
-              <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 p-8 text-center">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-gray-800 rounded-full mb-4">
+              <div className="bg-gradient-to-r from-yellow-500 to-yellow-600 px-8 py-6 text-center">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-white dark:bg-gray-800 rounded-full mb-1">
                   <Mail className="w-8 h-8 text-yellow-600 dark:text-yellow-500" />
                 </div>
-                <h2 className="text-white text-3xl font-bold mb-2">
+                <h2 className="text-white text-3xl font-bold mb-1">
                   Contact Us
                 </h2>
                 <p className="text-yellow-100">
@@ -170,7 +171,7 @@ const Contact = () => {
                           value={formData.message}
                           onChange={handleChange}
                           placeholder="Tell us what's on your mind..."
-                          rows={6}
+                          rows={3}
                           className="w-full pl-12 pr-4 py-3.5 bg-gray-50 dark:bg-gray-800/50 border-2 border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 dark:focus:border-yellow-500 resize-none transition-colors"
                         ></textarea>
                       </div>
@@ -196,15 +197,15 @@ const Contact = () => {
                     </button>
 
                     {/* Additional Info */}
-                    <div className="text-center pt-4">
+                    <div className="text-center">
                       <p className="text-sm text-gray-500 dark:text-gray-400">
                         By submitting this form, you agree to our{" "}
-                        <a
-                          href="#"
+                        <Link
+                          href="private-policy"
                           className="text-yellow-600 dark:text-yellow-500 hover:underline"
                         >
                           Privacy Policy
-                        </a>
+                        </Link>
                       </p>
                     </div>
                   </div>
@@ -222,7 +223,7 @@ const Contact = () => {
               <h3 className="text-slate-300 text-lg mb-4">Location</h3>
               <div className="w-full">
                 {/* Map Card */}
-                <div className="relative w-full h-[400px] lg:h-[500px] rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800">
+                <div className="relative w-full h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800">
                   {/* Dark overlay */}
                   <div className="pointer-events-none absolute inset-0 bg-black/20 z-10" />
 
