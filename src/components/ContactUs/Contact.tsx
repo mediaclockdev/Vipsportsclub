@@ -76,7 +76,7 @@ const Contact = () => {
               <div className="flex justify-center mb-4">
                 <Mail className="w-12 h-12 text-yellow-500" />
               </div>
-              <h3 className="text-white text-xl font-semibold">
+              <h3 className="text-white text-xl font-semibold truncate">
                 partnerships@vipsportsclub.com.au
               </h3>
             </div>
@@ -97,7 +97,7 @@ const Contact = () => {
                   Contact Us
                 </h2>
                 <p className="text-yellow-100">
-                  We'd love to hear from you. Send us a message!
+                  We&apos;d love to hear from you. Send us a message!
                 </p>
               </div>
 
@@ -110,7 +110,8 @@ const Contact = () => {
                       Message Sent!
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400">
-                      Thank you for reaching out. We'll get back to you soon.
+                      Thank you for reaching out. We&apos;ll get back to you
+                      soon.
                     </p>
                   </div>
                 ) : (
