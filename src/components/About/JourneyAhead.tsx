@@ -4,28 +4,14 @@ import handshake from "../../../public/icon-handshake.svg";
 import blub from "../../../public/blub.svg";
 import box from "../../../public/box.svg";
 import hands from "../../../public/joinhands.svg";
-import bg from "../../../public/aboutbg.svg";
 
 const JourneyAhead = () => {
   return (
     <div className="bg-[#E4E4E4] dark:bg-[#212E36] text-black dark:text-white">
       <div className="max-w-screen-2xl mx-auto px-6 py-10">
         {/* Reverse on desktop only */}
-        <div className="flex flex-col-reverse lg:flex-row items-center gap-10 lg:gap-16">
-          {/* LEFT (Desktop): Image */}
-          <div className="w-full lg:w-1/2 flex justify-center lg:justify-start ml-0 lg:ml-20">
-            <div className="relative w-full max-w-md lg:max-w-lg">
-              <Image
-                src={bg}
-                alt="Journey Ahead"
-                className="w-full h-auto drop-shadow-2xl rounded-2xl"
-                priority
-              />
-            </div>
-          </div>
-
-          {/* RIGHT (Desktop): Text */}
-          <div className="w-full lg:w-1/2 space-y-6 ">
+        <div className="ml-0 lg:ml-20">
+          <div className="w-full space-y-6 ">
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">
               <span className="text-[#B6983D]">The Journey </span>
               Ahead
@@ -41,7 +27,7 @@ const JourneyAhead = () => {
                 <div className="bg-[#4A9B7A57] p-2 rounded-full">
                   <Image src={handshake} alt="" className="size-5" />
                 </div>
-                <p>Expanding our partner network</p>
+                <p>Expand our partner network</p>
               </div>
 
               <div className="flex items-center gap-4">

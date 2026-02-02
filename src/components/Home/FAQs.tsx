@@ -10,7 +10,7 @@ const faqs = [
   },
   {
     q: "What do members receive?",
-    a: "Access to exclusive partner discounts ,Weekly automatic entries into sports experience draws,A members-only portal to manage all benefits in one place",
+    a: "Access to exclusive partner discounts, weekly automatic entries into draws and a members-only portal to manage all benefits in one place",
   },
   {
     q: "How do the weekly prize draws work?",
@@ -22,7 +22,7 @@ const faqs = [
   },
   {
     q: "What is the difference between Silver and Gold membership?",
-    a: "Silver offers great value with full access to all standard partner discounts and weekly draw entries. Gold includes everything in Silver, plus additional benefits:Premium, higher-value discounts, Extra weekly draw entries",
+    a: "Silver offers great value with full access to all standard partner discounts and weekly draw entries. Gold includes everything in Silver, plus additional benefits: Premium, higher-value discounts, Extra weekly draw entries",
   },
   {
     q: "When does my membership start?",

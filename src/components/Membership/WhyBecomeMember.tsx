@@ -56,25 +56,25 @@ export default function WhyBecomeMember() {
           {items.map((item, idx) => (
             <div
               key={idx}
-              className="group relative bg-white rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-amber-400"
+              className="group relative bg-gradient-to-r from-[#4A9A7D] to-[#2C3E49] rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-200 hover:border-green-950"
             >
               {/* Gradient overlay on hover */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#2C3E49] to-[#4A9A7D] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300  " />
 
               <div className="relative flex gap-6">
                 {/* Icon */}
                 <div className="flex-shrink-0">
-                  <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-400 to-amber-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <div className="w-14 h-14 rounded-xl  bg-gradient-to-br from-[#f2d25f] to-[#d6a512] dark:from-amber-400 dark:to-amber-500 flex items-center justify-center text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
                     <CheckIcon />
                   </div>
                 </div>
 
                 {/* Content */}
                 <div className="flex-1 space-y-3">
-                  <h3 className="text-xl font-semibold text-slate-900 leading-tight">
+                  <h3 className="text-xl font-semibold text-white leading-tight">
                     {item.title}
                   </h3>
-                  <p className="text-slate-600 leading-relaxed">{item.sub}</p>
+                  <p className="text-white leading-relaxed">{item.sub}</p>
                 </div>
               </div>
 

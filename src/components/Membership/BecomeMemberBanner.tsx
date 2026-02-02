@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export default function BecomeMemberBanner() {
   return (
-    <div className="relative h-auto lg:h-[85vh] w-full bg-[url('/memberbackground.jpg')] bg-cover bg-center  py-5 ">
+    <div className="relative h-auto lg:h-[85vh] w-full bg-[url('/austrailanbg.jpg')] bg-cover bg-top  py-5 ">
       {/* Dark gradient overlay */}
       <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/50 to-black/70" />
 
@@ -22,9 +22,9 @@ export default function BecomeMemberBanner() {
         </p>
 
         {/* Subtitle */}
-        <p className="max-w-2xl text-sm md:text-lg text-white/80 ">
+        {/* <p className="max-w-2xl text-sm md:text-lg text-white/80 ">
           The Club Built for People Who Live and Breathe Sports
-        </p>
+        </p> */}
       </div>
     </div>
   );

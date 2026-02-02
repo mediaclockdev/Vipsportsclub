@@ -96,7 +96,7 @@ const OurWinners = () => {
         </div>
 
         {/* Optional: View All Button */}
-        <div className="text-center mt-10">
+        <div className="text-center mt-10 pb-5">
           <button className="px-8 py-4 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-gray-900 font-bold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wider text-sm">
             View All Winners
           </button>

@@ -5,7 +5,7 @@ export default function winners() {
   return (
     <div>
       <OurWinners />
-      <Results />
+      {/* <Results /> */}
     </div>
   );
 }

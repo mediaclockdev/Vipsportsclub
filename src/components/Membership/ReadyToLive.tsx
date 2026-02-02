@@ -17,16 +17,14 @@ const ReadyToLive = () => {
 
           {/* Description */}
           <p className="max-w-[800px] text-base md:text-lg leading-relaxed mb-4">
-            Whether you’re here for the savings, the thrill of the giveaways—
-            there’s a membership level designed for you.
+            Whether you’re here for the savings or to win awesome prizes –
+            there’s a membership level designed for you
           </p>
-
-          <p className="max-w-[420px] text-base md:text-lg leading-relaxed mb-8">
-            Because at , we don’t just promise rewards…
+          <p className="max-w-[500px] text-base md:text-lg leading-relaxed mb-8">
+            Because at VIP Sports Club, we don’t just promise rewards…
             <br />
             We deliver unforgettable experiences.
           </p>
-
           {/* CTA */}
           <Link
             href="/contact"

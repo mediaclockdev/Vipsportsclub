@@ -3,7 +3,7 @@ import Link from "next/link";
 const JoinClub = () => {
   return (
     <div className="max-w-screen-2xl mx-auto">
-      <div className="relative h-[440px] overflow-hidden  bg-[url('/join-club-bg.jpg')] bg-cover bg-center">
+      <div className="relative h-[440px] overflow-hidden  bg-[url('/stadium-hero.png')] bg-cover bg-center">
         {/* Overlay */}
         <div className="absolute inset-0 bg-black/60" />
 
@@ -16,12 +16,12 @@ const JoinClub = () => {
 
           {/* Description */}
           <p className="max-w-[800px] text-base md:text-lg leading-relaxed mb-4">
-            Whether you’re here for the savings, the thrill of the giveaways—
-            there’s a membership level designed for you.
+            Whether you’re here for the savings or to win awesome prizes –
+            there’s a membership level designed for you
           </p>
 
-          <p className="max-w-[420px] text-base md:text-lg leading-relaxed mb-8">
-            Because at , we don’t just promise rewards…
+          <p className="max-w-[500px] text-base md:text-lg leading-relaxed mb-8">
+            Because at VIP Sports Club, we don’t just promise rewards…
             <br />
             We deliver unforgettable experiences.
           </p>
