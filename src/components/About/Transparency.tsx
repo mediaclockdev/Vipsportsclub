@@ -45,7 +45,7 @@ const Transparency = () => {
           </div>
 
           {/* RIGHT: Image */}
-          <div className="w-full lg:w-1/2 flex justify-center lg:justify-end mr-0 lg:mr-28 ">
+          {/* <div className="w-full lg:w-1/2 flex justify-center lg:justify-end mr-0 lg:mr-28 ">
             <div className="relative w-full max-w-md lg:max-w-lg">
               <Image
                 src={shield}
@@ -54,7 +54,7 @@ const Transparency = () => {
                 priority
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

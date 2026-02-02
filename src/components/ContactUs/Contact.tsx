@@ -59,25 +59,27 @@ const Contact = () => {
         </div>
 
         {/* Contact Info Cards */}
-        <div className="mb-12 border-2 border-yellow-600 rounded-2xl p-8 bg-[#212E36]">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="text-center">
+        <div className="mb-12 border-2 border-yellow-600 rounded-2xl p-8 bg-[#212E36] ">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* <div className="text-center">
               <div className="flex justify-center mb-4">
                 <MapPin className="w-12 h-12 text-yellow-500" />
               </div>
               <h3 className="text-white text-xl font-semibold">LOCATION</h3>
-            </div>
-            <div className="text-center border-l-0 md:border-l-2 border-r-0 md:border-r-2 border-slate-600">
+            </div> */}
+            <div className="text-center  border-r-0 md:border-r-2 border-slate-600">
               <div className="flex justify-center mb-4">
-                <Phone className="w-12 h-12 text-yellow-500" />
+                <Phone className="w-10 lg:w-12 h-10 lg:h-12 text-yellow-500" />
               </div>
-              <h3 className="text-white text-xl font-semibold">0403 844 590</h3>
+              <h3 className="text-white text-base lg:text-xl font-semibold">
+                0403 844 590
+              </h3>
             </div>
             <div className="text-center">
               <div className="flex justify-center mb-4">
-                <Mail className="w-12 h-12 text-yellow-500" />
+                <Mail className="w-10 lg:w-12 h-10 lg:h-12 text-yellow-500" />
               </div>
-              <h3 className="text-white text-xl font-semibold truncate">
+              <h3 className="text-white text-base lg:text-xl font-semibold truncate">
                 partnerships@vipsportsclub.com.au
               </h3>
             </div>
@@ -85,7 +87,7 @@ const Contact = () => {
         </div>
 
         {/* Contact Form and Map */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="max-w-2xl mx-auto">
           {/* Contact Form */}
           <div className="w-full">
             <div className="bg-white dark:bg-[#212E36] rounded-3xl shadow-2xl overflow-hidden h-full">
@@ -215,19 +217,19 @@ const Contact = () => {
           </div>
 
           {/* Map Section */}
-          <div className="w-full">
+          {/* <div className="w-full">
             <div className="bg-[#212E36] dark:bg-slate-700/80 rounded-2xl p-8 h-full">
               <h2 className="text-white text-2xl font-bold mb-4">
                 WE ARE HERE
               </h2>
               <h3 className="text-slate-300 text-lg mb-4">Location</h3>
               <div className="w-full">
-                {/* Map Card */}
+                Map Card
                 <div className="relative w-full h-[400px] lg:h-[600px] rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-800">
-                  {/* Dark overlay */}
+                  Dark overlay
                   <div className="pointer-events-none absolute inset-0 bg-black/20 z-10" />
 
-                  {/* Google Map */}
+                  Google Map
                   <iframe
                     src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.83543450918!2d144.9701043153158!3d-37.81410797975195!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad642caa0e2a3b5%3A0x5e1c6d7a5d8f4c3e!2s120%20Collins%20St%2C%20Melbourne%20VIC%203000%2C%20Australia!5e0!3m2!1sen!2sus!4v1700000000000"
                     width="100%"
@@ -241,7 +243,7 @@ const Contact = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

@@ -75,7 +75,6 @@ const Footer = () => {
               </p>
 
               <div className="space-y-1 text-gray-200">
-                <p>[Business Address], Australia</p>
                 <p>partnerships@vipsportsclub.com.au</p>
                 <p>0403 844 590</p>
               </div>
