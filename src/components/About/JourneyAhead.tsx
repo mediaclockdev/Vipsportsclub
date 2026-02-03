@@ -31,7 +31,7 @@ const JourneyAhead = () => {
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="bg-[#212E36] dark:bg-[#4A9B7A57]] p-2 rounded-full">
+                <div className="bg-[#212E36] dark:bg-[#4A9B7A57] p-2 rounded-full">
                   <Image src={blub} alt="" className="size-5" />
                 </div>
                 <p>Introduce new member-only exclusives</p>

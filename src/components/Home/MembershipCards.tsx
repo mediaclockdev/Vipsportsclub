@@ -52,7 +52,7 @@ const MembershipCards = () => {
             >
               {/* INNER CARD */}
               <div
-                className="relative rounded-3xl p-8 h-full min-h-[420px] flex flex-col overflow-visible"
+                className="relative rounded-3xl p-4 lg:p-8 h-full min-h-[420px] flex flex-col overflow-visible"
                 style={{
                   background:
                     item.title === "GOLD"
@@ -63,7 +63,7 @@ const MembershipCards = () => {
                 {/* 🎁 GIFT CARD */}
                 {item.isGift ? (
                   <>
-                    <h3 className="text-2xl font-extrabold text-center text-[#1f2a30] mb-8">
+                    <h3 className="text-3xl font-extrabold text-center text-[#1f2a30] mb-8">
                       BUY AS A GIFT
                     </h3>
                     {/* GIFT BOX WITH EMERGING CARDS */}
@@ -83,7 +83,7 @@ const MembershipCards = () => {
                         className="relative z-30 size-40"
                       />
                     </div>
-                    <button className="mt-8 w-full bg-[#1f2a30] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition">
+                    <button className="mt-0 lg:mt-8 w-full bg-[#1f2a30] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition">
                       SIGN UP NOW
                     </button>
                   </>
@@ -91,7 +91,7 @@ const MembershipCards = () => {
                   <>
                     {/* NORMAL MEMBERSHIP CARD */}
                     <div className="text-center mb-6">
-                      <h3 className="text-2xl font-extrabold text-[#1f2a30]">
+                      <h3 className="text-3xl font-extrabold text-[#1f2a30]">
                         {item.title}
                       </h3>
                       <p className="text-4xl font-bold text-[#1f2a30] mt-3">
@@ -117,7 +117,7 @@ const MembershipCards = () => {
                               />
                             </svg>
                           </div>
-                          <p className="text-[#1f2a30] text-sm leading-relaxed">
+                          <p className="text-[#1f2a30] text-base leading-relaxed">
                             {feature}
                           </p>
                         </div>
@@ -125,7 +125,7 @@ const MembershipCards = () => {
                     </div>
 
                     <Link href="/login">
-                      <button className="mt-8 w-full bg-[#1f2a30] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition cursor-pointer">
+                      <button className="mt-0 lg:mt-8 w-full bg-[#1f2a30] text-white py-3 rounded-xl font-semibold hover:opacity-90 transition cursor-pointer">
                         SIGN UP NOW
                       </button>
                     </Link>

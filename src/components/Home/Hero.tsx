@@ -8,7 +8,7 @@ import Link from "next/link";
 
 export default function Hero() {
   return (
-    <div className="relative min-h-screen w-full bg-[url('/stedium.svg')] bg-cover bg-center  py-5 ">
+    <div className="relative min-h-screen w-full bg-[url('/stadium-hero.png')] lg:bg-[url('/stedium.svg')] bg-cover bg-center py-5 ">
       {/* Dark gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/70" />
 

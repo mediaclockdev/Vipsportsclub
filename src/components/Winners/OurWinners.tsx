@@ -1,48 +1,71 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
+
 import curry from "../../../public/stephancurry.webp";
 import ricky from "../../../public/rickypointing.jpg";
 import player from "../../../public/player1.webp";
-import player2 from "../../../public/player2.avif";
+import player2 from "../../../public/player2.webp";
 import player3 from "../../../public/player3.webp";
 import player4 from "../../../public/player4.avif";
+import harry from "../../../public/harry kewell.webp";
+import kim from "../../../public/KimGarth.png";
+import pat from "../../../public/pat cummins.jpeg";
 
 import Image from "next/image";
 
 const OurWinners = () => {
+  const [showAll, setShowAll] = useState(false);
   const winners = [
     {
-      name: "STEPHEN, WA",
-      title: "AFL GATHER ROUND Experience",
+      name: "Stephen M. — WA",
+      title: "NBA Champion & League MVP",
       image: curry,
     },
     {
-      name: "RICKY POINTING",
-      title: "AFL GATHER ROUND Experience",
+      name: "Ricky P. — VIC",
+      title: "ICC Cricket World Cup Winner",
       image: ricky,
     },
     {
-      name: "PLAYER 1",
-      title: "AFL GATHER ROUND Experience",
+      name: "Daniel R. — NSW",
+      title: "Formula 1 Grand Prix Winner",
       image: player,
     },
     {
-      name: "PLAYER 2",
-      title: "AFL GATHER ROUND Experience",
+      name: "Ellyse P. — SA",
+      title: "International Cricket World Cup Champion",
       image: player2,
     },
     {
-      name: "PLAYER 1",
-      title: "AFL GATHER ROUND Experience",
+      name: "Joe I. — QLD",
+      title: "NBA Playoffs Scoring Leader",
       image: player3,
     },
     {
-      name: "PLAYER 2",
-      title: "AFL GATHER ROUND Experience",
+      name: "Ben S. — VIC",
+      title: "Professional Motorsport Race Winner",
       image: player4,
     },
+    {
+      name: "Harry Kewell - Aus",
+      title: "International Football Tournament Winner",
+      image: harry,
+    },
+    {
+      name: "Kim Garth - Aus",
+      title: "International Cricket World Cup Champion",
+      image: kim,
+    },
+    {
+      name: "Pat Cummins - Aus",
+      title: "International Cricket World Cup Champion ",
+      image: pat,
+    },
   ];
+
   return (
-    <div className="bg-[#E4E4E4] dark:bg-[#212E36] pt-18 lg:pt-20">
+    <div className="bg-[#E4E4E4] dark:bg-[#212E36] pb-10 pt-18 lg:pt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Heading */}
         <div className="text-center mb-5 lg:mb-10">
@@ -59,7 +82,7 @@ const OurWinners = () => {
 
         {/* Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {winners.map((item, idx) => (
+          {(showAll ? winners : winners.slice(0, 6)).map((item, idx) => (
             <div
               key={idx}
               className="group relative rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 bg-gradient-to-br from-gray-700 to-gray-800"
@@ -96,11 +119,16 @@ const OurWinners = () => {
         </div>
 
         {/* Optional: View All Button */}
-        <div className="text-center mt-10 pb-5">
-          <button className="px-8 py-4 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-gray-900 font-bold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wider text-sm">
-            View All Winners
-          </button>
-        </div>
+        {!showAll && (
+          <div className="text-center mt-10 pb-5">
+            <button
+              onClick={() => setShowAll(true)}
+              className="px-8 py-4 bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-400 hover:to-yellow-500 text-gray-900 font-bold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 uppercase tracking-wider text-sm"
+            >
+              View All Winners
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
