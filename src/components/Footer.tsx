@@ -74,12 +74,23 @@ const Footer = () => {
                 CONTACT US
               </p>
 
-              <div className="space-y-1 text-gray-200">
-                <p>partnerships@vipsportsclub.com.au</p>
-                <p>0403 844 590</p>
+              <div className="space-y-2 text-gray-200">
+                <div>
+                  <a
+                    href="mailto:partnerships@vipsportsclub.com.au"
+                    aria-label="Email VIP Sports Club partnerships team"
+                  >
+                    <h3 className="">partnerships@vipsportsclub.com.au</h3>
+                  </a>
+                </div>
+                <div>
+                  <a href="tel:+61403844590">
+                    <h3 className="">0403 844 590</h3>
+                  </a>
+                </div>
               </div>
 
-              <div className="flex items-center gap-6 pt-4">
+              <div className="flex items-center gap-6 pt-2">
                 <Image
                   src={instagram}
                   alt="Instagram"

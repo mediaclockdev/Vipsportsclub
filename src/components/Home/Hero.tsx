@@ -30,7 +30,7 @@ export default function Hero() {
         {/* Subtitle */}
         <p className="max-w-2xl text-sm md:text-lg text-white/80 ">
           Unlock exclusive member discounts, VIP experiences, and life-changing
-          prize draws — all in one Australian-owned club.
+          prize draw — all in one Australian-owned club.
         </p>
 
         {/* CTA */}

@@ -71,17 +71,24 @@ const Contact = () => {
               <div className="flex justify-center mb-4">
                 <Phone className="w-10 lg:w-12 h-10 lg:h-12 text-yellow-500" />
               </div>
-              <h3 className="text-white text-base lg:text-xl font-semibold">
-                0403 844 590
-              </h3>
+              <a href="tel:+61403844590">
+                <h3 className="text-white text-base lg:text-xl font-semibold">
+                  0403 844 590
+                </h3>
+              </a>
             </div>
             <div className="text-center">
               <div className="flex justify-center mb-4">
                 <Mail className="w-10 lg:w-12 h-10 lg:h-12 text-yellow-500" />
               </div>
-              <h3 className="text-white text-base lg:text-xl font-semibold truncate">
-                partnerships@vipsportsclub.com.au
-              </h3>
+              <a
+                href="mailto:partnerships@vipsportsclub.com.au"
+                aria-label="Email VIP Sports Club partnerships team"
+              >
+                <h3 className="text-white text-base lg:text-xl font-semibold truncate">
+                  partnerships@vipsportsclub.com.au
+                </h3>
+              </a>
             </div>
           </div>
         </div>

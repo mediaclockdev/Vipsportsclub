@@ -24,28 +24,28 @@ const JourneyAhead = () => {
 
             <div className="space-y-3 text-lg">
               <div className="flex items-center gap-4">
-                <div className="bg-[#4A9B7A57] p-2 rounded-full">
+                <div className="bg-[#212E36] dark:bg-[#4A9B7A57] p-2 rounded-full">
                   <Image src={handshake} alt="" className="size-5" />
                 </div>
                 <p>Expand our partner network</p>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="bg-[#4A9B7A57] p-2 rounded-full">
+                <div className="bg-[#212E36] dark:bg-[#4A9B7A57]] p-2 rounded-full">
                   <Image src={blub} alt="" className="size-5" />
                 </div>
                 <p>Introduce new member-only exclusives</p>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="bg-[#4A9B7A57] p-2 rounded-full">
+                <div className="bg-[#212E36] dark:bg-[#4A9B7A57] p-2 rounded-full">
                   <Image src={box} alt="" className="size-5" />
                 </div>
                 <p>Launch bigger and better prize draws</p>
               </div>
 
               <div className="flex items-center gap-4">
-                <div className="bg-[#4A9B7A57] p-2 rounded-full">
+                <div className="bg-[#212E36] dark:bg-[#4A9B7A57] p-2 rounded-full">
                   <Image src={hands} alt="" className="size-5" />
                 </div>
                 <p>Build Australia’s most exciting rewards community</p>

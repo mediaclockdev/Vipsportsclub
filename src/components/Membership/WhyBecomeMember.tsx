@@ -24,7 +24,7 @@ const items = [
     sub: "Every member is entered into our weekly draws for bucket-list sporting experiences — no forms, no fuss.",
   },
   {
-    title: "Exclusive Discounts From Leading Sports & Fitness",
+    title: "Exclusive Discounts From Leading Sports & Fitness Providers",
     sub: "Enjoy member-only pricing on apparel, equipment, coaching, nutrition, wellness and more, with premium partners curated to elevate your active lifestyle.",
   },
   {
