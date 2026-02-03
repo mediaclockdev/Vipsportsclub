@@ -56,6 +56,12 @@ const Footer = () => {
                   </Link>
                 </li>
                 <li className="hover:text-white cursor-pointer">
+                  <Link href="/winners">
+                    <p>Winners</p>
+                  </Link>
+                </li>
+
+                <li className="hover:text-white cursor-pointer">
                   <Link href="/terms-and-conditions">
                     <p>Terms and Condtions</p>
                   </Link>

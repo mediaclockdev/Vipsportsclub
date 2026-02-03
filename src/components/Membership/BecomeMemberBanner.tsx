@@ -5,26 +5,28 @@ import Image from "next/image";
 
 export default function BecomeMemberBanner() {
   return (
-    <div className="relative h-auto lg:h-[85vh] w-full bg-[url('/austrailanbg.jpg')] bg-cover bg-top  py-5 ">
-      {/* Dark gradient overlay */}
-      <div className="absolute inset-0 bg-linear-to-b from-black/70 via-black/50 to-black/70" />
+    <div className="relative w-full h-[55vh] sm:h-[65vh] lg:h-[85vh] overflow-hidden">
+      {/* Background Image */}
+      <Image
+        src="/austrailanbg.jpg"
+        alt="VIP Sports Club players in action"
+        fill
+        priority
+        className="object-cover object-center lg:object-top"
+      />
+
+      {/* Dark overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60 z-10" />
 
       {/* Content */}
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center text-center text-white px-4 space-y-5">
-        {/* Top text */}
-        <p className="text-3xl md:text-5xl font-semibold">BECOME A MEMBER</p>
-
-        {/* Badge */}
-
-        {/* Main heading */}
-        <p className="text-3xl md:text-5xl lg:text-6xl font-extrabold uppercase leading-tight ">
-          UNLOCK SPORTS REWARDS EVERYDAY
+      <div className="relative z-20 flex h-full flex-col items-center justify-center text-center px-4 space-y-4">
+        <p className="text-xl sm:text-3xl md:text-5xl font-semibold text-white">
+          BECOME A MEMBER
         </p>
 
-        {/* Subtitle */}
-        {/* <p className="max-w-2xl text-sm md:text-lg text-white/80 ">
-          The Club Built for People Who Live and Breathe Sports
-        </p> */}
+        <p className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold uppercase text-white max-w-4xl leading-tight">
+          UNLOCK SPORTS REWARDS EVERYDAY
+        </p>
       </div>
     </div>
   );

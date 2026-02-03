@@ -1,10 +1,17 @@
 "use client";
 
-import { useState, FormEvent } from "react";
-import { Mail, Facebook, Github, Linkedin } from "lucide-react";
+import { useState, FormEvent, useEffect } from "react";
+
+import { Eye, EyeOff } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function AuthForm() {
   const [isActive, setIsActive] = useState(false);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
 
   const handleRegisterClick = () => {
     setIsActive(true);
@@ -13,10 +20,37 @@ export default function AuthForm() {
   const handleLoginClick = () => {
     setIsActive(false);
   };
+  const router = useRouter();
+  useEffect(() => {
+    const user = localStorage.getItem("vip_user");
+
+    if (user) {
+      router.replace("/homepage");
+    }
+  }, [router]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission
+    setError("");
+
+    if (isActive && password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    const formData = new FormData(e.currentTarget);
+
+    const userData = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      password,
+    };
+
+    // Save user data (demo purpose only)
+    localStorage.setItem("vip_user", JSON.stringify(userData));
+
+    // Redirect to homepage
+    router.replace("/homepage");
   };
 
   return (
@@ -74,60 +108,71 @@ export default function AuthForm() {
               </h1>
               <p className="text-gray-600 text-sm mb-6">Join us today!</p>
 
-              {/* <div className="flex gap-3 mb-6">
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-12 h-12 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300 hover:scale-110"
-                  aria-label="Sign up with email"
-                >
-                  <Mail className="w-5 h-5 text-gray-600" />
-                </a>
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-12 h-12 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300 hover:scale-110"
-                  aria-label="Sign up with Facebook"
-                >
-                  <Facebook className="w-5 h-5 text-gray-600" />
-                </a>
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-12 h-12 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300 hover:scale-110"
-                  aria-label="Sign up with Github"
-                >
-                  <Github className="w-5 h-5 text-gray-600" />
-                </a>
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-12 h-12 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300 hover:scale-110"
-                  aria-label="Sign up with LinkedIn"
-                >
-                  <Linkedin className="w-5 h-5 text-gray-600" />
-                </a>
-              </div> */}
-
-              {/* <div className="flex items-center gap-3 mb-6 w-full">
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-                <span className="text-xs text-gray-500 font-medium whitespace-nowrap">
-                  or register with email
-                </span>
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-              </div> */}
-
               <input
+                name="name"
                 type="text"
                 placeholder="Name"
                 className="bg-gray-50 border-2 border-gray-200 my-2 px-5 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300"
               />
               <input
+                name="email"
                 type="email"
                 placeholder="Email"
                 className="bg-gray-50 border-2 border-gray-200 my-2 px-5 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300"
               />
-              <input
-                type="password"
-                placeholder="Password"
-                className="bg-gray-50 border-2 border-gray-200 my-2 px-5 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300"
-              />
+              <div className="relative w-full my-2">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  aria-label="Password"
+                  aria-invalid={!!error}
+                  className="bg-gray-50 border-2 border-gray-200 px-5 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300 pr-12"
+                />
+                <button
+                  type="button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+              {error && (
+                <p role="alert" className="text-red-600 text-xs mt-1">
+                  {error}
+                </p>
+              )}
+
+              <div className="relative w-full my-2">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm Password"
+                  aria-label="Confirm password"
+                  aria-invalid={!!error}
+                  className="bg-gray-50 border-2 border-gray-200 px-5 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300 pr-12"
+                />
+                <button
+                  type="button"
+                  aria-label={
+                    showConfirmPassword
+                      ? "Hide confirm password"
+                      : "Show confirm password"
+                  }
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff size={18} />
+                  ) : (
+                    <Eye size={18} />
+                  )}
+                </button>
+              </div>
+
               <button
                 type="submit"
                 className="bg-[linear-gradient(180deg,#E0D19B_0%,#B6983D_50%)] text-white text-sm px-12 py-3 border-none rounded-xl font-semibold tracking-wide uppercase mt-4 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
@@ -154,55 +199,30 @@ export default function AuthForm() {
               </h1>
               <p className="text-gray-600 text-sm mb-6">Welcome back!</p>
 
-              {/* <div className="flex gap-3 mb-6">
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-12 h-12 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300 hover:scale-110"
-                  aria-label="Sign in with email"
-                >
-                  <Mail className="w-5 h-5 text-gray-600" />
-                </a>
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-12 h-12 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300 hover:scale-110"
-                  aria-label="Sign in with Facebook"
-                >
-                  <Facebook className="w-5 h-5 text-gray-600" />
-                </a>
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-12 h-12 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300 hover:scale-110"
-                  aria-label="Sign in with Github"
-                >
-                  <Github className="w-5 h-5 text-gray-600" />
-                </a>
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-12 h-12 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300 hover:scale-110"
-                  aria-label="Sign in with LinkedIn"
-                >
-                  <Linkedin className="w-5 h-5 text-gray-600" />
-                </a>
-              </div>
-
-              <div className="flex items-center gap-3 mb-6 w-full">
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-                <span className="text-xs text-gray-500 font-medium whitespace-nowrap">
-                  or use your email
-                </span>
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-              </div> */}
-
               <input
+                name="email"
                 type="email"
                 placeholder="Email"
                 className="bg-gray-50 border-2 border-gray-200 my-2 px-5 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300"
               />
-              <input
-                type="password"
-                placeholder="Password"
-                className="bg-gray-50 border-2 border-gray-200 my-2 px-5 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300"
-              />
+              <div className="relative w-full my-2">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  aria-label="Password"
+                  className="bg-gray-50 border-2 border-gray-200 px-5 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300 pr-12"
+                />
+                <button
+                  type="button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
               <a
                 href="#"
                 className="text-black text-sm font-medium no-underline my-4  transition-colors duration-300"
@@ -293,55 +313,31 @@ export default function AuthForm() {
               </h1>
               <p className="text-gray-600 text-sm mb-6">Welcome back!</p>
 
-              {/* <div className="flex gap-3 mb-6">
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-11 h-11 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300"
-                  aria-label="Sign in with email"
-                >
-                  <Mail className="w-4 h-4 text-gray-600" />
-                </a>
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-11 h-11 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300"
-                  aria-label="Sign in with Facebook"
-                >
-                  <Facebook className="w-4 h-4 text-gray-600" />
-                </a>
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-11 h-11 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300"
-                  aria-label="Sign in with Github"
-                >
-                  <Github className="w-4 h-4 text-gray-600" />
-                </a>
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-11 h-11 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300"
-                  aria-label="Sign in with LinkedIn"
-                >
-                  <Linkedin className="w-4 h-4 text-gray-600" />
-                </a>
-              </div> */}
-
-              {/* <div className="flex items-center gap-3 mb-6 w-full">
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-                <span className="text-xs text-gray-500 font-medium whitespace-nowrap">
-                  or use your email
-                </span>
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-              </div> */}
-
               <input
+                name="email"
                 type="email"
                 placeholder="Email"
                 className="bg-gray-50 border-2 border-gray-200 my-2 px-4 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300"
               />
-              <input
-                type="password"
-                placeholder="Password"
-                className="bg-gray-50 border-2 border-gray-200 my-2 px-4 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300"
-              />
+              <div className="relative w-full my-2">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  aria-label="Password"
+                  aria-invalid={!!error}
+                  className="bg-gray-50 border-2 border-gray-200 px-5 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300 pr-12"
+                />
+                <button
+                  type="button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
               <a
                 href="#"
                 className="text-black text-sm font-medium no-underline my-4 hover:text-purple-600 transition-colors duration-300"
@@ -372,60 +368,64 @@ export default function AuthForm() {
               </h1>
               <p className="text-gray-600 text-sm mb-6">Join us today!</p>
 
-              {/* <div className="flex gap-3 mb-6">
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-11 h-11 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300"
-                  aria-label="Sign up with email"
-                >
-                  <Mail className="w-4 h-4 text-gray-600" />
-                </a>
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-11 h-11 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300"
-                  aria-label="Sign up with Facebook"
-                >
-                  <Facebook className="w-4 h-4 text-gray-600" />
-                </a>
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-11 h-11 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300"
-                  aria-label="Sign up with Github"
-                >
-                  <Github className="w-4 h-4 text-gray-600" />
-                </a>
-                <a
-                  href="#"
-                  className="border-2 border-gray-200 rounded-xl inline-flex justify-center items-center w-11 h-11 hover:border-indigo-500 hover:bg-indigo-50 transition-all duration-300"
-                  aria-label="Sign up with LinkedIn"
-                >
-                  <Linkedin className="w-4 h-4 text-gray-600" />
-                </a>
-              </div> */}
-
-              {/* <div className="flex items-center gap-3 mb-6 w-full">
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-                <span className="text-xs text-gray-500 font-medium whitespace-nowrap">
-                  or register with email
-                </span>
-                <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
-              </div> */}
-
               <input
                 type="text"
                 placeholder="Name"
                 className="bg-gray-50 border-2 border-gray-200 my-2 px-4 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300"
               />
               <input
+                name="email"
                 type="email"
                 placeholder="Email"
                 className="bg-gray-50 border-2 border-gray-200 my-2 px-4 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300"
               />
-              <input
-                type="password"
-                placeholder="Password"
-                className="bg-gray-50 border-2 border-gray-200 my-2 px-4 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300"
-              />
+              <div className="relative w-full my-2">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="Password"
+                  aria-label="Password"
+                  aria-invalid={!!error}
+                  className="bg-gray-50 border-2 border-gray-200 px-5 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300 pr-12"
+                />
+                <button
+                  type="button"
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+              <div className="relative w-full my-2">
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  placeholder="Confirm Password"
+                  aria-label="Confirm password"
+                  aria-invalid={!!error}
+                  className="bg-gray-50 border-2 border-gray-200 px-5 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300 pr-12"
+                />
+                <button
+                  type="button"
+                  aria-label={
+                    showConfirmPassword
+                      ? "Hide confirm password"
+                      : "Show confirm password"
+                  }
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black"
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff size={18} />
+                  ) : (
+                    <Eye size={18} />
+                  )}
+                </button>
+              </div>
+
               <button
                 type="submit"
                 className="bg-[linear-gradient(180deg,#E0D19B_0%,#B6983D_50%)] text-black text-sm px-12 py-3 border-none rounded-xl font-semibold tracking-wide uppercase mt-4 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg w-full"
