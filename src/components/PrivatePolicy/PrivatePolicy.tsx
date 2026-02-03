@@ -22,7 +22,7 @@ export default function PrivacyPolicy() {
 
   const sections = [
     {
-      icon: <FileText className="w-5 h-5" />,
+      icon: <FileText className="w-5 h-5 text-[#B6983D]" />,
       title: "Types of Personal Information We Collect",
       content: (
         <div className="space-y-4">
@@ -89,7 +89,7 @@ export default function PrivacyPolicy() {
       ),
     },
     {
-      icon: <Users className="w-5 h-5" />,
+      icon: <Users className="w-5 h-5 text-[#B6983D]" />,
       title: "How We Collect Your Personal Information",
       content: (
         <div className="space-y-3">
@@ -135,7 +135,7 @@ export default function PrivacyPolicy() {
       ),
     },
     {
-      icon: <Shield className="w-5 h-5" />,
+      icon: <Shield className="w-5 h-5 text-[#B6983D]" />,
       title: "Why We Collect & How We Use Personal Information",
       content: (
         <div className="space-y-4">
@@ -204,7 +204,7 @@ export default function PrivacyPolicy() {
       ),
     },
     {
-      icon: <Globe className="w-5 h-5" />,
+      icon: <Globe className="w-5 h-5 text-[#B6983D]" />,
       title: "Disclosure of Personal Information",
       content: (
         <div className="space-y-4">
@@ -255,16 +255,16 @@ export default function PrivacyPolicy() {
               4.5 Public Disclosure of Winner Information
             </h4>
             <p className="text-gray-700 dark:text-gray-400">
-              As required by trade promotion laws, we publish winner&apos;s first
-              name, surname initial, suburb and state, and prize won. Entry into
-              any Promotion constitutes consent to this disclosure.
+              As required by trade promotion laws, we publish winner&apos;s
+              first name, surname initial, suburb and state, and prize won.
+              Entry into any Promotion constitutes consent to this disclosure.
             </p>
           </div>
         </div>
       ),
     },
     {
-      icon: <Lock className="w-5 h-5" />,
+      icon: <Lock className="w-5 h-5 text-[#B6983D]" />,
       title: "Data Security & Retention",
       content: (
         <div className="space-y-4">
@@ -302,7 +302,7 @@ export default function PrivacyPolicy() {
       ),
     },
     {
-      icon: <AlertCircle className="w-5 h-5" />,
+      icon: <AlertCircle className="w-5 h-5 text-[#B6983D]" />,
       title: "Your Rights & Choices",
       content: (
         <div className="space-y-4">
@@ -420,7 +420,7 @@ export default function PrivacyPolicy() {
         <div className="mt-8 space-y-6">
           <div className="bg-white dark:bg-gray-800/50 rounded-lg p-6 border border-gray-300 dark:border-gray-700">
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-              <Globe className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" />
+              <Globe className="w-5 h-5 mr-2 text-[#B6983D]" />
               Overseas Data Transfers
             </h3>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
@@ -435,7 +435,7 @@ export default function PrivacyPolicy() {
 
           <div className="bg-white dark:bg-gray-800/50 rounded-lg p-6 border border-gray-300 dark:border-gray-700">
             <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center">
-              <AlertCircle className="w-5 h-5 mr-2 text-blue-600 dark:text-blue-400" />
+              <AlertCircle className="w-5 h-5 mr-2 text-[#B6983D]" />
               Acceptable Use
             </h3>
             <p className="text-gray-700 dark:text-gray-300 mb-3">
@@ -491,7 +491,7 @@ export default function PrivacyPolicy() {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex items-center gap-3 bg-gray-100 dark:bg-white/10 rounded-lg p-4">
-              <Mail className="w-6 h-6 text-blue-600 dark:text-blue-200" />
+              <Mail className="w-6 h-6 text-[#B6983D]" />
               <div>
                 <p className="text-gray-600 dark:text-blue-200 text-sm">
                   Email
@@ -505,7 +505,7 @@ export default function PrivacyPolicy() {
               </div>
             </div>
             <div className="flex items-center space-x-3 bg-gray-100 dark:bg-white/10 rounded-lg p-4">
-              <Phone className="w-6 h-6 text-blue-600 dark:text-blue-200" />
+              <Phone className="w-6 h-6 text-[#B6983D]" />
               <div>
                 <p className="text-gray-600 dark:text-blue-200 text-sm">
                   Phone

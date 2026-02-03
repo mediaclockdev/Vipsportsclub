@@ -138,7 +138,7 @@ export default function UpcomingEvents() {
   }, []);
 
   return (
-    <div className="py-8 lg:py-12 bg-[#E4E4E4] dark:bg-[#212E36]">
+    <div className="pt-8 bg-[#E4E4E4] dark:bg-[#212E36]">
       <div className="w-full px-3 lg:px-6">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold  text-black dark:text-white text-center">
           UPCOMING EVENTS
@@ -156,7 +156,15 @@ export default function UpcomingEvents() {
                   />
                 </div>
 
-                <div className={`${item.color} p-4 h-68 lg:h-80`}>
+                <div
+                  style={{
+                    background:
+                      item.color === "bg-[#E2C86B]"
+                        ? "linear-gradient(180deg, #E0D19B 0%, #B6983D 50%)"
+                        : "linear-gradient(180deg, #8FE07D 0%, #4FA07D 50%)",
+                  }}
+                  className={`${item.color} p-4 h-68 lg:h-80`}
+                >
                   <p className="text-black font-bold mb-2">{item.date}</p>
 
                   <ul className="space-y-2 text-black text-sm">

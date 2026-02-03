@@ -7,6 +7,7 @@ import logo from "../../public/3dlogo.svg";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const Header = () => {
   const menu = ["Home", "About Us", "Membership", "Winners", "Contact Us"];
@@ -14,7 +15,21 @@ const Header = () => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
   const pathname = usePathname();
+  useEffect(() => {
+    const user = localStorage.getItem("vip_user");
+    setIsLoggedIn(!!user);
+  }, []);
+  useEffect(() => {
+    const syncAuth = () => {
+      setIsLoggedIn(!!localStorage.getItem("vip_user"));
+    };
+
+    window.addEventListener("storage", syncAuth);
+    return () => window.removeEventListener("storage", syncAuth);
+  }, []);
 
   useEffect(() => setMounted(true), []);
 
@@ -22,6 +37,12 @@ const Header = () => {
   useEffect(() => {
     setIsMenuOpen(false);
   }, [pathname]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("vip_user");
+    setIsLoggedIn(false);
+    router.replace("/login");
+  };
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -125,17 +146,30 @@ const Header = () => {
           </button>
 
           {/* Desktop Login Button */}
-          <Link href="/login">
+          {isLoggedIn ? (
             <button
+              onClick={handleLogout}
               className="hidden lg:block px-4 sm:px-5 lg:px-7 py-2 sm:py-2.5
-            border-2 border-[#6AA98A] rounded-xl 
-            text-white text-sm sm:text-base font-medium
-            transition-all duration-300 ease-in-out
-            hover:bg-[#6AA98A] hover:text-[#0f172a] hover:shadow-lg active:scale-95 cursor-pointer"
+      border-2 border-[#6AA98A] rounded-xl 
+      text-white text-sm sm:text-base font-medium
+      transition-all duration-300 ease-in-out
+      hover:bg-[#6AA98A] hover:text-[#0f172a] hover:shadow-lg active:scale-95 cursor-pointer"
             >
-              Login
+              Logout
             </button>
-          </Link>
+          ) : (
+            <Link href="/login">
+              <button
+                className="hidden lg:block px-4 sm:px-5 lg:px-7 py-2 sm:py-2.5
+        border-2 border-[#6AA98A] rounded-xl 
+        text-white text-sm sm:text-base font-medium
+        transition-all duration-300 ease-in-out
+        hover:bg-[#6AA98A] hover:text-[#0f172a] hover:shadow-lg active:scale-95 cursor-pointer"
+              >
+                Login
+              </button>
+            </Link>
+          )}
 
           {/* Hamburger Menu Button */}
           <button
@@ -206,17 +240,33 @@ const Header = () => {
           </div>
 
           {/* Mobile Login Button */}
-          <Link href="/login">
+          {isLoggedIn ? (
             <button
+              onClick={() => {
+                handleLogout();
+                setIsMenuOpen(false);
+              }}
               className="mt-8 cursor-pointer px-6 py-3 w-full
-            border-2 border-[#6AA98A] rounded-xl 
-            text-white text-lg font-medium
-            transition-all duration-300 ease-in-out
-            hover:bg-[#6AA98A] hover:text-[#0f172a] hover:shadow-lg active:scale-95 "
+      border-2 border-[#6AA98A] rounded-xl 
+      text-white text-lg font-medium
+      transition-all duration-300 ease-in-out
+      hover:bg-[#6AA98A] hover:text-[#0f172a] hover:shadow-lg active:scale-95"
             >
-              Login
+              Logout
             </button>
-          </Link>
+          ) : (
+            <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+              <button
+                className="mt-8 cursor-pointer px-6 py-3 w-full
+        border-2 border-[#6AA98A] rounded-xl 
+        text-white text-lg font-medium
+        transition-all duration-300 ease-in-out
+        hover:bg-[#6AA98A] hover:text-[#0f172a] hover:shadow-lg active:scale-95"
+              >
+                Login
+              </button>
+            </Link>
+          )}
         </div>
       </div>
     </header>
