@@ -73,7 +73,7 @@ export default function FAQs() {
               >
                 <button
                   onClick={() => setOpenIndex(open ? null : idx)}
-                  className="w-full flex items-center justify-between px-5 py-3 text-left text-[22px] text-[#ffffff]"
+                  className="w-full flex items-center justify-between px-5 py-3 text-left text-base lg:text-[22px] text-[#ffffff]"
                   aria-expanded={open}
                 >
                   <span>{items.q}</span>

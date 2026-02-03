@@ -6,7 +6,7 @@ import shield from "../../../public/shield.svg";
 const Transparency = () => {
   return (
     <div className="bg-[#E4E4E4] dark:bg-[#212E36] text-white">
-      <div className="max-w-screen-2xl mx-auto px-6 py-0 lg:py-10">
+      <div className="max-w-screen-2xl mx-auto px-6 ">
         <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
           {/* LEFT: Text Content */}
           <div className="w-full lg:w-1/2 space-y-6 ml-0 lg:ml-20">

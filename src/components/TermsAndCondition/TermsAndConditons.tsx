@@ -23,7 +23,7 @@ export default function TermsAndConditions() {
 
   const sections = [
     {
-      icon: <FileText className="w-5 h-5" />,
+      icon: <FileText className="w-5 h-5 text-[#B6983D] " />,
       title: "Definitions",
       content: (
         <div className="space-y-3 text-gray-700 dark:text-gray-400">
@@ -33,25 +33,25 @@ export default function TermsAndConditions() {
             with VIP Sports Club.
           </p>
           <p>
-            "Promotion" means any trade promotion, giveaway, prize draw,
-            competition, contest, or reward activity conducted by VIP Sports
-            Club.
+            &quot;Promotion&quot; means any trade promotion, giveaway, prize
+            draw, competition, contest, or reward activity conducted by VIP
+            Sports Club.
           </p>
           <p>
-            "Prize" means any benefit awarded through a Promotion, including
-            travel, flights, accommodation, event tickets, merchandise, or
-            experiences.
+            &quot;Prize&quot; means any benefit awarded through a Promotion,
+            including travel, flights, accommodation, event tickets,
+            merchandise, or experiences.
           </p>
-          <p>"Website" means www.vipsportsclub.com.au.</p>
+          <p>&quot;Website&quot; means www.vipsportsclub.com.au.</p>
           <p>
-            "Companion" means any person accompanying a winner where permitted
-            by the prize.
+            &quot;Companion&quot; means any person accompanying a winner where
+            permitted by the prize.
           </p>
         </div>
       ),
     },
     {
-      icon: <Users className="w-5 h-5" />,
+      icon: <Users className="w-5 h-5 text-[#B6983D]" />,
       title: "Membership Terms",
       content: (
         <div className="space-y-4">
@@ -90,8 +90,8 @@ export default function TermsAndConditions() {
             <p className="text-gray-700 dark:text-gray-400">
               Membership fees are charged in AUD. Membership fees are
               non-refundable, except where required under Australian Consumer
-              Law ("ACL"). VIP Sports Club may change membership pricing at any
-              time, with reasonable notice.
+              Law (&quot;ACL&quot;). VIP Sports Club may change membership
+              pricing at any time, with reasonable notice.
             </p>
           </div>
           <div>
@@ -137,7 +137,7 @@ export default function TermsAndConditions() {
       ),
     },
     {
-      icon: <Shield className="w-5 h-5" />,
+      icon: <Shield className="w-5 h-5 text-[#B6983D]" />,
       title: "Partner Offers & Third-Party Services",
       content: (
         <div className="space-y-4">
@@ -170,7 +170,7 @@ export default function TermsAndConditions() {
       ),
     },
     {
-      icon: <Gift className="w-5 h-5" />,
+      icon: <Gift className="w-5 h-5 text-[#B6983D]" />,
       title: "Trade Promotions",
       content: (
         <div className="space-y-4">
@@ -247,7 +247,7 @@ export default function TermsAndConditions() {
       ),
     },
     {
-      icon: <Gift className="w-5 h-5" />,
+      icon: <Gift className="w-5 h-5 text-[#B6983D]" />,
       title: "Prize Terms",
       content: (
         <div className="space-y-4">
@@ -293,9 +293,9 @@ export default function TermsAndConditions() {
             </h4>
             <p className="text-gray-700 dark:text-gray-400">
               Unless stated otherwise: Flights are economy class from the
-              winner's nearest major airport, Seat selection, baggage, upgrades,
-              and changes are at the winner's cost, Deviations from the booked
-              itinerary are not permitted
+              winner&apos;s nearest major airport, Seat selection, baggage,
+              upgrades, and changes are at the winner&apos;s cost, Deviations
+              from the booked itinerary are not permitted
             </p>
           </div>
           <div>
@@ -355,7 +355,7 @@ export default function TermsAndConditions() {
       ),
     },
     {
-      icon: <Lock className="w-5 h-5" />,
+      icon: <Lock className="w-5 h-5 text-[#B6983D]" />,
       title: "Intellectual Property",
       content: (
         <div className="space-y-3">
@@ -369,7 +369,7 @@ export default function TermsAndConditions() {
       ),
     },
     {
-      icon: <Scale className="w-5 h-5" />,
+      icon: <Scale className="w-5 h-5 text-[#B6983D]" />,
       title: "Liability, Warranties & Indemnities",
       content: (
         <div className="space-y-4">
@@ -404,7 +404,7 @@ export default function TermsAndConditions() {
             </p>
           </div>
           <div>
-            <h4 className="font-semibold text-gray-900 dark:text-white mb-2">
+            <h4 className="font-semibold text-white mb-2">
               7.4 Australian Consumer Law
             </h4>
             <p className="text-gray-700 dark:text-gray-400">
@@ -416,7 +416,7 @@ export default function TermsAndConditions() {
       ),
     },
     {
-      icon: <Shield className="w-5 h-5" />,
+      icon: <Shield className="w-5 h-5 text-[#B6983D]" />,
       title: "Privacy",
       content: (
         <div className="space-y-3">
@@ -429,7 +429,7 @@ export default function TermsAndConditions() {
       ),
     },
     {
-      icon: <AlertCircle className="w-5 h-5" />,
+      icon: <AlertCircle className="w-5 h-5 text-[#B6983D]" />,
       title: "Amendment of Terms",
       content: (
         <div className="space-y-3">
@@ -470,11 +470,12 @@ export default function TermsAndConditions() {
         {/* Introduction */}
         <div className="bg-gray-200 dark:bg-gray-800/50 rounded-lg p-6 mb-8 border border-gray-300 dark:border-gray-700">
           <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-            These Terms and Conditions ("Terms") govern your access to and use
-            of VIP Sports Club membership services and participation in all
-            trade promotions, giveaways, prize draws, discounts, and related
-            activities provided by VIP Sports Club Pty Ltd ACN 692 176 668 ("VIP
-            Sports Club", "we", "us", "our").
+            These Terms and Conditions (&quot;Terms&quot;) govern your access to
+            and use of VIP Sports Club membership services and participation in
+            all trade promotions, giveaways, prize draws, discounts, and related
+            activities provided by VIP Sports Club Pty Ltd ACN 692 176 668
+            (&quot;VIP Sports Club&quot;, &quot;we&quot;, &quot;us&quot;,
+            &quot;our&quot;).
           </p>
           <p className="text-gray-700 dark:text-gray-300 mt-3 leading-relaxed">
             By purchasing a membership, accessing the VIP Sports Club website,
@@ -528,7 +529,7 @@ export default function TermsAndConditions() {
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex items-center gap-3 bg-gray-100 dark:bg-white/10 rounded-lg p-4">
-              <Mail className="w-6 h-6 text-blue-600 dark:text-blue-200" />
+              <Mail className="w-6 h-6 text-[#B6983D]" />
               <div>
                 <p className="text-gray-600 dark:text-blue-200 text-sm">
                   Email
@@ -542,7 +543,7 @@ export default function TermsAndConditions() {
               </div>
             </div>
             <div className="flex items-center space-x-3 bg-gray-100 dark:bg-white/10 rounded-lg p-4">
-              <Phone className="w-6 h-6 text-blue-600 dark:text-blue-200" />
+              <Phone className="w-6 h-6 text-[#B6983D]" />
               <div>
                 <p className="text-gray-600 dark:text-blue-200 text-sm">
                   Phone

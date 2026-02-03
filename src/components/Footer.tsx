@@ -6,6 +6,7 @@ import tiktok from "../../public/tiktok.svg";
 import facebook from "../../public/facebook.svg";
 import youtube from "../../public/youtube.svg";
 import Link from "next/link";
+import { Mail, Phone } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -85,33 +86,49 @@ const Footer = () => {
                   <a
                     href="mailto:partnerships@vipsportsclub.com.au"
                     aria-label="Email VIP Sports Club partnerships team"
+                    className="flex gap-2 items-center"
                   >
+                    <Mail className="size-5" />
                     <h3 className="">partnerships@vipsportsclub.com.au</h3>
                   </a>
                 </div>
                 <div>
-                  <a href="tel:+61403844590">
+                  <a
+                    href="tel:+61403844590"
+                    className="flex gap-2 items-center"
+                  >
+                    <Phone className="size-5" />
                     <h3 className="">0403 844 590</h3>
                   </a>
                 </div>
               </div>
 
               <div className="flex items-center gap-6 pt-2">
-                <Image
-                  src={instagram}
-                  alt="Instagram"
-                  className="w-5 h-5 cursor-pointer hover:opacity-80"
-                />
+                <a
+                  href="https://www.instagram.com/vipsportsclub_au?igsh=MTVjbWl0anpnNWJpeQ=="
+                  target="_blank"
+                >
+                  <Image
+                    src={instagram}
+                    alt="Instagram"
+                    className="w-5 h-5 cursor-pointer hover:opacity-80"
+                  />
+                </a>
                 <Image
                   src={tiktok}
                   alt="TikTok"
                   className="w-5 h-5 cursor-pointer hover:opacity-80"
                 />
-                <Image
-                  src={facebook}
-                  alt="Facebook"
-                  className="w-5 h-5 cursor-pointer hover:opacity-80"
-                />
+                <a
+                  href="https://www.facebook.com/share/1DYbHvcBHj/?mibextid=wwXIfr"
+                  target="_blank"
+                >
+                  <Image
+                    src={facebook}
+                    alt="Facebook"
+                    className="w-5 h-5 cursor-pointer hover:opacity-80"
+                  />
+                </a>
                 <Image
                   src={youtube}
                   alt="YouTube"
@@ -126,8 +143,8 @@ const Footer = () => {
         <div className="py-5 text-center space-y-2 text-sm text-gray-300">
           <p>© 2026 VIP Sports Club. All Rights Reserved.</p>
           <p>
-            Australian Business Number (ABN): [ABN]. Proudly Australian-owned
-            and operated.
+            Australian Business Number (ABN): [48 692 176 668]. Proudly
+            Australian-owned and operated.
           </p>
         </div>
       </div>
