@@ -10,25 +10,26 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 
 const Header = () => {
+  const pathname = usePathname();
+
   const menu = ["Home", "About Us", "Membership", "Winners", "Contact Us"];
 
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   const router = useRouter();
-  const pathname = usePathname();
+
   useEffect(() => {
-    const user = localStorage.getItem("vip_user");
-    setIsLoggedIn(!!user);
-  }, []);
-  useEffect(() => {
-    const syncAuth = () => {
+    const checkAuth = () => {
       setIsLoggedIn(!!localStorage.getItem("vip_user"));
     };
 
-    window.addEventListener("storage", syncAuth);
-    return () => window.removeEventListener("storage", syncAuth);
+    checkAuth(); // initial
+    window.addEventListener("storage", checkAuth);
+
+    return () => window.removeEventListener("storage", checkAuth);
   }, []);
 
   useEffect(() => setMounted(true), []);

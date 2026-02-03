@@ -7,7 +7,8 @@ import { useRouter } from "next/navigation";
 
 export default function AuthForm() {
   const [isActive, setIsActive] = useState(false);
-  const [password, setPassword] = useState("");
+  const [loginPassword, setLoginPassword] = useState("");
+  const [signupPassword, setSignupPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -15,10 +16,17 @@ export default function AuthForm() {
 
   const handleRegisterClick = () => {
     setIsActive(true);
+    setLoginPassword("");
+    setSignupPassword("");
+    setConfirmPassword("");
+    setError("");
   };
-
   const handleLoginClick = () => {
     setIsActive(false);
+    setLoginPassword("");
+    setSignupPassword("");
+    setConfirmPassword("");
+    setError("");
   };
   const router = useRouter();
   useEffect(() => {
@@ -33,24 +41,59 @@ export default function AuthForm() {
     e.preventDefault();
     setError("");
 
-    if (isActive && password !== confirmPassword) {
-      setError("Passwords do not match");
+    const formData = new FormData(e.currentTarget);
+    const email = String(formData.get("email") || "").trim();
+
+    const passwordToUse = isActive ? signupPassword : loginPassword;
+
+    if (!email || !passwordToUse) {
+      setError("Email and password are required");
       return;
     }
 
-    const formData = new FormData(e.currentTarget);
+    const users = JSON.parse(localStorage.getItem("vip_users") || "[]") as {
+      name?: string;
+      email: string;
+      password: string;
+    }[];
 
-    const userData = {
-      name: formData.get("name"),
-      email: formData.get("email"),
-      password,
-    };
+    if (isActive) {
+      // 🔹 SIGN UP
+      if (passwordToUse !== confirmPassword) {
+        setError("Passwords do not match");
+        return;
+      }
 
-    // Save user data (demo purpose only)
-    localStorage.setItem("vip_user", JSON.stringify(userData));
+      const userExists = users.some((u) => u.email === email);
+      if (userExists) {
+        setError("User already exists");
+        return;
+      }
 
-    // Redirect to homepage
-    router.replace("/homepage");
+      const newUser = {
+        name: String(formData.get("name") || ""),
+        email,
+        password: passwordToUse,
+      };
+
+      localStorage.setItem("vip_users", JSON.stringify([...users, newUser]));
+      localStorage.setItem("vip_user", JSON.stringify(newUser));
+
+      router.replace("/homepage");
+    } else {
+      // 🔹 SIGN IN
+      const existingUser = users.find(
+        (u) => u.email === email && u.password === passwordToUse,
+      );
+
+      if (!existingUser) {
+        setError("Invalid email or password");
+        return;
+      }
+
+      localStorage.setItem("vip_user", JSON.stringify(existingUser));
+      router.replace("/homepage");
+    }
   };
 
   return (
@@ -123,8 +166,11 @@ export default function AuthForm() {
               <div className="relative w-full my-2">
                 <input
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={signupPassword}
+                  onChange={(e) => {
+                    setSignupPassword(e.target.value);
+                    setError("");
+                  }}
                   placeholder="Password"
                   aria-label="Password"
                   aria-invalid={!!error}
@@ -208,8 +254,11 @@ export default function AuthForm() {
               <div className="relative w-full my-2">
                 <input
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={loginPassword}
+                  onChange={(e) => {
+                    setLoginPassword(e.target.value);
+                    setError("");
+                  }}
                   placeholder="Password"
                   aria-label="Password"
                   className="bg-gray-50 border-2 border-gray-200 px-5 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300 pr-12"
@@ -223,6 +272,11 @@ export default function AuthForm() {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
+              {error && (
+                <p role="alert" className="text-red-600 text-xs mt-1">
+                  {error}
+                </p>
+              )}
               <a
                 href="#"
                 className="text-black text-sm font-medium no-underline my-4  transition-colors duration-300"
@@ -322,8 +376,11 @@ export default function AuthForm() {
               <div className="relative w-full my-2">
                 <input
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={loginPassword}
+                  onChange={(e) => {
+                    setLoginPassword(e.target.value);
+                    setError("");
+                  }}
                   placeholder="Password"
                   aria-label="Password"
                   aria-invalid={!!error}
@@ -338,6 +395,11 @@ export default function AuthForm() {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
+              {error && (
+                <p role="alert" className="text-red-600 text-xs mt-1">
+                  {error}
+                </p>
+              )}
               <a
                 href="#"
                 className="text-black text-sm font-medium no-underline my-4 hover:text-purple-600 transition-colors duration-300"
@@ -369,6 +431,7 @@ export default function AuthForm() {
               <p className="text-gray-600 text-sm mb-6">Join us today!</p>
 
               <input
+                name="name"
                 type="text"
                 placeholder="Name"
                 className="bg-gray-50 border-2 border-gray-200 my-2 px-4 py-3 text-sm rounded-xl w-full outline-none focus:border-indigo-500 focus:bg-white transition-all duration-300"
@@ -382,8 +445,11 @@ export default function AuthForm() {
               <div className="relative w-full my-2">
                 <input
                   type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={signupPassword}
+                  onChange={(e) => {
+                    setSignupPassword(e.target.value);
+                    setError("");
+                  }}
                   placeholder="Password"
                   aria-label="Password"
                   aria-invalid={!!error}
@@ -398,6 +464,11 @@ export default function AuthForm() {
                   {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                 </button>
               </div>
+              {error && (
+                <p role="alert" className="text-red-600 text-xs mt-1">
+                  {error}
+                </p>
+              )}
               <div className="relative w-full my-2">
                 <input
                   type={showConfirmPassword ? "text" : "password"}
@@ -424,6 +495,11 @@ export default function AuthForm() {
                     <Eye size={18} />
                   )}
                 </button>
+                {error && (
+                  <p role="alert" className="text-red-600 text-xs mt-1">
+                    {error}
+                  </p>
+                )}
               </div>
 
               <button
