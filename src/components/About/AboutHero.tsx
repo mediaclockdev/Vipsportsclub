@@ -42,7 +42,7 @@ const AboutHero = () => {
 
           {/* Button */}
           <Link
-            href="/contact"
+            href="/contact-us"
             className="inline-block px-20 py-3  bg-[#4A987A] hover:bg-[#4A987A] text-white font-semibold rounded-full shadow-md transition"
           >
             Join Now
