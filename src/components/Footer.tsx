@@ -41,33 +41,33 @@ const Footer = () => {
               </p>
 
               <ul className="space-y-2 text-gray-200">
-                <li className="hover:text-white cursor-pointer">
+                <li className="hover:text-[#F4D35E] cursor-pointer">
                   <Link href="/homepage">
                     <p>Home</p>
                   </Link>
                 </li>
-                <li className="hover:text-white cursor-pointer">
+                <li className="hover:text-[#F4D35E] cursor-pointer">
                   <Link href="/about-us">
                     <p>About Us</p>
                   </Link>
                 </li>
-                <li className="hover:text-white cursor-pointer">
+                <li className="hover:text-[#F4D35E] cursor-pointer">
                   <Link href="/membership">
                     <p>Membership</p>
                   </Link>
                 </li>
-                <li className="hover:text-white cursor-pointer">
+                <li className="hover:text-[#F4D35E] cursor-pointer">
                   <Link href="/winners">
                     <p>Winners</p>
                   </Link>
                 </li>
 
-                <li className="hover:text-white cursor-pointer">
+                <li className="hover:text-[#F4D35E] cursor-pointer">
                   <Link href="/terms-and-conditions">
                     <p>Terms and Condtions</p>
                   </Link>
                 </li>
-                <li className="hover:text-white cursor-pointer">
+                <li className="hover:text-[#F4D35E] cursor-pointer">
                   <Link href="/private-policy">
                     <p>Private Policy</p>
                   </Link>
@@ -89,7 +89,9 @@ const Footer = () => {
                     className="flex gap-2 items-center"
                   >
                     <Mail className="size-5" />
-                    <h3 className="">partnerships@vipsportsclub.com.au</h3>
+                    <h3 className="hover:text-[#F4D35E] cursor-pointer">
+                      partnerships@vipsportsclub.com.au
+                    </h3>
                   </a>
                 </div>
                 <div>
@@ -98,7 +100,9 @@ const Footer = () => {
                     className="flex gap-2 items-center"
                   >
                     <Phone className="size-5" />
-                    <h3 className="">0403 844 590</h3>
+                    <h3 className="hover:text-[#F4D35E] cursor-pointer">
+                      0403 844 590
+                    </h3>
                   </a>
                 </div>
               </div>
@@ -142,10 +146,7 @@ const Footer = () => {
         {/* Bottom */}
         <div className="py-5 text-center space-y-2 text-sm text-gray-300">
           <p>© 2026 VIP Sports Club. All Rights Reserved.</p>
-          <p>
-            Australian Business Number (ABN): [48 692 176 668]. Proudly
-            Australian-owned and operated.
-          </p>
+          <p>ABN: [48 692 17 6668]. Proudly Australian-owned and operated.</p>
         </div>
       </div>
     </footer>
