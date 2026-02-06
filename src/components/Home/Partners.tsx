@@ -17,17 +17,17 @@ const partners = [ideal, funky, trueprotein, lskd, Goodlife];
 
 export default function Partners() {
   return (
-    <section className="bg-white dark:bg-[#212E36] py-10">
+    <section className="bg-[#E4E4E4] dark:bg-[#212E36] py-10">
       <h2 className="text-center text-black dark:text-white text-2xl md:text-3xl lg:text-4xl font-bold mb-10">
         OUR PARTNERS
       </h2>
 
       <div className="relative">
         {/* Left fade */}
-        <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-white dark:from-[#212E36] to-transparent" />
+        {/* <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-32 bg-gradient-to-r from-white dark:from-[#212E36] to-transparent" /> */}
 
         {/* Right fade */}
-        <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-white dark:from-[#212E36] to-transparent" />
+        {/* <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-32 bg-gradient-to-l from-white dark:from-[#212E36] to-transparent" /> */}
 
         <Swiper
           modules={[Autoplay]}
@@ -51,7 +51,7 @@ export default function Partners() {
                 <Image
                   src={logo}
                   alt="partner logo"
-                  className="object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500 "
+                  className="object-contain dark:grayscale dark:opacity-60 dark:hover:grayscale-0 dark:hover:opacity-100 transition-all duration-300 cursor-pointer"
                 />
               </div>
             </SwiperSlide>

@@ -354,13 +354,13 @@ export default function PrivacyPolicy() {
           <h1 className="text-4xl md:text-5xl font-bold text-center mb-4 text-gray-900 dark:text-white">
             Privacy Policy
           </h1>
-          <p className="text-gray-700 dark:text-blue-100 text-center text-lg max-w-2xl mx-auto">
+          <p className="text-gray-700 dark:text-gray-50 text-center text-lg max-w-2xl mx-auto">
             VIP Sports Club Pty Ltd ACN 692 176 668 is committed to protecting
             your privacy and handling your personal information in accordance
             with the Privacy Act 1988 (Cth) and the Australian Privacy
             Principles (APPs).
           </p>
-          <p className="text-gray-600 dark:text-blue-200 text-center text-sm mt-4">
+          <p className="text-gray-600 dark:text-gray-50 text-center text-sm mt-4">
             Last Updated: January 2026
           </p>
         </div>
@@ -493,12 +493,12 @@ export default function PrivacyPolicy() {
             <div className="flex items-center gap-3 bg-gray-100 dark:bg-white/10 rounded-lg p-4">
               <Mail className="w-6 h-6 text-[#B6983D]" />
               <div>
-                <p className="text-gray-600 dark:text-blue-200 text-sm">
+                <p className="text-gray-600 dark:text-[#F4D35E] text-sm">
                   Email
                 </p>
                 <a
                   href="mailto:partnerships@vipsportsclub.com.au"
-                  className="text-gray-900 dark:text-white font-semibold hover:text-blue-600 dark:hover:text-blue-200 text-sm lg:text-base"
+                  className="text-gray-900 dark:text-white font-semibold hover:text-blue-600 dark:hover:text-[#F4D35E] text-sm lg:text-base"
                 >
                   partnerships@vipsportsclub.com.au
                 </a>
@@ -507,12 +507,12 @@ export default function PrivacyPolicy() {
             <div className="flex items-center space-x-3 bg-gray-100 dark:bg-white/10 rounded-lg p-4">
               <Phone className="w-6 h-6 text-[#B6983D]" />
               <div>
-                <p className="text-gray-600 dark:text-blue-200 text-sm">
+                <p className="text-gray-600 dark:text-[#F4D35E] text-sm">
                   Phone
                 </p>
                 <a
                   href="tel:0403844590"
-                  className="text-gray-900 dark:text-white font-semibold hover:text-blue-600 dark:hover:text-blue-200 text-sm lg:text-base"
+                  className="text-gray-900 dark:text-white font-semibold dark:hover:text-[#F4D35E]  text-sm lg:text-base"
                 >
                   0403 844 590
                 </a>

@@ -454,12 +454,12 @@ export default function TermsAndConditions() {
           <h1 className="text-4xl md:text-5xl font-bold text-center mb-4 text-gray-900 dark:text-white">
             Terms and Conditions
           </h1>
-          <p className="text-gray-700 dark:text-blue-100 text-center text-lg max-w-2xl mx-auto">
+          <p className="text-gray-700 dark:text-gray-50 text-center text-lg max-w-2xl mx-auto">
             These Terms govern your access to and use of VIP Sports Club
             membership services and participation in all trade promotions,
             giveaways, prize draws, discounts, and related activities.
           </p>
-          <p className="text-gray-600 dark:text-blue-200 text-center text-sm mt-4">
+          <p className="text-gray-600 dark:text-gray-50 text-center text-sm mt-4">
             Last Updated: 21 January 2026
           </p>
         </div>
@@ -531,12 +531,12 @@ export default function TermsAndConditions() {
             <div className="flex items-center gap-3 bg-gray-100 dark:bg-white/10 rounded-lg p-4">
               <Mail className="w-6 h-6 text-[#B6983D]" />
               <div>
-                <p className="text-gray-600 dark:text-blue-200 text-sm">
+                <p className="text-gray-600 dark:text-[#F4D35E] text-sm">
                   Email
                 </p>
                 <a
                   href="mailto:partnerships@vipsportsclub.com.au"
-                  className="text-gray-900 dark:text-white font-semibold hover:text-blue-600 dark:hover:text-blue-200 text-sm lg:text-base"
+                  className="text-gray-900 dark:text-white font-semibold dark:hover:text-[#F4D35E] text-sm lg:text-base"
                 >
                   partnerships@vipsportsclub.com.au
                 </a>
@@ -545,12 +545,12 @@ export default function TermsAndConditions() {
             <div className="flex items-center space-x-3 bg-gray-100 dark:bg-white/10 rounded-lg p-4">
               <Phone className="w-6 h-6 text-[#B6983D]" />
               <div>
-                <p className="text-gray-600 dark:text-blue-200 text-sm">
+                <p className="text-gray-600  dark:text-[#F4D35E] text-sm">
                   Phone
                 </p>
                 <a
                   href="tel:0403844590"
-                  className="text-gray-900 dark:text-white font-semibold hover:text-blue-600 dark:hover:text-blue-200 text-sm lg:text-base"
+                  className="text-gray-900 dark:text-white font-semibold dark:hover:text-[#F4D35E] text-sm lg:text-base"
                 >
                   0403 844 590
                 </a>
