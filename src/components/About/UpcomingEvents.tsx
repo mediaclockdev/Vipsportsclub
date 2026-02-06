@@ -156,11 +156,13 @@ export default function UpcomingEvents() {
             </div>
 
             <div
-              className={`p-5 h-full ${
-                item.type === "gold"
-                  ? "bg-gradient-to-b from-[#E0D19B] to-[#B6983D]"
-                  : "bg-gradient-to-b from-[#8FE07D] to-[#4FA07D]"
-              }`}
+              style={{
+                background:
+                  item.type === "gold"
+                    ? "linear-gradient(180deg, #E0D19B 0%, #B6983D 50%)"
+                    : "linear-gradient(180deg, #8FE07D 0%, #4FA07D 100%)",
+              }}
+              className="p-5 h-full"
             >
               <p className="font-bold text-black mb-3">{item.date}</p>
 
