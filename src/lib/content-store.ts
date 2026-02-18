@@ -1,8 +1,7 @@
 import { randomUUID } from "crypto";
-import { promises as fs } from "fs";
-import path from "path";
+import { ObjectId } from "mongodb";
+import { getDb } from "./mongodb";
 import type {
-  AdminContentStore,
   AdminUser,
   MembershipPlan,
   Payment,
@@ -20,17 +19,6 @@ import type {
   WinnerInput,
 } from "./content-types";
 
-const DATA_DIR = path.join(process.cwd(), "data");
-const DATA_FILE = path.join(DATA_DIR, "admin-content.json");
-
-const INITIAL_STORE: AdminContentStore = {
-  winners: [],
-  subscribers: [],
-  users: [],
-  subscriptions: [],
-  payments: [],
-};
-
 type PaidMembershipPlan = Exclude<MembershipPlan, "none">;
 
 const MEMBERSHIP_PLANS: MembershipPlan[] = ["none", "silver", "gold"];
@@ -41,6 +29,18 @@ const USER_ROLES: UserRole[] = ["user", "admin"];
 const SUBSCRIPTION_STATUSES: SubscriptionStatus[] = ["active", "expired"];
 const PAYMENT_STATUSES: PaymentStatus[] = ["success", "failed", "pending"];
 const DEFAULT_SUBSCRIPTION_DAYS = 30;
+
+const COLLECTIONS = {
+  winners: "winners",
+  subscribers: "subscribers",
+  subscriptions: "subscriptions",
+  payments: "payments",
+  users: "users",
+} as const;
+
+declare global {
+  var _contentStoreIndexesPromise: Promise<void> | undefined;
+}
 
 function normalizeMembershipPlan(
   value: unknown,
@@ -130,50 +130,104 @@ function normalizeName(name: unknown, email: string) {
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-function normalizeSubscriber(raw: unknown): Subscriber | null {
-  if (!raw || typeof raw !== "object") {
+function asObject(value: unknown): Record<string, unknown> {
+  if (!value || typeof value !== "object") {
+    return {};
+  }
+
+  return value as Record<string, unknown>;
+}
+
+function getString(value: unknown, fallback = "") {
+  return typeof value === "string" ? value : fallback;
+}
+
+function getDocId(value: unknown) {
+  const record = asObject(value);
+  const id = getString(record.id).trim();
+  if (id) {
+    return id;
+  }
+
+  const objectId = record._id;
+  if (objectId instanceof ObjectId) {
+    return objectId.toString();
+  }
+
+  if (typeof objectId === "string" && objectId.trim()) {
+    return objectId.trim();
+  }
+
+  return randomUUID();
+}
+
+function buildIdFilter(id: string) {
+  const normalized = id.trim();
+  if (/^[a-f0-9]{24}$/i.test(normalized)) {
+    return {
+      $or: [{ id: normalized }, { _id: new ObjectId(normalized) }],
+    };
+  }
+
+  return { id: normalized };
+}
+
+function mapWinner(raw: unknown): Winner | null {
+  const record = asObject(raw);
+  const name = getString(record.name).trim();
+  const prize = getString(record.prize).trim();
+
+  if (!name || !prize) {
     return null;
   }
 
-  const record = raw as Record<string, unknown>;
-  const email = typeof record.email === "string" ? record.email.trim().toLowerCase() : "";
+  const now = new Date().toISOString();
 
+  return {
+    id: getDocId(record),
+    name,
+    prize,
+    location: getString(record.location).trim(),
+    imageUrl: getString(record.imageUrl).trim(),
+    announcedAt: normalizeIsoDate(record.announcedAt, now),
+    isPublished: typeof record.isPublished === "boolean" ? record.isPublished : true,
+    createdAt: normalizeIsoDate(record.createdAt, now),
+    updatedAt: normalizeIsoDate(record.updatedAt, now),
+  };
+}
+
+function mapSubscriber(raw: unknown): Subscriber | null {
+  const record = asObject(raw);
+  const email = getString(record.email).trim().toLowerCase();
   if (!email) {
     return null;
   }
 
-  const source =
-    typeof record.source === "string" && record.source.trim()
-      ? record.source.trim()
-      : "website";
-
   return {
-    id: typeof record.id === "string" && record.id.trim() ? record.id : randomUUID(),
+    id: getDocId(record),
     email,
     plan: normalizeMembershipPlan(record.plan, "silver"),
-    source,
+    source: getString(record.source).trim() || "website",
     status: normalizeSubscriberStatus(record.status),
     createdAt: normalizeIsoDate(record.createdAt),
   };
 }
 
-function normalizeUser(raw: unknown): AdminUser | null {
-  if (!raw || typeof raw !== "object") {
-    return null;
-  }
-
-  const record = raw as Record<string, unknown>;
-  const email = typeof record.email === "string" ? record.email.trim().toLowerCase() : "";
+function mapUser(raw: unknown): AdminUser | null {
+  const record = asObject(raw);
+  const email = getString(record.email).trim().toLowerCase();
 
   if (!email) {
     return null;
   }
 
-  const now = new Date().toISOString();
-  const joinedAt = normalizeIsoDate(record.joinedAt, now);
+  const joinedAt = normalizeIsoDate(
+    record.createdAt ?? record.joinedAt,
+    new Date().toISOString(),
+  );
 
   return {
-    id: typeof record.id === "string" && record.id.trim() ? record.id : randomUUID(),
+    id: getDocId(record),
     name: normalizeName(record.name, email),
     email,
     plan: normalizeMembershipPlan(record.plan, "none"),
@@ -184,26 +238,23 @@ function normalizeUser(raw: unknown): AdminUser | null {
   };
 }
 
-function normalizeSubscription(raw: unknown): Subscription | null {
-  if (!raw || typeof raw !== "object") {
-    return null;
-  }
+function mapSubscription(raw: unknown): Subscription | null {
+  const record = asObject(raw);
+  const userEmail = getString(record.userEmail).trim().toLowerCase();
 
-  const record = raw as Record<string, unknown>;
-  const userId = typeof record.userId === "string" ? record.userId.trim() : "";
-  const userEmail =
-    typeof record.userEmail === "string" ? record.userEmail.trim().toLowerCase() : "";
-
-  if (!userId || !userEmail) {
+  if (!userEmail) {
     return null;
   }
 
   const createdAt = normalizeIsoDate(record.createdAt);
-  const expiresAt = normalizeIsoDate(record.expiresAt, addDays(createdAt, DEFAULT_SUBSCRIPTION_DAYS));
+  const expiresAt = normalizeIsoDate(
+    record.expiresAt,
+    addDays(createdAt, DEFAULT_SUBSCRIPTION_DAYS),
+  );
 
   return {
-    id: typeof record.id === "string" && record.id.trim() ? record.id : randomUUID(),
-    userId,
+    id: getDocId(record),
+    userId: getString(record.userId).trim() || getDocId(record),
     userName: normalizeName(record.userName, userEmail),
     userEmail,
     plan: normalizeMembershipPlan(record.plan, "silver"),
@@ -214,395 +265,337 @@ function normalizeSubscription(raw: unknown): Subscription | null {
   };
 }
 
-function normalizePayment(raw: unknown): Payment | null {
-  if (!raw || typeof raw !== "object") {
+function mapPayment(raw: unknown): Payment | null {
+  const record = asObject(raw);
+  const userEmail = getString(record.userEmail).trim().toLowerCase();
+
+  if (!userEmail) {
     return null;
   }
 
-  const record = raw as Record<string, unknown>;
-  const userId = typeof record.userId === "string" ? record.userId.trim() : "";
-  const userEmail =
-    typeof record.userEmail === "string" ? record.userEmail.trim().toLowerCase() : "";
-
-  if (!userId || !userEmail) {
-    return null;
-  }
-
-  const amount = typeof record.amount === "number" ? record.amount : Number(record.amount);
+  const amountRaw = record.amount;
+  const amount = typeof amountRaw === "number" ? amountRaw : Number(amountRaw);
 
   return {
-    id: typeof record.id === "string" && record.id.trim() ? record.id : randomUUID(),
-    userId,
+    id: getDocId(record),
+    userId: getString(record.userId).trim() || getDocId(record),
     userName: normalizeName(record.userName, userEmail),
     userEmail,
     amount: Number.isFinite(amount) ? amount : 0,
     plan: normalizeMembershipPlan(record.plan, "silver"),
     paymentId:
-      typeof record.paymentId === "string" && record.paymentId.trim()
-        ? record.paymentId.trim()
-        : `manual_${randomUUID().slice(0, 8)}`,
+      getString(record.paymentId).trim() || `manual_${randomUUID().slice(0, 8)}`,
     status: normalizePaymentStatus(record.status),
     createdAt: normalizeIsoDate(record.createdAt),
   };
 }
 
-function getNextExpiryFromNow() {
-  return addDays(new Date().toISOString(), DEFAULT_SUBSCRIPTION_DAYS);
-}
-
-function ensureUserInStore(
-  store: AdminContentStore,
-  email: string,
-  plan: MembershipPlan,
-  options?: { name?: string; role?: UserRole },
-): { user: AdminUser; changed: boolean } {
-  const normalizedEmail = email.trim().toLowerCase();
-  const existingUser = store.users.find((user) => user.email === normalizedEmail);
-  const now = new Date().toISOString();
-
-  if (existingUser) {
-    const nextUser: AdminUser = {
-      ...existingUser,
-      name: options?.name?.trim() ? options.name.trim() : existingUser.name,
-      plan,
-      role: options?.role ?? existingUser.role,
-      updatedAt: now,
-    };
-
-    const changed =
-      nextUser.name !== existingUser.name ||
-      nextUser.plan !== existingUser.plan ||
-      nextUser.role !== existingUser.role;
-
-    if (changed) {
-      store.users = store.users.map((user) =>
-        user.id === existingUser.id ? nextUser : user,
-      );
-      return { user: nextUser, changed: true };
-    }
-
-    return { user: existingUser, changed: false };
+async function ensureIndexes() {
+  if (global._contentStoreIndexesPromise) {
+    return global._contentStoreIndexesPromise;
   }
 
-  const newUser: AdminUser = {
-    id: randomUUID(),
-    name: normalizeName(options?.name, normalizedEmail),
-    email: normalizedEmail,
-    plan,
-    status: "active",
-    role: options?.role ?? "user",
-    joinedAt: now,
-    updatedAt: now,
-  };
+  const runner = (async () => {
+    const db = await getDb();
 
-  store.users.unshift(newUser);
-  return { user: newUser, changed: true };
+    await Promise.all([
+      db.collection(COLLECTIONS.winners).createIndex({ id: 1 }, { unique: true, sparse: true }),
+      db.collection(COLLECTIONS.subscribers).createIndex({ email: 1 }, { unique: true }),
+      db.collection(COLLECTIONS.subscriptions).createIndex({ userId: 1 }, { unique: true }),
+      db.collection(COLLECTIONS.subscriptions).createIndex({ userEmail: 1 }),
+      db.collection(COLLECTIONS.payments).createIndex({ id: 1 }, { unique: true, sparse: true }),
+      db.collection(COLLECTIONS.users).createIndex({ email: 1 }, { unique: true }),
+    ]);
+  })();
+
+  if (process.env.NODE_ENV !== "production") {
+    global._contentStoreIndexesPromise = runner;
+  }
+
+  await runner;
 }
 
-function ensureSubscriptionInStore(
-  store: AdminContentStore,
-  user: AdminUser,
-  plan: MembershipPlan,
-): { changed: boolean } {
-  if (!isPaidPlan(plan)) {
-    const nextSubscriptions = store.subscriptions.filter(
-      (subscription) =>
-        subscription.userId !== user.id && subscription.userEmail !== user.email,
+async function getCollections() {
+  await ensureIndexes();
+  const db = await getDb();
+
+  return {
+    winners: db.collection(COLLECTIONS.winners),
+    subscribers: db.collection(COLLECTIONS.subscribers),
+    subscriptions: db.collection(COLLECTIONS.subscriptions),
+    payments: db.collection(COLLECTIONS.payments),
+    users: db.collection(COLLECTIONS.users),
+  };
+}
+
+async function findUserByEmail(email: string) {
+  const { users } = await getCollections();
+  return users.findOne({ email });
+}
+
+async function ensureUserRecord(options: {
+  email: string;
+  name?: string;
+  plan: MembershipPlan;
+  role?: UserRole;
+  status?: UserStatus;
+}) {
+  const { users } = await getCollections();
+  const now = new Date().toISOString();
+  const normalizedEmail = options.email.trim().toLowerCase();
+
+  const existing = await users.findOne({ email: normalizedEmail });
+
+  if (existing) {
+    const nextName = options.name?.trim()
+      ? options.name.trim()
+      : normalizeName(existing.name, normalizedEmail);
+
+    await users.updateOne(
+      { _id: existing._id },
+      {
+        $set: {
+          name: nextName,
+          plan: options.plan,
+          role: options.role ?? normalizeUserRole(existing.role),
+          status: options.status ?? normalizeUserStatus(existing.status),
+          updatedAt: now,
+        },
+        $setOnInsert: {
+          createdAt: now,
+        },
+      },
     );
 
-    if (nextSubscriptions.length !== store.subscriptions.length) {
-      store.subscriptions = nextSubscriptions;
-      return { changed: true };
-    }
-
-    return { changed: false };
+    return users.findOne({ _id: existing._id });
   }
 
-  const existingSubscription = store.subscriptions.find(
-    (subscription) => subscription.userId === user.id,
-  );
-
-  const now = new Date().toISOString();
-
-  if (existingSubscription) {
-    const nextExpiresAt =
-      existingSubscription.status === "expired" || isExpired(existingSubscription.expiresAt)
-        ? getNextExpiryFromNow()
-        : existingSubscription.expiresAt;
-
-    const nextSubscription: Subscription = {
-      ...existingSubscription,
-      userName: user.name,
-      userEmail: user.email,
-      plan,
-      status: isExpired(nextExpiresAt) ? "expired" : "active",
-      expiresAt: nextExpiresAt,
-      updatedAt: now,
-    };
-
-    const changed =
-      nextSubscription.userName !== existingSubscription.userName ||
-      nextSubscription.plan !== existingSubscription.plan ||
-      nextSubscription.status !== existingSubscription.status ||
-      nextSubscription.expiresAt !== existingSubscription.expiresAt;
-
-    if (changed) {
-      store.subscriptions = store.subscriptions.map((subscription) =>
-        subscription.id === existingSubscription.id ? nextSubscription : subscription,
-      );
-      return { changed: true };
-    }
-
-    return { changed: false };
-  }
-
-  const newSubscription: Subscription = {
-    id: randomUUID(),
-    userId: user.id,
-    userName: user.name,
-    userEmail: user.email,
-    plan,
-    status: "active",
-    expiresAt: getNextExpiryFromNow(),
+  const insertResult = await users.insertOne({
+    name: normalizeName(options.name, normalizedEmail),
+    email: normalizedEmail,
+    role: options.role ?? "user",
+    plan: options.plan,
+    status: options.status ?? "active",
     createdAt: now,
     updatedAt: now,
-  };
-
-  store.subscriptions.unshift(newSubscription);
-  return { changed: true };
-}
-
-function syncStoreRelations(store: AdminContentStore) {
-  let changed = false;
-
-  const paidPaymentEmails = new Set(
-    store.payments
-      .filter((payment) => payment.status === "success" && isPaidPlan(payment.plan))
-      .map((payment) => payment.userEmail),
-  );
-
-  const paidSubscribers = store.subscribers.filter((subscriber) =>
-    isPaidPlan(subscriber.plan) &&
-    !(
-      (subscriber.source === "auth-register" || subscriber.source === "auth-form") &&
-      !paidPaymentEmails.has(subscriber.email)
-    ),
-  );
-  if (paidSubscribers.length !== store.subscribers.length) {
-    store.subscribers = paidSubscribers;
-    changed = true;
-  }
-
-  for (const subscriber of store.subscribers) {
-    const userResult = ensureUserInStore(store, subscriber.email, subscriber.plan);
-    if (userResult.changed) {
-      changed = true;
-    }
-
-    const subscriptionResult = ensureSubscriptionInStore(
-      store,
-      userResult.user,
-      subscriber.plan,
-    );
-    if (subscriptionResult.changed) {
-      changed = true;
-    }
-  }
-
-  for (const user of store.users) {
-    const subscriber = store.subscribers.find((item) => item.email === user.email);
-
-    if (!subscriber) {
-      if (user.plan !== "none") {
-        user.plan = "none";
-        user.updatedAt = new Date().toISOString();
-        changed = true;
-      }
-
-      const subscriptionResult = ensureSubscriptionInStore(store, user, "none");
-      if (subscriptionResult.changed) {
-        changed = true;
-      }
-      continue;
-    }
-
-    const nextPlan = subscriber.plan;
-    if (user.plan !== nextPlan) {
-      user.plan = nextPlan;
-      user.updatedAt = new Date().toISOString();
-      changed = true;
-    }
-
-    const subscriptionResult = ensureSubscriptionInStore(store, user, nextPlan);
-    if (subscriptionResult.changed) {
-      changed = true;
-    }
-  }
-
-  store.subscriptions = store.subscriptions.map((subscription) => {
-    const normalizedExpiresAt = normalizeIsoDate(
-      subscription.expiresAt,
-      getNextExpiryFromNow(),
-    );
-    const normalizedStatus = isExpired(normalizedExpiresAt)
-      ? "expired"
-      : subscription.status;
-
-    if (
-      normalizedExpiresAt !== subscription.expiresAt ||
-      normalizedStatus !== subscription.status
-    ) {
-      changed = true;
-      return {
-        ...subscription,
-        expiresAt: normalizedExpiresAt,
-        status: normalizedStatus,
-        updatedAt: new Date().toISOString(),
-      };
-    }
-
-    return subscription;
   });
 
-  return changed;
+  return users.findOne({ _id: insertResult.insertedId });
 }
 
-async function ensureStoreFile() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
+async function removeSubscriptionRecords(email: string, userId?: string) {
+  const { subscriptions } = await getCollections();
+  const normalizedEmail = email.trim().toLowerCase();
 
-  try {
-    await fs.access(DATA_FILE);
-  } catch {
-    await fs.writeFile(DATA_FILE, JSON.stringify(INITIAL_STORE, null, 2), "utf-8");
+  const filter = userId
+    ? {
+        $or: [{ userId }, { userEmail: normalizedEmail }],
+      }
+    : { userEmail: normalizedEmail };
+
+  await subscriptions.deleteMany(filter);
+}
+
+async function removeMembershipRecords(email: string, userId?: string) {
+  const { subscribers } = await getCollections();
+  await removeSubscriptionRecords(email, userId);
+  await subscribers.deleteMany({ email: email.trim().toLowerCase() });
+}
+
+async function upsertSubscriberRecord(
+  email: string,
+  plan: PaidMembershipPlan,
+  source: string,
+  status: SubscriberStatus = "active",
+) {
+  const { subscribers } = await getCollections();
+  const now = new Date().toISOString();
+  const normalizedEmail = email.trim().toLowerCase();
+  const normalizedSource = source.trim() || "website";
+
+  const existing = await subscribers.findOne({ email: normalizedEmail });
+
+  if (existing) {
+    await subscribers.updateOne(
+      { _id: existing._id },
+      {
+        $set: {
+          plan,
+          source: normalizedSource,
+          status,
+          updatedAt: now,
+        },
+      },
+    );
+
+    return subscribers.findOne({ _id: existing._id });
   }
+
+  const result = await subscribers.insertOne({
+    id: randomUUID(),
+    email: normalizedEmail,
+    plan,
+    source: normalizedSource,
+    status,
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  return subscribers.findOne({ _id: result.insertedId });
 }
 
-async function readStore(): Promise<AdminContentStore> {
-  await ensureStoreFile();
+async function upsertSubscriptionForUser(options: {
+  userId: string;
+  userEmail: string;
+  userName: string;
+  plan: PaidMembershipPlan;
+  status?: SubscriptionStatus;
+  expiresAt?: string;
+}) {
+  const { subscriptions } = await getCollections();
+  const now = new Date().toISOString();
+  const fallbackExpiry = addDays(now, DEFAULT_SUBSCRIPTION_DAYS);
 
-  const raw = await fs.readFile(DATA_FILE, "utf-8");
+  const existing = await subscriptions.findOne({ userId: options.userId });
 
-  try {
-    const parsed = JSON.parse(raw) as Partial<AdminContentStore>;
+  if (existing) {
+    const existingExpiry = normalizeIsoDate(existing.expiresAt, fallbackExpiry);
+    const nextExpiresAt = options.expiresAt
+      ? normalizeIsoDate(options.expiresAt, existingExpiry)
+      : existing.status === "expired" || isExpired(existingExpiry)
+        ? fallbackExpiry
+        : existingExpiry;
 
-    const store: AdminContentStore = {
-      winners: Array.isArray(parsed.winners) ? parsed.winners : [],
-      subscribers: Array.isArray(parsed.subscribers)
-        ? parsed.subscribers
-            .map((subscriber) => normalizeSubscriber(subscriber))
-            .filter((subscriber): subscriber is Subscriber => subscriber !== null)
-        : [],
-      users: Array.isArray(parsed.users)
-        ? parsed.users
-            .map((user) => normalizeUser(user))
-            .filter((user): user is AdminUser => user !== null)
-        : [],
-      subscriptions: Array.isArray(parsed.subscriptions)
-        ? parsed.subscriptions
-            .map((subscription) => normalizeSubscription(subscription))
-            .filter((subscription): subscription is Subscription => subscription !== null)
-        : [],
-      payments: Array.isArray(parsed.payments)
-        ? parsed.payments
-            .map((payment) => normalizePayment(payment))
-            .filter((payment): payment is Payment => payment !== null)
-        : [],
-    };
+    const nextStatus = options.status
+      ? normalizeSubscriptionStatus(options.status, nextExpiresAt)
+      : isExpired(nextExpiresAt)
+        ? "expired"
+        : "active";
 
-    const changed = syncStoreRelations(store);
-    if (changed) {
-      await writeStore(store);
-    }
+    await subscriptions.updateOne(
+      { _id: existing._id },
+      {
+        $set: {
+          userName: options.userName,
+          userEmail: options.userEmail,
+          plan: options.plan,
+          status: nextStatus,
+          expiresAt: nextExpiresAt,
+          updatedAt: now,
+        },
+      },
+    );
 
-    return store;
-  } catch {
-    await writeStore(INITIAL_STORE);
-    return INITIAL_STORE;
+    return subscriptions.findOne({ _id: existing._id });
   }
-}
 
-async function writeStore(store: AdminContentStore) {
-  await fs.writeFile(DATA_FILE, JSON.stringify(store, null, 2), "utf-8");
+  const initialExpiresAt = options.expiresAt
+    ? normalizeIsoDate(options.expiresAt, fallbackExpiry)
+    : fallbackExpiry;
+
+  const result = await subscriptions.insertOne({
+    id: randomUUID(),
+    userId: options.userId,
+    userName: options.userName,
+    userEmail: options.userEmail,
+    plan: options.plan,
+    status: options.status
+      ? normalizeSubscriptionStatus(options.status, initialExpiresAt)
+      : "active",
+    expiresAt: initialExpiresAt,
+    createdAt: now,
+    updatedAt: now,
+  });
+
+  return subscriptions.findOne({ _id: result.insertedId });
 }
 
 export async function listWinners(options?: { publishedOnly?: boolean }) {
-  const store = await readStore();
-  const winners = options?.publishedOnly
-    ? store.winners.filter((winner) => winner.isPublished)
-    : store.winners;
+  const { winners } = await getCollections();
 
-  return [...winners].sort((a, b) => b.announcedAt.localeCompare(a.announcedAt));
+  const docs = await winners
+    .find(options?.publishedOnly ? { isPublished: true } : {})
+    .sort({ announcedAt: -1 })
+    .toArray();
+
+  return docs.map(mapWinner).filter((winner): winner is Winner => winner !== null);
 }
 
 export async function createWinner(input: WinnerInput): Promise<Winner> {
-  const store = await readStore();
+  const { winners } = await getCollections();
   const now = new Date().toISOString();
 
-  const winner: Winner = {
+  const payload = {
     id: randomUUID(),
     name: input.name.trim(),
     prize: input.prize.trim(),
     location: input.location?.trim() ?? "",
     imageUrl: input.imageUrl?.trim() ?? "",
-    announcedAt: input.announcedAt ?? now,
+    announcedAt: input.announcedAt ? normalizeIsoDate(input.announcedAt, now) : now,
     isPublished: input.isPublished ?? true,
     createdAt: now,
     updatedAt: now,
   };
 
-  store.winners.unshift(winner);
-  await writeStore(store);
+  const result = await winners.insertOne(payload);
+  const created = await winners.findOne({ _id: result.insertedId });
+  const mapped = mapWinner(created);
 
-  return winner;
+  if (!mapped) {
+    throw new Error("Failed to create winner");
+  }
+
+  return mapped;
 }
 
 export async function updateWinner(
   id: string,
   input: Partial<WinnerInput>,
 ): Promise<Winner | null> {
-  const store = await readStore();
-  const winnerIndex = store.winners.findIndex((winner) => winner.id === id);
+  const { winners } = await getCollections();
+  const existing = await winners.findOne(buildIdFilter(id));
 
-  if (winnerIndex < 0) {
+  if (!existing) {
     return null;
   }
 
-  const currentWinner = store.winners[winnerIndex];
+  const current = mapWinner(existing);
+  if (!current) {
+    return null;
+  }
 
-  const updatedWinner: Winner = {
-    ...currentWinner,
-    name: input.name !== undefined ? input.name.trim() : currentWinner.name,
-    prize: input.prize !== undefined ? input.prize.trim() : currentWinner.prize,
-    location: input.location !== undefined ? input.location.trim() : currentWinner.location,
-    imageUrl: input.imageUrl !== undefined ? input.imageUrl.trim() : currentWinner.imageUrl,
-    announcedAt: input.announcedAt !== undefined ? input.announcedAt : currentWinner.announcedAt,
-    isPublished: input.isPublished !== undefined ? input.isPublished : currentWinner.isPublished,
+  const updates = {
+    name: input.name !== undefined ? input.name.trim() : current.name,
+    prize: input.prize !== undefined ? input.prize.trim() : current.prize,
+    location: input.location !== undefined ? input.location.trim() : current.location,
+    imageUrl: input.imageUrl !== undefined ? input.imageUrl.trim() : current.imageUrl,
+    announcedAt:
+      input.announcedAt !== undefined
+        ? normalizeIsoDate(input.announcedAt, current.announcedAt)
+        : current.announcedAt,
+    isPublished:
+      input.isPublished !== undefined ? input.isPublished : current.isPublished,
     updatedAt: new Date().toISOString(),
   };
 
-  store.winners[winnerIndex] = updatedWinner;
-  await writeStore(store);
+  await winners.updateOne({ _id: existing._id }, { $set: updates });
+  const updated = await winners.findOne({ _id: existing._id });
 
-  return updatedWinner;
+  return mapWinner(updated);
 }
 
 export async function deleteWinner(id: string) {
-  const store = await readStore();
-  const nextWinners = store.winners.filter((winner) => winner.id !== id);
-
-  if (nextWinners.length === store.winners.length) {
-    return false;
-  }
-
-  store.winners = nextWinners;
-  await writeStore(store);
-
-  return true;
+  const { winners } = await getCollections();
+  const result = await winners.deleteOne(buildIdFilter(id));
+  return result.deletedCount > 0;
 }
 
 export async function listSubscribers() {
-  const store = await readStore();
-  return [...store.subscribers].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const { subscribers } = await getCollections();
+  const docs = await subscribers.find({}).sort({ createdAt: -1 }).toArray();
+  return docs
+    .map(mapSubscriber)
+    .filter((subscriber): subscriber is Subscriber => subscriber !== null);
 }
 
 export async function upsertSubscriber(
@@ -610,112 +603,121 @@ export async function upsertSubscriber(
   source = "website",
   plan: MembershipPlan = "silver",
 ) {
-  const store = await readStore();
   const normalizedEmail = email.trim().toLowerCase();
-  const normalizedSource = source.trim() || "website";
   const normalizedPlan = normalizeMembershipPlan(plan, "silver");
 
-  const existingSubscriber = store.subscribers.find(
-    (subscriber) => subscriber.email === normalizedEmail,
-  );
-
-  let subscriber: Subscriber;
-
-  if (existingSubscriber) {
-    subscriber = {
-      ...existingSubscriber,
-      source: normalizedSource,
-      plan: normalizedPlan,
-      status: "active",
-    };
-
-    store.subscribers = store.subscribers.map((item) =>
-      item.id === existingSubscriber.id ? subscriber : item,
-    );
-  } else {
-    subscriber = {
-      id: randomUUID(),
-      email: normalizedEmail,
-      source: normalizedSource,
-      plan: normalizedPlan,
-      status: "active",
-      createdAt: new Date().toISOString(),
-    };
-
-    store.subscribers.unshift(subscriber);
+  if (!isPaidPlan(normalizedPlan)) {
+    throw new Error("Subscriber plan must be silver or gold");
   }
 
-  const userResult = ensureUserInStore(store, normalizedEmail, normalizedPlan);
-  const subscriptionResult = ensureSubscriptionInStore(
-    store,
-    userResult.user,
+  const subscriberDoc = await upsertSubscriberRecord(
+    normalizedEmail,
     normalizedPlan,
+    source,
+    "active",
   );
 
-  if (userResult.changed || subscriptionResult.changed || !existingSubscriber) {
-    await writeStore(store);
-    return subscriber;
+  const userDoc = await ensureUserRecord({
+    email: normalizedEmail,
+    plan: normalizedPlan,
+  });
+
+  const user = mapUser(userDoc);
+  if (!user) {
+    throw new Error("Failed to resolve subscriber user");
   }
 
-  const hasSubscriberChanges =
-    !existingSubscriber ||
-    existingSubscriber.source !== subscriber.source ||
-    existingSubscriber.plan !== subscriber.plan ||
-    existingSubscriber.status !== subscriber.status;
+  await upsertSubscriptionForUser({
+    userId: user.id,
+    userEmail: user.email,
+    userName: user.name,
+    plan: normalizedPlan,
+  });
 
-  if (hasSubscriberChanges) {
-    await writeStore(store);
+  const mappedSubscriber = mapSubscriber(subscriberDoc);
+  if (!mappedSubscriber) {
+    throw new Error("Failed to upsert subscriber");
   }
 
-  return subscriber;
+  return mappedSubscriber;
 }
 
 export async function updateSubscriber(
   id: string,
   input: SubscriberUpdateInput,
 ): Promise<Subscriber | null> {
-  const store = await readStore();
-  const subscriberIndex = store.subscribers.findIndex(
-    (subscriber) => subscriber.id === id,
-  );
+  const { subscribers, users } = await getCollections();
 
-  if (subscriberIndex < 0) {
+  const existing = await subscribers.findOne(buildIdFilter(id));
+  if (!existing) {
     return null;
   }
 
-  const currentSubscriber = store.subscribers[subscriberIndex];
-
-  const nextSubscriber: Subscriber = {
-    ...currentSubscriber,
-    plan:
-      input.plan !== undefined
-        ? normalizeMembershipPlan(input.plan, currentSubscriber.plan)
-        : currentSubscriber.plan,
-    status:
-      input.status !== undefined
-        ? normalizeSubscriberStatus(input.status)
-        : currentSubscriber.status,
-  };
-
-  store.subscribers[subscriberIndex] = nextSubscriber;
-
-  const linkedUser = store.users.find((user) => user.email === nextSubscriber.email);
-  if (linkedUser) {
-    linkedUser.plan = nextSubscriber.plan;
-    linkedUser.updatedAt = new Date().toISOString();
+  const current = mapSubscriber(existing);
+  if (!current) {
+    return null;
   }
 
-  const linkedSubscription = store.subscriptions.find(
-    (subscription) => subscription.userEmail === nextSubscriber.email,
+  const nextPlan =
+    input.plan !== undefined
+      ? normalizeMembershipPlan(input.plan, current.plan)
+      : current.plan;
+  const nextStatus =
+    input.status !== undefined
+      ? normalizeSubscriberStatus(input.status)
+      : current.status;
+
+  const now = new Date().toISOString();
+
+  await subscribers.updateOne(
+    { _id: existing._id },
+    {
+      $set: {
+        plan: nextPlan,
+        status: nextStatus,
+        updatedAt: now,
+      },
+    },
   );
-  if (linkedSubscription) {
-    linkedSubscription.plan = nextSubscriber.plan;
-    linkedSubscription.updatedAt = new Date().toISOString();
+
+  const userDoc = await findUserByEmail(current.email);
+
+  if (userDoc) {
+    const userId = getDocId(userDoc);
+
+    if (nextStatus === "unsubscribed" || !isPaidPlan(nextPlan)) {
+      await users.updateOne(
+        { _id: userDoc._id },
+        {
+          $set: {
+            plan: "none",
+            updatedAt: now,
+          },
+        },
+      );
+      await removeSubscriptionRecords(current.email, userId);
+    } else {
+      await users.updateOne(
+        { _id: userDoc._id },
+        {
+          $set: {
+            plan: nextPlan,
+            updatedAt: now,
+          },
+        },
+      );
+
+      await upsertSubscriptionForUser({
+        userId,
+        userEmail: current.email,
+        userName: normalizeName(userDoc.name, current.email),
+        plan: nextPlan,
+      });
+    }
   }
 
-  await writeStore(store);
-
-  return nextSubscriber;
+  const updated = await subscribers.findOne({ _id: existing._id });
+  return mapSubscriber(updated);
 }
 
 export async function upsertUserAccount(input: {
@@ -725,169 +727,163 @@ export async function upsertUserAccount(input: {
   role?: UserRole;
   source?: string;
 }) {
-  const store = await readStore();
   const normalizedEmail = input.email.trim().toLowerCase();
   const normalizedPlan = normalizeMembershipPlan(input.plan, "none");
-  const now = new Date().toISOString();
 
-  const userResult = ensureUserInStore(store, normalizedEmail, normalizedPlan, {
+  const userDoc = await ensureUserRecord({
+    email: normalizedEmail,
     name: input.name,
-    role: input.role ? normalizeUserRole(input.role) : undefined,
+    plan: normalizedPlan,
+    role: input.role,
   });
 
-  let changed = userResult.changed;
-  const subscriberIndex = store.subscribers.findIndex(
-    (item) => item.email === normalizedEmail,
-  );
+  const user = mapUser(userDoc);
+  if (!user) {
+    throw new Error("Failed to upsert user");
+  }
 
   if (isPaidPlan(normalizedPlan)) {
-    if (subscriberIndex >= 0) {
-      const existingSubscriber = store.subscribers[subscriberIndex];
-      const nextSource = input.source?.trim() || existingSubscriber.source;
-      const nextSubscriber: Subscriber = {
-        ...existingSubscriber,
-        plan: normalizedPlan,
-        source: nextSource,
-        status: "active",
-      };
+    await upsertSubscriberRecord(
+      normalizedEmail,
+      normalizedPlan,
+      input.source?.trim() || "auth-form",
+      "active",
+    );
 
-      if (
-        nextSubscriber.plan !== existingSubscriber.plan ||
-        nextSubscriber.status !== existingSubscriber.status ||
-        nextSubscriber.source !== existingSubscriber.source
-      ) {
-        store.subscribers[subscriberIndex] = nextSubscriber;
-        changed = true;
-      }
-    } else {
-      store.subscribers.unshift({
-        id: randomUUID(),
-        email: normalizedEmail,
-        plan: normalizedPlan,
-        source: input.source?.trim() || "auth-form",
-        status: "active",
-        createdAt: now,
-      });
-      changed = true;
-    }
-  } else if (subscriberIndex >= 0) {
-    store.subscribers.splice(subscriberIndex, 1);
-    changed = true;
+    await upsertSubscriptionForUser({
+      userId: user.id,
+      userEmail: user.email,
+      userName: user.name,
+      plan: normalizedPlan,
+    });
+  } else {
+    await removeMembershipRecords(user.email, user.id);
   }
 
-  const subscriptionResult = ensureSubscriptionInStore(
-    store,
-    userResult.user,
-    normalizedPlan,
-  );
-
-  if (subscriptionResult.changed) {
-    changed = true;
-  }
-
-  if (changed) {
-    await writeStore(store);
-    return userResult.user;
-  }
-
-  return userResult.user;
+  return user;
 }
 
 export async function listUsers() {
-  const store = await readStore();
-  return [...store.users].sort((a, b) => b.joinedAt.localeCompare(a.joinedAt));
+  const { users } = await getCollections();
+  const docs = await users
+    .find({}, { projection: { passwordHash: 0 } })
+    .sort({ createdAt: -1, joinedAt: -1 })
+    .toArray();
+
+  return docs
+    .map(mapUser)
+    .filter((user): user is AdminUser => user !== null)
+    .sort((a, b) => b.joinedAt.localeCompare(a.joinedAt));
 }
 
 export async function updateUser(
   id: string,
   input: UserUpdateInput,
 ): Promise<AdminUser | null> {
-  const store = await readStore();
-  const userIndex = store.users.findIndex((user) => user.id === id);
+  const { users } = await getCollections();
+  const existing = await users.findOne(buildIdFilter(id));
 
-  if (userIndex < 0) {
+  if (!existing) {
     return null;
   }
 
-  const currentUser = store.users[userIndex];
-  const nextUser: AdminUser = {
-    ...currentUser,
-    name: input.name !== undefined ? normalizeName(input.name, currentUser.email) : currentUser.name,
-    plan:
-      input.plan !== undefined
-        ? normalizeMembershipPlan(input.plan, currentUser.plan)
-        : currentUser.plan,
-    status:
-      input.status !== undefined ? normalizeUserStatus(input.status) : currentUser.status,
-    role: input.role !== undefined ? normalizeUserRole(input.role) : currentUser.role,
-    updatedAt: new Date().toISOString(),
-  };
-
-  store.users[userIndex] = nextUser;
-
-  if (isPaidPlan(nextUser.plan)) {
-    const linkedSubscriber = store.subscribers.find(
-      (subscriber) => subscriber.email === nextUser.email,
-    );
-    if (linkedSubscriber) {
-      linkedSubscriber.plan = nextUser.plan;
-    }
-  } else {
-    store.subscribers = store.subscribers.filter(
-      (subscriber) => subscriber.email !== nextUser.email,
-    );
+  const current = mapUser(existing);
+  if (!current) {
+    return null;
   }
 
-  if (isPaidPlan(nextUser.plan)) {
-    const linkedSubscription = store.subscriptions.find(
-      (subscription) => subscription.userId === nextUser.id,
-    );
-    if (linkedSubscription) {
-      linkedSubscription.userName = nextUser.name;
-      linkedSubscription.userEmail = nextUser.email;
-      linkedSubscription.plan = nextUser.plan;
-      linkedSubscription.updatedAt = new Date().toISOString();
-    }
-  } else {
-    store.subscriptions = store.subscriptions.filter(
-      (subscription) =>
-        subscription.userId !== nextUser.id &&
-        subscription.userEmail !== nextUser.email,
-    );
+  const now = new Date().toISOString();
+
+  const nextPlan =
+    input.plan !== undefined
+      ? normalizeMembershipPlan(input.plan, current.plan)
+      : current.plan;
+
+  await users.updateOne(
+    { _id: existing._id },
+    {
+      $set: {
+        name:
+          input.name !== undefined
+            ? normalizeName(input.name, current.email)
+            : current.name,
+        plan: nextPlan,
+        status:
+          input.status !== undefined
+            ? normalizeUserStatus(input.status)
+            : current.status,
+        role:
+          input.role !== undefined
+            ? normalizeUserRole(input.role)
+            : current.role,
+        updatedAt: now,
+      },
+    },
+  );
+
+  const updated = await users.findOne({ _id: existing._id });
+  const mapped = mapUser(updated);
+
+  if (!mapped) {
+    return null;
   }
 
-  await writeStore(store);
+  if (isPaidPlan(nextPlan)) {
+    await upsertSubscriberRecord(mapped.email, nextPlan, "admin-dashboard", "active");
+    await upsertSubscriptionForUser({
+      userId: mapped.id,
+      userEmail: mapped.email,
+      userName: mapped.name,
+      plan: nextPlan,
+    });
+  } else {
+    await removeMembershipRecords(mapped.email, mapped.id);
+  }
 
-  return nextUser;
+  return mapped;
 }
 
 export async function listSubscriptions() {
-  const store = await readStore();
-  return [...store.subscriptions].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+  const { subscriptions } = await getCollections();
+  const docs = await subscriptions.find({}).sort({ updatedAt: -1 }).toArray();
+  return docs
+    .map(mapSubscription)
+    .filter((subscription): subscription is Subscription => subscription !== null);
 }
 
 export async function updateSubscription(
   id: string,
   input: SubscriptionUpdateInput,
 ): Promise<Subscription | null> {
-  const store = await readStore();
-  const subscriptionIndex = store.subscriptions.findIndex(
-    (subscription) => subscription.id === id,
-  );
+  const { subscriptions, users } = await getCollections();
+  const existing = await subscriptions.findOne(buildIdFilter(id));
 
-  if (subscriptionIndex < 0) {
+  if (!existing) {
     return null;
   }
 
-  const currentSubscription = store.subscriptions[subscriptionIndex];
+  const current = mapSubscription(existing);
+  if (!current) {
+    return null;
+  }
+
   const nowIso = new Date().toISOString();
+
+  const nextPlan =
+    input.plan !== undefined
+      ? normalizeMembershipPlan(input.plan, current.plan)
+      : current.plan;
 
   let nextExpiresAt =
     input.expiresAt !== undefined
-      ? normalizeIsoDate(input.expiresAt, currentSubscription.expiresAt)
-      : currentSubscription.expiresAt;
+      ? normalizeIsoDate(input.expiresAt, current.expiresAt)
+      : current.expiresAt;
 
-  if (typeof input.extendDays === "number" && Number.isFinite(input.extendDays) && input.extendDays > 0) {
+  if (
+    typeof input.extendDays === "number" &&
+    Number.isFinite(input.extendDays) &&
+    input.extendDays > 0
+  ) {
     const base = isExpired(nextExpiresAt) ? nowIso : nextExpiresAt;
     nextExpiresAt = addDays(base, Math.round(input.extendDays));
   }
@@ -897,40 +893,57 @@ export async function updateSubscription(
       ? normalizeSubscriptionStatus(input.status, nextExpiresAt)
       : isExpired(nextExpiresAt)
         ? "expired"
-        : currentSubscription.status;
+        : current.status;
 
-  const nextSubscription: Subscription = {
-    ...currentSubscription,
-    plan:
-      input.plan !== undefined
-        ? normalizeMembershipPlan(input.plan, currentSubscription.plan)
-        : currentSubscription.plan,
-    status: nextStatus,
-    expiresAt: nextExpiresAt,
-    updatedAt: nowIso,
-  };
-
-  store.subscriptions[subscriptionIndex] = nextSubscription;
-
-  const linkedUser = store.users.find((user) => user.id === nextSubscription.userId);
-  if (linkedUser) {
-    linkedUser.plan = nextSubscription.plan;
-    linkedUser.updatedAt = nowIso;
-  }
-
-  const linkedSubscriber = store.subscribers.find(
-    (subscriber) => subscriber.email === nextSubscription.userEmail,
+  await subscriptions.updateOne(
+    { _id: existing._id },
+    {
+      $set: {
+        plan: nextPlan,
+        status: nextStatus,
+        expiresAt: nextExpiresAt,
+        updatedAt: nowIso,
+      },
+    },
   );
-  if (linkedSubscriber) {
-    linkedSubscriber.plan = nextSubscription.plan;
+
+  const updated = await subscriptions.findOne({ _id: existing._id });
+  const mapped = mapSubscription(updated);
+
+  if (!mapped) {
+    return null;
   }
 
-  await writeStore(store);
+  const userDoc = mapped.userId
+    ? await users.findOne(buildIdFilter(mapped.userId))
+    : null;
+  const resolvedUserDoc = userDoc ?? (await findUserByEmail(mapped.userEmail));
 
-  return nextSubscription;
+  if (resolvedUserDoc) {
+    await users.updateOne(
+      { _id: resolvedUserDoc._id },
+      {
+        $set: {
+          plan: isPaidPlan(nextPlan) ? nextPlan : "none",
+          updatedAt: nowIso,
+        },
+      },
+    );
+  }
+
+  if (isPaidPlan(nextPlan)) {
+    await upsertSubscriberRecord(mapped.userEmail, nextPlan, "admin-dashboard", "active");
+  } else {
+    await removeMembershipRecords(mapped.userEmail, mapped.userId);
+  }
+
+  return mapped;
 }
 
 export async function listPayments() {
-  const store = await readStore();
-  return [...store.payments].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+  const { payments } = await getCollections();
+  const docs = await payments.find({}).sort({ createdAt: -1 }).toArray();
+  return docs
+    .map(mapPayment)
+    .filter((payment): payment is Payment => payment !== null);
 }
