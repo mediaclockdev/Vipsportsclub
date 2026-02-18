@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
 import { ThemeProvider } from "next-themes";
-import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
 import { Roboto } from "next/font/google";
+import SiteChrome from "@/components/SiteChrome";
+import AuthSessionProvider from "@/components/AuthSessionProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -42,11 +42,10 @@ export default function RootLayout({
           defaultTheme="system"
           enableSystem={true}
         >
-          <Header />
-          <Toaster position="top-right" />
-
-          {children}
-          <Footer />
+          <AuthSessionProvider>
+            <Toaster position="top-right" />
+            <SiteChrome>{children}</SiteChrome>
+          </AuthSessionProvider>
         </ThemeProvider>
       </body>
     </html>
