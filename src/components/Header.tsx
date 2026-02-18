@@ -8,29 +8,22 @@ import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
+
+const baseMenu = ["Home", "About Us", "Membership", "Winners", "Contact Us"];
 
 const Header = () => {
   const pathname = usePathname();
 
-  const menu = ["Home", "About Us", "Membership", "Winners", "Contact Us"];
-
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { data: session, status } = useSession();
+  const isLoggedIn = status === "authenticated";
+  const isAdmin = session?.user?.role === "admin";
+  const menu = isAdmin ? [...baseMenu, "Admin"] : baseMenu;
 
   const router = useRouter();
-
-  useEffect(() => {
-    const checkAuth = () => {
-      setIsLoggedIn(!!localStorage.getItem("vip_user"));
-    };
-
-    checkAuth(); // initial
-    window.addEventListener("storage", checkAuth);
-
-    return () => window.removeEventListener("storage", checkAuth);
-  }, []);
 
   useEffect(() => setMounted(true), []);
 
@@ -40,9 +33,9 @@ const Header = () => {
   }, [pathname]);
 
   const handleLogout = () => {
-    localStorage.removeItem("vip_user");
-    setIsLoggedIn(false);
-    router.replace("/login");
+    void signOut({ redirect: false }).then(() => {
+      router.replace("/login");
+    });
   };
 
   // Prevent body scroll when menu is open

@@ -4,6 +4,7 @@ import { useState, FormEvent, useEffect } from "react";
 
 import { Eye, EyeOff } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { signIn, useSession } from "next-auth/react";
 
 export default function AuthForm() {
   const [isActive, setIsActive] = useState(false);
@@ -13,6 +14,8 @@ export default function AuthForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [error, setError] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+  const { status } = useSession();
 
   const handleRegisterClick = () => {
     setIsActive(true);
@@ -30,69 +33,83 @@ export default function AuthForm() {
   };
   const router = useRouter();
   useEffect(() => {
-    const user = localStorage.getItem("vip_user");
-
-    if (user) {
+    if (status === "authenticated") {
       router.replace("/homepage");
     }
-  }, [router]);
+  }, [router, status]);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  async function parseErrorMessage(response: Response) {
+    try {
+      const payload = (await response.json()) as { error?: string };
+      return payload.error ?? "Request failed";
+    } catch {
+      return "Request failed";
+    }
+  }
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setError("");
-
-    const formData = new FormData(e.currentTarget);
-    const email = String(formData.get("email") || "").trim();
-
-    const passwordToUse = isActive ? signupPassword : loginPassword;
-
-    if (!email || !passwordToUse) {
-      setError("Email and password are required");
+    if (submitting) {
       return;
     }
 
-    const users = JSON.parse(localStorage.getItem("vip_users") || "[]") as {
-      name?: string;
-      email: string;
-      password: string;
-    }[];
+    setError("");
+    setSubmitting(true);
+    try {
+      const formData = new FormData(e.currentTarget);
+      const email = String(formData.get("email") || "").trim().toLowerCase();
+      const passwordToUse = isActive ? signupPassword : loginPassword;
 
-    if (isActive) {
-      // 🔹 SIGN UP
-      if (passwordToUse !== confirmPassword) {
-        setError("Passwords do not match");
+      if (!email || !passwordToUse) {
+        setError("Email and password are required");
         return;
       }
 
-      const userExists = users.some((u) => u.email === email);
-      if (userExists) {
-        setError("User already exists");
-        return;
+      if (isActive) {
+        if (passwordToUse !== confirmPassword) {
+          setError("Passwords do not match");
+          return;
+        }
+
+        const name = String(formData.get("name") || "").trim();
+        const registerResponse = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            email,
+            password: passwordToUse,
+            plan: "none",
+          }),
+        });
+
+        if (!registerResponse.ok) {
+          setError(await parseErrorMessage(registerResponse));
+          return;
+        }
       }
 
-      const newUser = {
-        name: String(formData.get("name") || ""),
+      const loginResult = await signIn("credentials", {
         email,
         password: passwordToUse,
-      };
+        redirect: false,
+      });
 
-      localStorage.setItem("vip_users", JSON.stringify([...users, newUser]));
-      localStorage.setItem("vip_user", JSON.stringify(newUser));
-
-      router.replace("/homepage");
-    } else {
-      // 🔹 SIGN IN
-      const existingUser = users.find(
-        (u) => u.email === email && u.password === passwordToUse,
-      );
-
-      if (!existingUser) {
-        setError("Invalid email or password");
+      if (loginResult?.error) {
+        setError(
+          isActive
+            ? "Account created, but sign in failed. Please log in."
+            : "Invalid email or password",
+        );
         return;
       }
 
-      localStorage.setItem("vip_user", JSON.stringify(existingUser));
       router.replace("/homepage");
+    } catch (submitError) {
+      console.error("AUTH FORM SUBMIT ERROR:", submitError);
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -221,9 +238,10 @@ export default function AuthForm() {
 
               <button
                 type="submit"
-                className="bg-[linear-gradient(180deg,#E0D19B_0%,#B6983D_50%)] text-white text-sm px-12 py-3 border-none rounded-xl font-semibold tracking-wide uppercase mt-4 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                disabled={submitting}
+                className="bg-[linear-gradient(180deg,#E0D19B_0%,#B6983D_50%)] text-white text-sm px-12 py-3 border-none rounded-xl font-semibold tracking-wide uppercase mt-4 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
               >
-                Sign Up
+                {submitting && isActive ? "Creating..." : "Sign Up"}
               </button>
             </form>
           </div>
@@ -285,9 +303,10 @@ export default function AuthForm() {
               </a>
               <button
                 type="submit"
-                className="bg-[linear-gradient(180deg,#E0D19B_0%,#B6983D_50%)] text-black text-sm px-12 py-3 border-none rounded-xl font-semibold tracking-wide uppercase mt-2 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105"
+                disabled={submitting}
+                className="bg-[linear-gradient(180deg,#E0D19B_0%,#B6983D_50%)] text-black text-sm px-12 py-3 border-none rounded-xl font-semibold tracking-wide uppercase mt-2 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:scale-100"
               >
-                Sign In
+                {submitting && !isActive ? "Signing In..." : "Sign In"}
               </button>
             </form>
           </div>
@@ -408,9 +427,10 @@ export default function AuthForm() {
               </a>
               <button
                 type="submit"
-                className="bg-[linear-gradient(180deg,#E0D19B_0%,#B6983D_50%)] text-black text-sm px-12 py-3 border-none rounded-xl font-semibold tracking-wide uppercase mt-2 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg w-full"
+                disabled={submitting}
+                className="bg-[linear-gradient(180deg,#E0D19B_0%,#B6983D_50%)] text-black text-sm px-12 py-3 border-none rounded-xl font-semibold tracking-wide uppercase mt-2 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg w-full disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Sign In
+                {submitting && !isActive ? "Signing In..." : "Sign In"}
               </button>
             </form>
           </div>
@@ -495,18 +515,14 @@ export default function AuthForm() {
                     <Eye size={18} />
                   )}
                 </button>
-                {error && (
-                  <p role="alert" className="text-red-600 text-xs mt-1">
-                    {error}
-                  </p>
-                )}
               </div>
 
               <button
                 type="submit"
-                className="bg-[linear-gradient(180deg,#E0D19B_0%,#B6983D_50%)] text-black text-sm px-12 py-3 border-none rounded-xl font-semibold tracking-wide uppercase mt-4 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg w-full"
+                disabled={submitting}
+                className="bg-[linear-gradient(180deg,#E0D19B_0%,#B6983D_50%)] text-black text-sm px-12 py-3 border-none rounded-xl font-semibold tracking-wide uppercase mt-4 cursor-pointer hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 shadow-lg w-full disabled:cursor-not-allowed disabled:opacity-70"
               >
-                Sign Up
+                {submitting && isActive ? "Creating..." : "Sign Up"}
               </button>
             </form>
           </div>

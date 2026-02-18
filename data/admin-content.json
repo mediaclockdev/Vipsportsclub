@@ -1,0 +1,28 @@
+{
+  "winners": [],
+  "subscribers": [],
+  "users": [
+    {
+      "id": "cf1cec89-1f48-4cea-af52-23e95cefbebc",
+      "name": "test",
+      "email": "test@123.com",
+      "plan": "none",
+      "status": "active",
+      "role": "user",
+      "joinedAt": "2026-02-18T03:27:51.335Z",
+      "updatedAt": "2026-02-18T03:27:51.335Z"
+    },
+    {
+      "id": "82643b84-77cb-491e-ad77-6bc5c1b626a8",
+      "name": "Harsh Mehta",
+      "email": "harshmehta.srm2002@gmail.com",
+      "plan": "none",
+      "status": "active",
+      "role": "admin",
+      "joinedAt": "2026-02-18T02:50:04.078Z",
+      "updatedAt": "2026-02-18T03:11:42.884Z"
+    }
+  ],
+  "subscriptions": [],
+  "payments": []
+}
