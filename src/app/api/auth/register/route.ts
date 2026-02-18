@@ -7,6 +7,10 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const runtime = "nodejs";
 
+declare global {
+  var _usersEmailIndexPromise: Promise<void> | undefined;
+}
+
 function isAdminEmail(email: string) {
   const adminEmails = (process.env.ADMIN_EMAILS ?? "")
     .split(",")
@@ -14,6 +18,44 @@ function isAdminEmail(email: string) {
     .filter(Boolean);
 
   return adminEmails.includes(email);
+}
+
+async function ensureUsersEmailIndex() {
+  if (global._usersEmailIndexPromise) {
+    return global._usersEmailIndexPromise;
+  }
+
+  const runner = (async () => {
+    const db = await getDb();
+    await db.collection("users").createIndex({ email: 1 }, { unique: true });
+  })();
+
+  if (process.env.NODE_ENV !== "production") {
+    global._usersEmailIndexPromise = runner;
+  }
+
+  await runner;
+}
+
+function getSafeErrorMessage(error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  const lower = message.toLowerCase();
+
+  if (
+    lower.includes("mongoserverselectionerror") ||
+    lower.includes("tlsv1 alert internal error") ||
+    lower.includes("ssl routines") ||
+    lower.includes("econnrefused") ||
+    lower.includes("etimedout")
+  ) {
+    return "Database connection failed. Verify Atlas network access, database user credentials, and MONGODB_URI.";
+  }
+
+  if (lower.includes("missing mongodb_uri")) {
+    return "Server is missing MONGODB_URI environment variable.";
+  }
+
+  return "Registration failed";
 }
 
 export async function POST(req: Request) {
@@ -52,7 +94,7 @@ export async function POST(req: Request) {
     const db = await getDb();
     const users = db.collection("users");
 
-    await users.createIndex({ email: 1 }, { unique: true });
+    await ensureUsersEmailIndex();
 
     const existing = await users.findOne({ email });
     if (existing) {
@@ -97,6 +139,9 @@ export async function POST(req: Request) {
     }
 
     console.error("REGISTER ERROR:", error);
-    return NextResponse.json({ error: "Registration failed" }, { status: 500 });
+    return NextResponse.json(
+      { error: getSafeErrorMessage(error) },
+      { status: 500 },
+    );
   }
 }

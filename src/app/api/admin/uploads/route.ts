@@ -1,8 +1,7 @@
 import { randomUUID } from "crypto";
-import { promises as fs } from "fs";
-import path from "path";
 import { NextResponse } from "next/server";
 import { requireAdminApiAccess } from "@/lib/admin-auth";
+import { getDb } from "@/lib/mongodb";
 
 export const runtime = "nodejs";
 
@@ -14,9 +13,16 @@ const allowedMimeToExtension: Record<string, string> = {
   "image/avif": "avif",
 };
 
-function getUploadDir() {
-  return path.join(process.cwd(), "public", "uploads");
-}
+type UploadDocument = {
+  fileName: string;
+  extension: string;
+  mimeType: string;
+  size: number;
+  dataBase64: string;
+  createdAt: string;
+};
+
+const UPLOADS_COLLECTION = "uploads";
 
 export async function POST(req: Request) {
   try {
@@ -51,16 +57,23 @@ export async function POST(req: Request) {
 
     const extension = allowedMimeToExtension[file.type];
     const fileName = `${Date.now()}-${randomUUID()}.${extension}`;
-    const uploadDir = getUploadDir();
-    const absolutePath = path.join(uploadDir, fileName);
-
-    await fs.mkdir(uploadDir, { recursive: true });
+    const now = new Date().toISOString();
 
     const bytes = await file.arrayBuffer();
-    await fs.writeFile(absolutePath, Buffer.from(bytes));
+    const buffer = Buffer.from(bytes);
+    const db = await getDb();
+    const result = await db.collection<UploadDocument>(UPLOADS_COLLECTION).insertOne({
+      fileName,
+      extension,
+      mimeType: file.type,
+      size: file.size,
+      dataBase64: buffer.toString("base64"),
+      createdAt: now,
+    });
 
     return NextResponse.json({
-      imageUrl: `/uploads/${fileName}`,
+      imageUrl: `/api/uploads/${result.insertedId.toString()}`,
+      uploadId: result.insertedId.toString(),
     });
   } catch (error) {
     console.error("UPLOAD IMAGE ERROR:", error);
