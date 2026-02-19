@@ -156,6 +156,12 @@ export default async function AdminDashboardPage() {
               Winners Management
             </Link>
             <Link
+              href="/admin/prizes"
+              className="rounded-lg border border-black/10 dark:border-white/10 bg-white/75 dark:bg-[#121920] px-4 py-3 text-sm font-semibold text-[#1a242c] dark:text-gray-100 transition hover:border-[#B6983D] dark:hover:border-[#E0D19B]"
+            >
+              What You Can Win
+            </Link>
+            <Link
               href="/admin/payments"
               className="rounded-lg border border-black/10 dark:border-white/10 bg-white/75 dark:bg-[#121920] px-4 py-3 text-sm font-semibold text-[#1a242c] dark:text-gray-100 transition hover:border-[#B6983D] dark:hover:border-[#E0D19B]"
             >
