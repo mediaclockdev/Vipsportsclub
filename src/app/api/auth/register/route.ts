@@ -30,10 +30,7 @@ async function ensureUsersEmailIndex() {
     await db.collection("users").createIndex({ email: 1 }, { unique: true });
   })();
 
-  if (process.env.NODE_ENV !== "production") {
-    global._usersEmailIndexPromise = runner;
-  }
-
+  global._usersEmailIndexPromise = runner;
   await runner;
 }
 

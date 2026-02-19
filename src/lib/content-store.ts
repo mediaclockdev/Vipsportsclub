@@ -300,6 +300,7 @@ async function ensureIndexes() {
 
     await Promise.all([
       db.collection(COLLECTIONS.winners).createIndex({ id: 1 }, { unique: true, sparse: true }),
+      db.collection(COLLECTIONS.winners).createIndex({ isPublished: 1, announcedAt: -1 }),
       db.collection(COLLECTIONS.subscribers).createIndex({ email: 1 }, { unique: true }),
       db.collection(COLLECTIONS.subscriptions).createIndex({ userId: 1 }, { unique: true }),
       db.collection(COLLECTIONS.subscriptions).createIndex({ userEmail: 1 }),
@@ -308,10 +309,7 @@ async function ensureIndexes() {
     ]);
   })();
 
-  if (process.env.NODE_ENV !== "production") {
-    global._contentStoreIndexesPromise = runner;
-  }
-
+  global._contentStoreIndexesPromise = runner;
   await runner;
 }
 

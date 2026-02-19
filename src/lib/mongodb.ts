@@ -17,11 +17,7 @@ function getMongoClientPromise() {
   }
 
   const clientPromise = new MongoClient(uri).connect();
-
-  if (process.env.NODE_ENV !== "production") {
-    global._mongoClientPromise = clientPromise;
-  }
-
+  global._mongoClientPromise = clientPromise;
   return clientPromise;
 }
 
