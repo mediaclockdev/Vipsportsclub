@@ -8,6 +8,7 @@ import {
   CreditCard,
   LayoutDashboard,
   Moon,
+  Gift,
   ShieldCheck,
   Sun,
   Trophy,
@@ -33,6 +34,7 @@ const primaryItems: AdminNavItem[] = [
   { label: "Users", href: "/admin/users", icon: Users },
   { label: "Subscriptions", href: "/admin/subscriptions", icon: Users },
   { label: "Winners", href: "/admin/winners", icon: Trophy },
+  { label: "What You Can Win", href: "/admin/prizes", icon: Gift },
   { label: "Payments", href: "/admin/payments", icon: CreditCard },
   { label: "Roles", href: "/admin/roles", icon: ShieldCheck },
 ];
@@ -40,9 +42,9 @@ const primaryItems: AdminNavItem[] = [
 const navGroups: AdminNavGroup[] = [
   { title: "General", items: [primaryItems[0], primaryItems[1]] },
   { title: "Membership", items: [primaryItems[2]] },
-  { title: "Content", items: [primaryItems[3]] },
-  { title: "Finance", items: [primaryItems[4]] },
-  { title: "Permissions", items: [primaryItems[5]] },
+  { title: "Content", items: [primaryItems[3], primaryItems[4]] },
+  { title: "Finance", items: [primaryItems[5]] },
+  { title: "Permissions", items: [primaryItems[6]] },
 ];
 
 const pageMeta = [
@@ -65,6 +67,11 @@ const pageMeta = [
     match: (pathname: string) => pathname.startsWith("/admin/winners"),
     title: "Winners",
     description: "Create, publish, and manage winner entries.",
+  },
+  {
+    match: (pathname: string) => pathname.startsWith("/admin/prizes"),
+    title: "What You Can Win",
+    description: "Manage prize schedule entries for website sections.",
   },
   {
     match: (pathname: string) => pathname.startsWith("/admin/payments"),

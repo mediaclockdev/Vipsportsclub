@@ -6,6 +6,8 @@ import type {
   MembershipPlan,
   Payment,
   PaymentStatus,
+  Prize,
+  PrizeInput,
   Subscriber,
   SubscriberStatus,
   SubscriberUpdateInput,
@@ -18,6 +20,7 @@ import type {
   Winner,
   WinnerInput,
 } from "./content-types";
+import { DEFAULT_PRIZE_SEED } from "./prize-seed";
 
 type PaidMembershipPlan = Exclude<MembershipPlan, "none">;
 
@@ -32,6 +35,7 @@ const DEFAULT_SUBSCRIPTION_DAYS = 30;
 
 const COLLECTIONS = {
   winners: "winners",
+  prizes: "prizes",
   subscribers: "subscribers",
   subscriptions: "subscriptions",
   payments: "payments",
@@ -40,6 +44,8 @@ const COLLECTIONS = {
 
 declare global {
   var _contentStoreIndexesPromise: Promise<void> | undefined;
+  var _prizeSeedPromise: Promise<void> | undefined;
+  var _prizeMigrationPromise: Promise<void> | undefined;
 }
 
 function normalizeMembershipPlan(
@@ -142,6 +148,53 @@ function getString(value: unknown, fallback = "") {
   return typeof value === "string" ? value : fallback;
 }
 
+function normalizeStringArray(value: unknown) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((item) => (typeof item === "string" ? item.trim() : ""))
+    .filter(Boolean);
+}
+
+function legacyDateLabelToIso(value: unknown) {
+  if (typeof value !== "string") {
+    return "";
+  }
+
+  const normalized = value.trim().toUpperCase();
+  const match = normalized.match(/^([A-Z]+)\s*([0-9]{1,2})$/);
+  if (!match) {
+    return "";
+  }
+
+  const monthMap: Record<string, number> = {
+    JANUARY: 0,
+    FEBRUARY: 1,
+    MARCH: 2,
+    APRIL: 3,
+    MAY: 4,
+    JUNE: 5,
+    JULY: 6,
+    AUGUST: 7,
+    SEPTEMBER: 8,
+    OCTOBER: 9,
+    NOVEMBER: 10,
+    DECEMBER: 11,
+  };
+
+  const month = monthMap[match[1]];
+  const day = Number(match[2]);
+
+  if (month === undefined || !Number.isInteger(day) || day < 1 || day > 31) {
+    return "";
+  }
+
+  const year = new Date().getUTCFullYear();
+  return new Date(Date.UTC(year, month, day)).toISOString();
+}
+
 function getDocId(value: unknown) {
   const record = asObject(value);
   const id = getString(record.id).trim();
@@ -190,6 +243,32 @@ function mapWinner(raw: unknown): Winner | null {
     location: getString(record.location).trim(),
     imageUrl: getString(record.imageUrl).trim(),
     announcedAt: normalizeIsoDate(record.announcedAt, now),
+    isPublished: typeof record.isPublished === "boolean" ? record.isPublished : true,
+    createdAt: normalizeIsoDate(record.createdAt, now),
+    updatedAt: normalizeIsoDate(record.updatedAt, now),
+  };
+}
+
+function mapPrize(raw: unknown): Prize | null {
+  const record = asObject(raw);
+  const drawDate = normalizeIsoDate(
+    record.drawDate,
+    legacyDateLabelToIso(record.dateLabel),
+  );
+  const points = normalizeStringArray(record.points);
+
+  if (!drawDate || points.length === 0) {
+    return null;
+  }
+
+  const now = new Date().toISOString();
+
+  return {
+    id: getDocId(record),
+    drawDate,
+    imageUrl: getString(record.imageUrl).trim(),
+    imageKey: getString(record.imageKey).trim(),
+    points,
     isPublished: typeof record.isPublished === "boolean" ? record.isPublished : true,
     createdAt: normalizeIsoDate(record.createdAt, now),
     updatedAt: normalizeIsoDate(record.updatedAt, now),
@@ -301,6 +380,8 @@ async function ensureIndexes() {
     await Promise.all([
       db.collection(COLLECTIONS.winners).createIndex({ id: 1 }, { unique: true, sparse: true }),
       db.collection(COLLECTIONS.winners).createIndex({ isPublished: 1, announcedAt: -1 }),
+      db.collection(COLLECTIONS.prizes).createIndex({ id: 1 }, { unique: true, sparse: true }),
+      db.collection(COLLECTIONS.prizes).createIndex({ isPublished: 1, drawDate: 1, createdAt: -1 }),
       db.collection(COLLECTIONS.subscribers).createIndex({ email: 1 }, { unique: true }),
       db.collection(COLLECTIONS.subscriptions).createIndex({ userId: 1 }, { unique: true }),
       db.collection(COLLECTIONS.subscriptions).createIndex({ userEmail: 1 }),
@@ -319,6 +400,7 @@ async function getCollections() {
 
   return {
     winners: db.collection(COLLECTIONS.winners),
+    prizes: db.collection(COLLECTIONS.prizes),
     subscribers: db.collection(COLLECTIONS.subscribers),
     subscriptions: db.collection(COLLECTIONS.subscriptions),
     payments: db.collection(COLLECTIONS.payments),
@@ -585,6 +667,190 @@ export async function updateWinner(
 export async function deleteWinner(id: string) {
   const { winners } = await getCollections();
   const result = await winners.deleteOne(buildIdFilter(id));
+  return result.deletedCount > 0;
+}
+
+async function seedPrizesIfEmpty() {
+  if (global._prizeSeedPromise) {
+    return global._prizeSeedPromise;
+  }
+
+  const runner = (async () => {
+    const { prizes } = await getCollections();
+    const count = await prizes.estimatedDocumentCount();
+    if (count > 0) {
+      return;
+    }
+
+    const now = new Date().toISOString();
+    const payload = DEFAULT_PRIZE_SEED.map((item) => ({
+      id: randomUUID(),
+      drawDate: normalizeIsoDate(item.drawDate, now),
+      imageUrl: item.imageUrl?.trim() ?? "",
+      imageKey: item.imageKey?.trim() ?? "",
+      points: item.points.map((point) => point.trim()).filter(Boolean),
+      isPublished: item.isPublished ?? true,
+      createdAt: now,
+      updatedAt: now,
+    }));
+
+    if (payload.length > 0) {
+      await prizes.insertMany(payload, { ordered: false });
+    }
+  })();
+
+  global._prizeSeedPromise = runner;
+  await runner;
+}
+
+async function migrateLegacyPrizeDates() {
+  if (global._prizeMigrationPromise) {
+    return global._prizeMigrationPromise;
+  }
+
+  const runner = (async () => {
+    const { prizes } = await getCollections();
+    const cursor = prizes.find({
+      $or: [{ drawDate: { $exists: false } }, { drawDate: null }, { drawDate: "" }],
+      dateLabel: { $exists: true },
+    });
+
+    const updates: Promise<unknown>[] = [];
+
+    for await (const doc of cursor) {
+      const record = asObject(doc);
+      const fallbackIso = legacyDateLabelToIso(record.dateLabel);
+      if (!fallbackIso) {
+        continue;
+      }
+
+      updates.push(
+        prizes.updateOne(
+          { _id: record._id as ObjectId },
+          {
+            $set: {
+              drawDate: fallbackIso,
+              updatedAt: new Date().toISOString(),
+            },
+          },
+        ),
+      );
+    }
+
+    if (updates.length > 0) {
+      await Promise.all(updates);
+    }
+  })();
+
+  global._prizeMigrationPromise = runner;
+  await runner;
+}
+
+export async function listPrizes(options?: {
+  publishedOnly?: boolean;
+  limit?: number;
+}) {
+  await seedPrizesIfEmpty();
+  await migrateLegacyPrizeDates();
+  const { prizes } = await getCollections();
+  const filter: Record<string, unknown> = {
+    drawDate: { $type: "string", $ne: "" },
+  };
+
+  if (options?.publishedOnly) {
+    filter.isPublished = true;
+  }
+
+  const limit =
+    typeof options?.limit === "number" &&
+    Number.isFinite(options.limit) &&
+    options.limit > 0
+      ? Math.min(Math.floor(options.limit), 100)
+      : null;
+
+  const cursor = prizes
+    .find(filter)
+    .sort({ drawDate: 1, createdAt: -1 });
+
+  if (limit) {
+    cursor.limit(limit);
+  }
+
+  const docs = await cursor.toArray();
+  return docs.map(mapPrize).filter((prize): prize is Prize => prize !== null);
+}
+
+export async function createPrize(input: PrizeInput): Promise<Prize> {
+  const { prizes } = await getCollections();
+  const now = new Date().toISOString();
+  const points = input.points.map((point) => point.trim()).filter(Boolean);
+
+  const payload = {
+    id: randomUUID(),
+    drawDate: normalizeIsoDate(input.drawDate, now),
+    imageUrl: input.imageUrl?.trim() ?? "",
+    imageKey: input.imageKey?.trim() ?? "",
+    points,
+    isPublished: input.isPublished ?? true,
+    createdAt: now,
+    updatedAt: now,
+  };
+
+  const result = await prizes.insertOne(payload);
+  const created = await prizes.findOne({ _id: result.insertedId });
+  const mapped = mapPrize(created);
+
+  if (!mapped) {
+    throw new Error("Failed to create prize");
+  }
+
+  return mapped;
+}
+
+export async function updatePrize(
+  id: string,
+  input: Partial<PrizeInput>,
+): Promise<Prize | null> {
+  const { prizes } = await getCollections();
+  const existing = await prizes.findOne(buildIdFilter(id));
+
+  if (!existing) {
+    return null;
+  }
+
+  const current = mapPrize(existing);
+  if (!current) {
+    return null;
+  }
+
+  const points =
+    input.points !== undefined
+      ? input.points.map((point) => point.trim()).filter(Boolean)
+      : current.points;
+
+  const updates = {
+    drawDate:
+      input.drawDate !== undefined
+        ? normalizeIsoDate(input.drawDate, current.drawDate)
+        : current.drawDate,
+    imageUrl:
+      input.imageUrl !== undefined ? input.imageUrl.trim() : current.imageUrl,
+    imageKey:
+      input.imageKey !== undefined ? input.imageKey.trim() : current.imageKey,
+    points,
+    isPublished:
+      input.isPublished !== undefined ? input.isPublished : current.isPublished,
+    updatedAt: new Date().toISOString(),
+  };
+
+  await prizes.updateOne({ _id: existing._id }, { $set: updates });
+  const updated = await prizes.findOne({ _id: existing._id });
+  return mapPrize(updated);
+}
+
+export async function deletePrize(id: string) {
+  const { prizes } = await getCollections();
+  const result = await prizes.deleteOne(buildIdFilter(id));
   return result.deletedCount > 0;
 }
 

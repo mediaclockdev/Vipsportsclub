@@ -19,6 +19,25 @@ export type WinnerInput = {
   isPublished?: boolean;
 };
 
+export type Prize = {
+  id: string;
+  drawDate: string;
+  imageUrl: string;
+  imageKey: string;
+  points: string[];
+  isPublished: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type PrizeInput = {
+  drawDate: string;
+  imageUrl?: string;
+  imageKey?: string;
+  points: string[];
+  isPublished?: boolean;
+};
+
 export type MembershipPlan = "none" | "silver" | "gold";
 
 export type SubscriberStatus = "active" | "unsubscribed";
@@ -96,6 +115,7 @@ export type Payment = {
 
 export type AdminContentStore = {
   winners: Winner[];
+  prizes: Prize[];
   subscribers: Subscriber[];
   users: AdminUser[];
   subscriptions: Subscription[];
